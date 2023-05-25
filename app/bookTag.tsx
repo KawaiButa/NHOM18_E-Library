@@ -8,12 +8,13 @@ import {
   Stack,
   Modal,
   CloseButton,
+  Form,
 } from "react-bootstrap";
 import Image from "next/image";
-import { Open_Sans, Roboto } from "next/font/google";
+import { Montserrat, Open_Sans, Roboto } from "next/font/google";
 import styles from "./bookTag.module.css";
 const roboto = Roboto({
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
   style: "normal",
   subsets: ["vietnamese"],
 });
@@ -22,10 +23,17 @@ const open_sans = Open_Sans({
   style: "normal",
   subsets: ["vietnamese"],
 });
+const montserrat = Montserrat({
+  weight: "700",
+  style: "normal",
+  subsets: ["latin"],
+});
 export default function BookTag() {
   const [showModel, setShowModel] = useState(false);
   const openModel = () => setShowModel(true);
   const closeModel = () => setShowModel(false);
+  const [changeModal, setChangeModal] = useState("None");
+  const changeValueModal = (value) => setChangeModal(value);
   return (
     <>
       <Container
@@ -164,10 +172,7 @@ export default function BookTag() {
           </Col>
         </Row>
       </Container>
-      <Modal
-        show={showModel}
-        className="modal-lg"
-      >
+      <Modal show={showModel} className="modal-lg">
         <Modal.Header>
           <Modal.Title
             className={roboto.className}
@@ -182,9 +187,15 @@ export default function BookTag() {
           </Modal.Title>
           <CloseButton onClick={closeModel}></CloseButton>
         </Modal.Header>
-        <Modal.Body         style={{ paddingLeft: "43px" }}>
+        <Modal.Body style={{ paddingLeft: "43px" }}>
           <Stack>
-            <Button className={styles.ModalButton} onClick={() => {}}>
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
+                changeValueModal("Add Date");
+                closeModel();
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -214,7 +225,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}>
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
+                changeValueModal("Author");
+                closeModel();
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -239,7 +256,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}>
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
+                changeValueModal("Description");
+                closeModel();
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -269,7 +292,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}>
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
+                changeValueModal("Price");
+                closeModel();
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -299,7 +328,10 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}>
+            <Button className={styles.ModalButton}              onClick={() => {
+                changeValueModal("Status");
+                closeModel();
+              }}>
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -329,7 +361,10 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}>
+            <Button className={styles.ModalButton}              onClick={() => {
+                changeValueModal("Title");
+                closeModel();
+              }}>
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -359,6 +394,578 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Add Date"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Added Date
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex justify-content-center"
+          style={{ width: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={5}>
+            <Form.Control
+              className={roboto.className}
+              type="year"
+              placeholder="YYYY"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Form.Control
+              className={roboto.className}
+              type="year"
+              placeholder="MM"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Form.Control
+              className={roboto.className}
+              type="year"
+              placeholder="DD"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Author"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Author
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex justify-content-center"
+          style={{ width: "100%", height: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={3}>
+            <Form.Control
+              className={roboto.className}
+              type="name"
+              placeholder="Author's names"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Description"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Description
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex"
+          style={{ width: "100%", height: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={3}>
+            <Form.Control
+              as="textarea"
+              className={roboto.className}
+              type="text"
+              placeholder="Write description here"
+              rows={1}
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "368px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Price"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Price
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex justify-content-center"
+          style={{ width: "100%", height: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={3}>
+            <Form.Control
+              className={roboto.className}
+              type="currency"
+              placeholder="Price"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Status"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Author
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex justify-content-center"
+          style={{ width: "100%", height: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={3}>
+            <Form.Control
+              className={roboto.className}
+              type="name"
+              placeholder="Current number"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Stack>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <h1
+            className={roboto.className}
+            style={{
+              fontSize: "25px",
+              fontWeight: "700",
+              lineHeight: "35.16px",
+            }}
+          >
+            Ticket to childhood
+          </h1>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={changeModal == "Title"} size="lg">
+        <Modal.Header>
+          <Modal.Title
+            className={roboto.className}
+            style={{
+              fontWeight: "700",
+              fontSize: "30px",
+              lineHeight: "35.16px",
+              paddingLeft: "39px",
+            }}
+          >
+            Title
+          </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              changeValueModal("None");
+              openModel();
+            }}
+          ></CloseButton>
+        </Modal.Header>
+        <Modal.Body
+          className="d-flex justify-content-center"
+          style={{ width: "100%", height: "100%", marginLeft: "35px" }}
+        >
+          <Stack direction="vertical" gap={3}>
+            <Form.Control
+              className={roboto.className}
+              type="name"
+              placeholder="Title"
+              style={{
+                fontWeight: "500",
+                fontSize: "26px",
+                lineHeight: "30.47",
+                width: "670px",
+                height: "85px",
+              }}
+            />
+            <Stack direction="horizontal" gap={5}>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#44B8CB",
+                  borderWidth: "0px",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Save
+                </p>
+              </Button>
+              <Button
+                className="d-flex justify-content-center"
+                style={{
+                  width: "163px",
+                  height: "45px",
+                  textAlign: "center",
+                  borderRadius: "30px",
+                  backgroundColor: "#D9D9D9",
+                  borderWidth: "0px",
+                  color: "black",
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{ paddingTop: "3px" }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
           </Stack>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
