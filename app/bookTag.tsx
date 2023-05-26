@@ -328,10 +328,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}              onClick={() => {
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
                 changeValueModal("Status");
                 closeModel();
-              }}>
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -361,10 +364,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}              onClick={() => {
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
                 changeValueModal("Title");
                 closeModel();
-              }}>
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
