@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import BookTag from "./bookTag";
+import MemberCard from "../public/components/menberCard";
+import User from "../public/models/user";
 
 export default function Home() {
+  const A = 1;
   return (
     <main className="d-flex justify-content-center align-items-center">
-      <BookTag/>
+      <MemberCard />
     </main>
   );
 }
