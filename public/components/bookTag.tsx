@@ -1,4 +1,4 @@
-import Book from "./Book";
+import Book from "../models/Book";
 import React, { useState } from "react";
 import {
   Col,
