@@ -13,6 +13,7 @@ const montserrat = Montserrat({
 })
 
 export default function MemberCard({user = null}) {
+  if (user == null) return;
   return (
     <>
       <Card className="border-bottom border-5" style={{width: "973px", height: "631px"}}>
@@ -47,13 +48,13 @@ export default function MemberCard({user = null}) {
                 </div>
                 <Container style={{}}>
                     <Stack gap={2}>
-                        <h1 className={roboto.className}>Pham Nguyen Nhat Duy</h1>
-                        <p className={montserrat.className}>Member id: 21522007</p>
-                        <p className={montserrat.className}>Email: 21522007@gm.uit.edu.vn</p>
-                        <p className={montserrat.className}>Reader type: Male</p>
-                        <p className={montserrat.className}>Address: Ho Chi Minh</p>
-                        <p className={montserrat.className}>Date of birth: 01/01/2002</p>
-                        <p className={montserrat.className}>Member date: 01/01/2002 </p>
+                        <h1 className={roboto.className}>{user.name}</h1>
+                        <p className={montserrat.className}>Member id: {user.id}</p>
+                        <p className={montserrat.className}>Email: {user.email}</p>
+                        <p className={montserrat.className}>Reader type: {user.readerType}</p>
+                        <p className={montserrat.className}>Address: {user.address}</p>
+                        <p className={montserrat.className}>Date of birth: {user.dateOfBirth.toISOString().split('T')[0]}</p>
+                        <p className={montserrat.className}>Member date: {user.memberDate.toISOString().split('T')[0]}</p>
                     </Stack>
                 </Container>
             </Stack>
