@@ -4,11 +4,11 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import BookTag from "./bookTag";
-
+import MemberForm from "./components/memberForm"
 export default function Home() {
   return (
     <main className="d-flex justify-content-center align-items-center">
-      <BookTag/>
+      <MemberForm/>
     </main>
   );
 }

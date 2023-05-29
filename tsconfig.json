@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/components/memberForm.jsx"  ],
   "exclude": [
     "node_modules"
   ]
