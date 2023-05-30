@@ -1,4 +1,12 @@
-import { Button, Card, Container, Form, Image, Stack } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  Form,
+  FormGroup,
+  Image,
+  Stack,
+} from "react-bootstrap";
 
 import React, { useState } from "react";
 import { Montserrat } from "next/font/google";
@@ -15,11 +23,21 @@ export default function MemberForm() {
       <Form style={{ width: "860px" }}>
         <Stack gap={5}>
           <Form.Group>
-            <Form.Label>Member Name</Form.Label>
+            <Form.Label className={montserrat.className}>Member Name</Form.Label>
             <Form.Control size="lg" type="name" placeholder="Your name" />
           </Form.Group>
+          <Stack direction="horizontal" gap={5}>
+            <FormGroup>
+              <Form.Label className={montserrat.className}>Member ID</Form.Label>
+              <Form.Control size="lg" type="id" disabled={true} />
+            </FormGroup>
+            <FormGroup>
+              <Form.Label className={montserrat.className}>Member Type</Form.Label>
+              <Form.Control size="lg" type="id" disabled={true} />
+            </FormGroup>
+          </Stack>
           <Form.Group>
-            <Form.Label>Email</Form.Label>
+            <Form.Label className={montserrat.className}>Email</Form.Label>
             <Form.Control
               size="lg"
               type="email"
@@ -27,16 +45,18 @@ export default function MemberForm() {
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Address</Form.Label>
+            <Form.Label className={montserrat.className}>Address</Form.Label>
             <Form.Control size="lg" type="address" placeholder="Address" />
           </Form.Group>
           <Stack direction="horizontal" gap={3} className="">
             <Form.Group>
-              <Form.Label>Date of birth</Form.Label>
+              <Form.Label className={montserrat.className}>Date of birth</Form.Label>
               <Form.Control size="lg" type="date" placeholder="Date of birth" />
             </Form.Group>
             <Form.Group>
-              <Form.Label> Member date</Form.Label>
+              <Form.Label className={montserrat.className}>
+                Member date
+              </Form.Label>
               <Form.Control size="lg" type="date" placeholder="Member date" />
             </Form.Group>
           </Stack>
@@ -89,7 +109,10 @@ export default function MemberForm() {
               </Card.Body>
             </Card>
           </Container>
-          <Container className="d-flex flex-row justify-content-between" style={{width: "685px"}}>
+          <Container
+            className="d-flex flex-row justify-content-between"
+            style={{ width: "685px" }}
+          >
             <Button
               className={montserrat.className}
               style={{
@@ -115,7 +138,7 @@ export default function MemberForm() {
                 color: "black",
                 fontWeight: "bold",
                 fontSize: "35px",
-                borderColor: "#D9D9D9"
+                borderColor: "#D9D9D9",
               }}
             >
               Cancel
