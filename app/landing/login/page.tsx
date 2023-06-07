@@ -1,7 +1,7 @@
 "use client";
 import { Montserrat } from "next/font/google";
 import React from "react";
-import { Card, Form, Stack } from "react-bootstrap";
+import { Button, Card, Form, Stack } from "react-bootstrap";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", '900'],
   style: "normal",
@@ -84,7 +84,7 @@ export default function Login() {
                     </div>
                     <div className="form-group">
                       <a
-                        href="#"
+                        href="/landing/forgetpassword"
                         style={{
                           textDecoration: "none",
                         }}
@@ -93,9 +93,10 @@ export default function Login() {
                         Forgot password?
                       </a>
                     </div>
-                    <button
+                    <Button
                       type="submit"
                       className={`${montserrat.className} btn btn-info btn-block`}
+                      href="/home"
                       style={{
                         color: "white",
                         borderRadius: "30px",
@@ -104,15 +105,15 @@ export default function Login() {
                         height: "45px"
                       }}
                     >
-                      Sign In
-                    </button>
+                      Login in
+                    </Button>
                   </Stack>
                 </Form>
               </Card.Body>
               <Card.Footer className="d-flex justify-content-center align-items-center " style={{paddingTop:"20px", paddingBottom: "20px"}}>
                 <span className={`${montserrat.className} text-center`} style={{fontSize:"20px", fontWeight:"400"}}>
-                  Don&apos;t have an account?
-                  <a href="#" style={{ textDecoration: "none" }}>
+                  {"Don't have an account? "}
+                  <a href="/landing/signup" style={{ textDecoration: "none" }}>
                     Sign up
                   </a>
                 </span>

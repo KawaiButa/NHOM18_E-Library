@@ -110,7 +110,7 @@ export default function SignUp() {
                   />
                 </div>
                 <div
-                  className="d-flex justify-content-end"
+                  className="d-flex justify-content-center"
                   style={{ marginTop: "30px" }}
                 >
                   <button
@@ -127,6 +127,19 @@ export default function SignUp() {
                 </div>
               </form>
             </div>
+            <hr style={{ position: "relative", top: "60px" }} />
+            <p
+              className={`${montserrat.className} text-center`}
+              style={{
+                position: "relative",
+                top: "60px",
+              }}
+            >
+              {"Already have a account? "}
+              <a href="/landing/login" style={{ textDecoration: "none" }}>
+                Login up
+              </a>
+            </p>
           </div>
         </div>
       </main>
