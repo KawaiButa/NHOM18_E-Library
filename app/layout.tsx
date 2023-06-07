@@ -1,6 +1,5 @@
 'use client';
 
-import "./globals.css";
 import React from "react";
 import { Inter } from "next/font/google";
 import Script from "next/script";
