@@ -4,11 +4,12 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import BookTag from "./components/bookTag/bookTag";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 
 export default function Home() {
-  return (
-    <main className="d-flex justify-content-center align-items-center">
-      <BookTag/>
-    </main>
-  );
+  const url = document.URL + "/landing";
+  return <meta http-equiv="Refresh" content={`0; url='${url}'`} />
+
 }
