@@ -2,10 +2,7 @@
 import React, { Suspense } from "react";
 import styles from "./page.module.css";
 import { Card, Button, Container, Row, Col, Stack } from "react-bootstrap";
-import Image from "next/image";
-import BookTag from "../components/bookTag/bookTag";
 import { Montserrat, Roboto } from "next/font/google";
-import BookPreview from "../components/bookPreview/bookPreview";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",

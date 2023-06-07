@@ -1,14 +1,16 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import BookTag from "./components/bookTag/bookTag";
-
+import React, { useEffect } from "react";
 export default function Home() {
+  var url: String;
+  useEffect(() => {
+    url = document.URL + "/landing";
+  }, []);
   return (
-    <main className="d-flex justify-content-center align-items-center">
-      <BookTag/>
-    </main>
+    <>
+      <header>
+        <meta http-equiv="Refresh" content={`0; url='${url}'`} />
+      </header>
+      <main></main>
+    </>
   );
 }
