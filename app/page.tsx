@@ -1,14 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 export default function Home() {
-  var url: String;
-  useEffect(() => {
-    url = document.URL + "/landing";
-  }, []);
   return (
     <>
       <header>
-        <meta http-equiv="Refresh" content={`0; url='${url}'`} />
+        <meta http-equiv="Refresh" content={`0; url='/landing'`} />
       </header>
       <main></main>
     </>
