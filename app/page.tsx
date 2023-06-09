@@ -9,10 +9,11 @@ import BorrowForm from "./components/borrowForm";
 import MemberListCard from "./memberListComponent";
 import BorrowListCard from "./components/borrowListCard";
 import BorrowCardDetail from "./components/borrowCardDetail";
+import SearchBar from "./components/searchBar";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <BorrowCardDetail />
+            <SearchBar />
         </main>
     );
 }
