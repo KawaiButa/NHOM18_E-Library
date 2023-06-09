@@ -1,5 +1,4 @@
-import Book from "../../Book";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -12,6 +11,10 @@ import {
 import Image from "next/image";
 import { Open_Sans, Roboto } from "next/font/google";
 import styles from "./bookTag.module.css";
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
+import BookAPI from "../../api/bookAPI";
+import Book from "../../app/Book";
 const roboto = Roboto({
   weight: ["400", "700"],
   style: "normal",
@@ -23,9 +26,41 @@ const open_sans = Open_Sans({
   subsets: ["vietnamese"],
 });
 export default function BookTag() {
+  const search = useSearchParams();
+
+  const [book, setBook] = useState(new Book("", "", "", "", "", ""));
   const [showModel, setShowModel] = useState(false);
   const openModel = () => setShowModel(true);
   const closeModel = () => setShowModel(false);
+  useEffect(() => {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: BookAPI.oneBookEndpoint + search.get("bookId"),
+      headers: {
+        Authorization: "Bearer {{jwt}}",
+      },
+    };
+    axios
+      .request(config)
+      .then((response) => {
+        const data = response.data.data.doc;
+        console.log(data);
+        setBook(
+          new Book(
+            data.nameBook,
+            data.author,
+            data.publicationYear,
+            data.description,
+            data.photoUrls[0],
+            data.ratingsAverage
+          )
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <>
       <Container
@@ -81,13 +116,13 @@ export default function BookTag() {
               className={roboto.className}
               style={{ color: "black", fontSize: "40px" }}
             >
-              This is Title
+              {book.name}
             </h1>
             <h2
               className={roboto.className}
               style={{ opacity: "0.5", fontSize: "24px" }}
             >
-              This is author
+              {book.author}
             </h2>
             <Stack
               direction="horizontal"
@@ -99,7 +134,7 @@ export default function BookTag() {
                   className={roboto.className}
                   style={{ fontWeight: "700", fontSize: "25px" }}
                 >
-                  2010
+                  {book.yearOfPublication}
                 </p>
               </Col>
               <div className="vr" style={{ height: "29px" }} />
@@ -113,7 +148,19 @@ export default function BookTag() {
               </Col>
             </Stack>
             <h1 className={roboto.className} style={{ fontSize: "25px" }}>
-              Rating
+              {"Rating: " + book.rating}
+              <span className=" justify-content-center align-items-center" style={{marginLeft: '5px'}}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="35"
+                  height="35"
+                  fill="yellow"
+                  className="bi bi-star-fill"
+                  viewBox="0 0 25 25"
+                >
+                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                </svg>
+              </span>
             </h1>
             <Container style={{ width: "100%", height: "55px" }} />
             <h1
@@ -153,21 +200,12 @@ export default function BookTag() {
                 lineHeight: "34px",
               }}
             >
-              This, the novel&apos;s first appearance outside Vietnam, marks the
-              arrival, in English, of a hugely appealing and engaging author.
-              The story of a man looking back on his life, Ticket to Childhood
-              captures the texture of childhood in all of its richness. As we
-              learn of the small miracles and tragedies that made up the
-              narrator&apos;s life--the misadventures and the misdeeds--we meet
-              his long-lost friends,...
+              {book.description}
             </p>
           </Col>
         </Row>
       </Container>
-      <Modal
-        show={showModel}
-        className="modal-lg"
-      >
+      <Modal show={showModel} className="modal-lg">
         <Modal.Header>
           <Modal.Title
             className={roboto.className}
@@ -182,7 +220,7 @@ export default function BookTag() {
           </Modal.Title>
           <CloseButton onClick={closeModel}></CloseButton>
         </Modal.Header>
-        <Modal.Body         style={{ paddingLeft: "43px" }}>
+        <Modal.Body style={{ paddingLeft: "43px" }}>
           <Stack>
             <Button className={styles.ModalButton} onClick={() => {}}>
               <Stack

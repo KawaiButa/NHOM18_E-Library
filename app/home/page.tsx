@@ -1,16 +1,43 @@
 "use client";
-import React, { Suspense } from "react";
-import styles from "./page.module.css";
-import { Card, Button, Container, Row, Col, Stack } from "react-bootstrap";
+import React, { Suspense, useEffect, useState } from "react";
+import axios from "axios";
+import { Button, Stack } from "react-bootstrap";
 import { Montserrat, Roboto } from "next/font/google";
+import BookAPI from "../../api/bookAPI";
+import BookPreview from "../../components/bookPreview/bookPreview";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
   subsets: ["vietnamese"],
 });
 
-
 export default function Home() {
+  const [bookList, setBookList] = useState([]);
+
+  useEffect(() => {
+    BookGridView()
+      .then((response) => {
+        const data = response.data.data.doc;
+        const result = [];
+        for (let i = 0; i < data.length; i++) {
+          result.push(
+            <BookPreview
+              key={data[i].id}
+              bookID={data[i].id}
+              bookName={data[i].nameBook}
+              imgUrl={data[i].photoUrls[0]}
+              author={data[i].author}
+            />
+          );
+          console.log(data[i]);
+          setBookList(result);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setBookList([]);
+      });
+  }, []);
   return (
     <main className="d-flex justify-content-center">
       <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
@@ -33,6 +60,7 @@ export default function Home() {
         <Stack direction="horizontal" gap={2}>
           {prepareAlphabets()}
         </Stack>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))", gridGap: "92px" }}>{bookList}</div>
       </Stack>
     </main>
   );
@@ -59,3 +87,14 @@ const prepareAlphabets = () => {
   }
   return result;
 };
+
+function BookGridView(): Promise<any> {
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: BookAPI.allEndpoint,
+    headers: {},
+  };
+
+  return axios.request(config);
+}
