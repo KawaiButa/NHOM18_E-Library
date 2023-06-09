@@ -11,7 +11,7 @@ import BorrowListCard from "./components/borrowListCard";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <BorrowListCard />
+            <BorrowForm />
         </main>
     );
 }
