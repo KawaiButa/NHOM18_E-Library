@@ -15,7 +15,7 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
     <>
       {" "}
       <Suspense fallback={<></>}>
-        <Link href={{ pathname: "/home/detail", query: { bookId: bookID } }} style={{textDecoration: "none"}}>
+        <Link href={{ pathname: "/home/library/detail", query: { bookId: bookID } }} style={{textDecoration: "none"}}>
           <Container
             style={{
               width: "147px",

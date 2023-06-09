@@ -22,14 +22,17 @@ import SidebarMenu from "react-bootstrap-sidebar-menu";
 import styles from "../layout.module.css";
 import Image from "next/image";
 import ProfileButton from "../../components/profileButton/profileButton";
-
+import "next/navigation";
+import { usePathname } from "next/navigation";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
   style: "normal",
   subsets: ["latin", "vietnamese"],
 });
 export default function Layout({ children }) {
-  const [Tab, setTab] = useState("Library");
+  const pathName = usePathname();
+  console.log(pathName.split("/").slice(-1)[0]);
+  const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -64,8 +67,9 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               className={styles.sidebarNavLink}
               role="button"
+              href="/home"
             >
-              <SideTabButton tab="Library">
+              <SideTabButton tab="library">
                 <SidebarMenu.Nav.Title
                   className={montserrat.className}
                   style={{ color: "inherit" }}
@@ -90,8 +94,9 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
+              href="/home/member"
             >
-              <SideTabButton tab="Member">
+              <SideTabButton tab="member">
                 <SidebarMenu.Nav.Title
                   className={montserrat.className}
                   style={{ color: "inherit" }}
@@ -151,8 +156,12 @@ export default function Layout({ children }) {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs lg="3" className="d-flex justify-content-center align-items-center">
-                <ProfileButton/>
+              <Col
+                xs
+                lg="3"
+                className="d-flex justify-content-center align-items-center"
+              >
+                <ProfileButton />
               </Col>
             </Row>
           </header>
