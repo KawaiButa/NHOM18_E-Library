@@ -15,7 +15,7 @@ import styles from "./bookTag.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import BookAPI from "../../api/bookAPI";
-import Book from "../../app/Book";
+import Book from "../../models/Book";
 const roboto = Roboto({
   weight: ["400", "700"],
   style: "normal",
