@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import MemberCard from "../public/components/menberCard";
 import User from "../models/user";
 
 export default function Home() {
