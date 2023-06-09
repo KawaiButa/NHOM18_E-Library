@@ -105,7 +105,13 @@ export default function BorrowListCard() {
                         className="d-flex justify-content-center"
                         style={{ display: "block", marginTop: "100px" }}
                     >
-                        <div style={{ maxHeight: "350px", overflowY: "auto" }}>
+                        <div
+                            style={{
+                                height: "350px",
+                                maxHeight: "350px",
+                                overflowY: "auto",
+                            }}
+                        >
                             <Table
                                 responsive
                                 hover
