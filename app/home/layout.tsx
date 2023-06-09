@@ -21,6 +21,7 @@ import {
 import SidebarMenu from "react-bootstrap-sidebar-menu";
 import styles from "../layout.module.css";
 import Image from "next/image";
+import ProfileButton from "../../components/profileButton/profileButton";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
@@ -150,7 +151,9 @@ export default function Layout({ children }) {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs lg="3"></Col>
+              <Col xs lg="3" className="d-flex justify-content-center align-items-center">
+                <ProfileButton/>
+              </Col>
             </Row>
           </header>
           <Container style={{ width: "100%", height: "100%" }} fluid>
