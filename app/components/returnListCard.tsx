@@ -73,13 +73,19 @@ export default function ReturnListCard() {
                         className="d-flex justify-content-center"
                         style={{ display: "block", marginTop: "100px" }}
                     >
-                        <div style={{ maxHeight: "350px", overflowY: "auto" }}>
+                        <div
+                            style={{
+                                height: "350px",
+                                maxHeight: "350px",
+                                overflowY: "auto",
+                            }}
+                        >
                             <Table
                                 responsive
                                 hover
                                 style={{
                                     borderBottomColor: "#D9D9D9",
-                                    width: "980px",
+                                    width: "1000px",
                                 }}
                             >
                                 <thead>
@@ -196,7 +202,7 @@ export default function ReturnListCard() {
                             className={roboto.className}
                             style={{ fontSize: "20px", fontWeight: "300" }}
                         >
-                            You want to delete this borrow card with ID:
+                            You want to delete this return card with ID:
                             21522007
                         </p>
                     </Modal.Body>

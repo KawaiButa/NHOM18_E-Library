@@ -106,7 +106,13 @@ export default function BorrowListCard() {
                         className="d-flex justify-content-center"
                         style={{ display: "block", marginTop: "100px" }}
                     >
-                        <div style={{ maxHeight: "350px", overflowY: "auto" }}>
+                        <div
+                            style={{
+                                height: "350px",
+                                maxHeight: "350px",
+                                overflowY: "auto",
+                            }}
+                        >
                             <Table
                                 responsive
                                 hover
@@ -127,62 +133,6 @@ export default function BorrowListCard() {
                                 <tbody>
                                     <tr>
                                         <td>borrow001</td>
-                                        {Array.from({ length: 3 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>borrow002</td>
-                                        {Array.from({ length: 3 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>borrow002</td>
                                         {Array.from({ length: 3 }).map(
                                             (_, index) => (
                                                 <td key={index}>
