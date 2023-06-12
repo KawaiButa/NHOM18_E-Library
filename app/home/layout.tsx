@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Inter, Montserrat } from "next/font/google";
 import Script from "next/script";
 import { useEffect } from "react";
@@ -24,6 +24,8 @@ import Image from "next/image";
 import ProfileButton from "../../components/profileButton/profileButton";
 import "next/navigation";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
   style: "normal",
@@ -33,6 +35,7 @@ export default function Layout({ children }) {
   const pathName = usePathname();
   console.log(pathName.split("/").slice(-1)[0]);
   const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
+  const router = useRouter();
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -161,7 +164,9 @@ export default function Layout({ children }) {
                 lg="3"
                 className="d-flex justify-content-center align-items-center"
               >
-                <ProfileButton />
+                <Suspense>
+                  <ProfileButton />
+                </Suspense>
               </Col>
             </Row>
           </header>

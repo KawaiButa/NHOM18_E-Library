@@ -14,7 +14,7 @@ import { Montserrat, Open_Sans, Roboto } from "next/font/google";
 import styles from "./bookTag.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import BookAPI from "../../api/bookAPI";
+import BookAPI from "../../endpoint/bookAPI";
 import Book from "../../models/Book";
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -84,7 +84,8 @@ export default function BookTag() {
             xs="auto"
           >
             <Image
-              src="/Rectangle20.png"
+              src={book.imgUrl}
+              crossOrigin="anonymous"
               alt="Icon"
               width={161}
               height={243}

@@ -1,10 +1,11 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { ReactElement, Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Stack } from "react-bootstrap";
 import { Montserrat, Roboto } from "next/font/google";
-import BookAPI from "../../../api/bookAPI";
+import BookAPI from "../../../endpoint/bookAPI";
 import BookPreview from "../../../components/bookPreview/bookPreview";
+import { useSession } from "next-auth/react";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
@@ -12,13 +13,12 @@ const montserrat = Montserrat({
 });
 
 export default function Home() {
-  const [bookList, setBookList] = useState([]);
-
+  const [bookList, setBookList] = useState<ReactElement[]>([]);
   useEffect(() => {
     BookGridView()
       .then((response) => {
         const data = response.data.data.doc;
-        const result = [];
+        const result: React.ReactElement[] = [];
         for (let i = 0; i < data.length; i++) {
           result.push(
             <BookPreview
@@ -60,14 +60,14 @@ export default function Home() {
         <Stack direction="horizontal" gap={2}>
           {prepareAlphabets()}
         </Stack>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))", gridGap: "92px" }}>{bookList}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))", gridGap: "92px", paddingLeft: "30px" }}>{bookList}</div>
       </Stack>
     </main>
   );
 }
 
 const prepareAlphabets = () => {
-  let result = [];
+  let result :React.ReactElement[] = [];
   for (let i = 65; i < 91; i++) {
     result.push(
       <Button

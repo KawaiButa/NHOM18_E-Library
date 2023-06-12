@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import { Container, Image } from "react-bootstrap";
+
 const roboto = Roboto({
   weight: ["400", "700"],
   style: "normal",
@@ -15,7 +16,10 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
     <>
       {" "}
       <Suspense fallback={<></>}>
-        <Link href={{ pathname: "/home/library/detail", query: { bookId: bookID } }} style={{textDecoration: "none"}}>
+        <Link
+          href={{ pathname: "/home/library/detail", query: { bookId: bookID } }}
+          style={{ textDecoration: "none" }}
+        >
           <Container
             style={{
               width: "147px",
@@ -26,9 +30,10 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
             }}
           >
             <Image
-              src={""}
+              src={imgUrl}
+              crossOrigin="anonymous"
               alt=""
-              style={{ width: "146px", height: "206px" }}
+              style={{ width: "146px", height: "206px", borderRadius: "5px" }}
             />
             <h5
               className={roboto.className}
@@ -38,7 +43,7 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
                 width: "100%",
                 textAlign: "center",
                 marginTop: "7px",
-                textDecoration: "none"
+                textDecoration: "none",
               }}
             >
               {bookName}
@@ -51,7 +56,7 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
                 width: "100%",
                 textAlign: "center",
                 opacity: "0.7",
-                textDecoration: "none"
+                textDecoration: "none",
               }}
             >
               {author}

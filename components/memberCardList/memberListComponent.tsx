@@ -23,7 +23,7 @@ const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["latin"],
 });
-export default function MemberListCard() {
+export default function MemberListCard({ onAdd }) {
   const [memberList, setMemberList] = useState({});
   const [modal, setModal] = useState(false);
 
@@ -58,6 +58,7 @@ export default function MemberListCard() {
                 borderWidth: "0px",
                 borderRadius: "30px",
               }}
+              onClick={onAdd}
             >
               <p
                 className={montserrat.className}
@@ -65,7 +66,6 @@ export default function MemberListCard() {
                   color: "white",
                   fontWeight: "bold",
                   fontSize: "16px",
-                  
                 }}
               >
                 Add
@@ -183,35 +183,6 @@ export default function MemberListCard() {
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <td key={index}>Table cell {index}</td>
-                ))}
-                <td>
-                  <button
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      marginRight: "13px",
-                      borderWidth: "0px",
-                    }}
-                    
-                  >
-                    <Image src="/icon_edit.png" alt="delete" />
-                  </button>
-                  <button
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      borderWidth: "0px",
-                    }}
-                    onClick={openModal}
-                  >
-                    <Image src="/icon_delete.png" alt="delete" />
-                  </button>
-                </td>
-              </tr>
-              <tr>
                 <td>2</td>
                 {Array.from({ length: 5 }).map((_, index) => (
                   <td key={index}>Table cell {index}</td>
@@ -290,7 +261,12 @@ export default function MemberListCard() {
             paddingRight: "15px",
           }}
         >
-          <p className={roboto.className} style={{ fontSize: "20px", fontWeight: "300"}}>You want to delete member with ID: 21522007</p>
+          <p
+            className={roboto.className}
+            style={{ fontSize: "20px", fontWeight: "300" }}
+          >
+            You want to delete member with ID: 21522007
+          </p>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-end">
           <Stack direction="horizontal" gap={3}>
@@ -344,4 +320,38 @@ export default function MemberListCard() {
       </Modal>
     </>
   );
+  const tableRow = (id, user) => {
+    return (
+      <tr>
+        <td>{id}</td>
+        <td>{user.id}</td>
+        <td>{user.name}</td>
+        <td>{user.readerType}</td>
+        <td>{user.address}</td>
+        <td>{user.memberDate}</td>
+        <td>
+          <button
+            style={{
+              width: "27px",
+              height: "27px",
+              marginRight: "13px",
+              borderWidth: "0px",
+            }}
+          >
+            <Image src="/icon_edit.png" alt="delete" />
+          </button>
+          <button
+            style={{
+              width: "27px",
+              height: "27px",
+              borderWidth: "0px",
+            }}
+            onClick={openModal}
+          >
+            <Image src="/icon_delete.png" alt="delete" />
+          </button>
+        </td>
+      </tr>
+    );
+  };
 }
