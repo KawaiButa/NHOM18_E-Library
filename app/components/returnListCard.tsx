@@ -157,6 +157,180 @@ export default function ReturnListCard() {
                                             </button>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>return001</td>
+                                        <td>borrow001</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>return002</td>
+                                        <td>borrow002</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>return001</td>
+                                        <td>borrow001</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>return002</td>
+                                        <td>borrow002</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>return001</td>
+                                        <td>borrow001</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>return002</td>
+                                        <td>borrow002</td>
+                                        {Array.from({ length: 3 }).map(
+                                            (_, index) => (
+                                                <td key={index}>
+                                                    Table cell {index}
+                                                </td>
+                                            )
+                                        )}
+                                        <td>
+                                            <button
+                                                className={styles.button}
+                                                style={{
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    borderWidth: "0px",
+                                                    position: "relative",
+                                                    left: "10px",
+                                                }}
+                                                onClick={openModal}
+                                            >
+                                                <Image
+                                                    src="/icon_delete.png"
+                                                    alt="delete"
+                                                />
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </Table>
                         </div>
@@ -188,7 +362,7 @@ export default function ReturnListCard() {
                             paddingRight: "15px",
                         }}
                     >
-                        <Modal.Title>Delete this borrow card?</Modal.Title>
+                        <Modal.Title>Delete this return card?</Modal.Title>
                         <CloseButton onClick={closeModal}></CloseButton>
                     </Modal.Header>
                     <Modal.Body
