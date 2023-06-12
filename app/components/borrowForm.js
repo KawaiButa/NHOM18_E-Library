@@ -58,7 +58,7 @@ export default function BorrowForm() {
                 <Card
                     style={{
                         width: "1055px",
-                        height: "1102px",
+                        height: "880px",
                         position: "relative",
                         top: "-45px",
                     }}
@@ -87,20 +87,7 @@ export default function BorrowForm() {
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label
-                                        className={montserrat.className}
-                                    >
-                                        Member ID
-                                    </Form.Label>
-                                    <Form.Control
-                                        size="lg"
-                                        type="id"
-                                        disabled={true}
-                                    />
-                                </Form.Group>
-                            </Col>
+
                             <Stack direction="horizontal" gap={5}>
                                 <Col md={8}>
                                     <Form.Group>
@@ -127,25 +114,15 @@ export default function BorrowForm() {
                                         width: "130px",
                                         top: "15px",
                                         position: "relative",
+                                        fontWeight: "700",
+                                        background: "#44B8CB",
+                                        borderColor: "#44B8CB",
                                     }}
                                 >
                                     Add
                                 </Button>
                             </Stack>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label
-                                        className={montserrat.className}
-                                    >
-                                        Book ID
-                                    </Form.Label>
-                                    <Form.Control
-                                        size="lg"
-                                        type="id"
-                                        disabled={true}
-                                    />
-                                </Form.Group>
-                            </Col>
+
                             <Stack direction="horizontal" gap={5}>
                                 <Col md={9}>
                                     <Form.Group>
@@ -170,6 +147,7 @@ export default function BorrowForm() {
                                         top: "15px",
                                         position: "relative",
                                         color: "black",
+                                        fontWeight: "700",
                                         background: "#D9D9D9",
                                         borderColor: "#D9D9D9",
                                     }}
