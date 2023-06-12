@@ -12,10 +12,11 @@ import BorrowCardDetail from "./components/borrowCardDetail";
 import SearchBar from "./components/searchBar";
 import ReturnCard from "./components/returnCard";
 import ReturnListCard from "./components/returnListCard";
+import FeeListCard from "./components/feeListCard";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <ReturnListCard />
+            <FeeListCard />
         </main>
     );
 }
