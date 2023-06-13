@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import MemberListCard from "../../../components/memberCardList/memberListComponent";
-import MemberCard from "../../../components/memberCard/menberCard";
 import MemberFrom from "../../../components/memberForm/memberForm"
 
 export default function Member() {
