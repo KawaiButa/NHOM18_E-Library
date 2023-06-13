@@ -133,10 +133,10 @@ export default function Layout({ children }) {
                   </SidebarMenu.Nav.Title>
                   <SidebarMenuSub.Collapse style={{ paddingTop: "30px" }}>
                     <SidebarMenuNav className={styles.sidebarMenuSub}>
-                      <Button className={styles.sidebarMenuSubButton}>
+                      <Button className={styles.sidebarMenuSubButton} onClick={() => router.push("/home/transaction/borrow")}>
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
-                          style={{ color: "black" }}
+                          style={{ color: "inherit" }}
                         >
                           Borrow card
                         </SidebarMenu.Nav.Title>
@@ -144,7 +144,7 @@ export default function Layout({ children }) {
                       <Button className={styles.sidebarMenuSubButton}> 
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
-                          style={{ color: "black" }}
+                          style={{ color: "inherit" }}
                         >
                           Return card
                         </SidebarMenu.Nav.Title>
@@ -152,7 +152,7 @@ export default function Layout({ children }) {
                       <Button className={styles.sidebarMenuSubButton}> 
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
-                          style={{ color: "black" }}
+                          style={{ color: "inherit" }}
                         >
                           Fee card
                         </SidebarMenu.Nav.Title>
@@ -160,9 +160,9 @@ export default function Layout({ children }) {
                       <Button className={styles.sidebarMenuSubButton}> 
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
-                          style={{ color: "black" }}
+                          style={{ color: "inherit" }}
                         >
-                          Remind card
+                          Remind
                         </SidebarMenu.Nav.Title>
                       </Button>
                     </SidebarMenuNav>

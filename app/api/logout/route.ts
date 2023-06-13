@@ -31,17 +31,13 @@ export async function POST(req: NextRequest) {
         return new NextResponse(response.data, {
             status: response.status,
             statusText: response.statusText,
-            headers: {
-                'content-type': 'application/json',
-                'Set-Cookie': `access-token=${token}; Path=/; Max-Age=0`
-            }
+            headers: { 'Set-Cookie': `token= ` },
+
         })
     }
     else
         return new NextResponse(response.data, {
-            status: response.status, statusText: response.statusText, headers: {
-                'content-type': 'application/json',
-                'Set-Cookie': `access-token=${token}; Path=/; Max-Age=0`
-            }
+            status: response.status, statusText: response.statusText, headers: { 'Set-Cookie': `token= ` },
+
         })
 }

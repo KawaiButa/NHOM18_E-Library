@@ -27,7 +27,7 @@
 
 .sidebarMenuSub .sidebarMenuSubButton:hover {
     background-color: #3D56F8 !important;
-    color: white;
+    color: white !important;
 }
 
 .sidebarMenuSubButton {
@@ -37,4 +37,9 @@
     margin-Bottom: 10px !important;
     padding-Top: 20px !important;
     padding-Bottom: 20px !important;
+    color: black;
+}
+
+.button:active{
+    filter: brightness(0.8)
 }

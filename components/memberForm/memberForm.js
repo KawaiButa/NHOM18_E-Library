@@ -1,19 +1,19 @@
 import {
-  Button,
-  Card,
-  Container,
-  Form,
-  FormGroup,
-  Image,
-  Stack,
+    Button,
+    Card,
+    Container,
+    Form,
+    FormGroup,
+    Image,
+    Stack,
 } from "react-bootstrap";
 
 import React, { useState } from "react";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
-  weight: ["400", "700"],
-  subsets: ["vietnamese"],
+    weight: ["400", "700"],
+    subsets: ["vietnamese"],
 });
 export default function MemberForm() {
   const [imgUrl, setImgUrl] = useState("#");

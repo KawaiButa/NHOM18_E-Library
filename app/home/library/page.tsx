@@ -6,6 +6,8 @@ import { Montserrat, Roboto } from "next/font/google";
 import BookAPI from "../../../endpoint/bookAPI";
 import BookPreview from "../../../components/bookPreview/bookPreview";
 import { useSession } from "next-auth/react";
+import useUser from "../../../lib/useUser";
+import useBook from "../../../lib/useBook";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
@@ -14,30 +16,44 @@ const montserrat = Montserrat({
 
 export default function Home() {
   const [bookList, setBookList] = useState<ReactElement[]>([]);
+  const { books } = useBook();
   useEffect(() => {
-    BookGridView()
-      .then((response) => {
-        const data = response.data.data.doc;
-        const result: React.ReactElement[] = [];
-        for (let i = 0; i < data.length; i++) {
-          result.push(
-            <BookPreview
-              key={data[i].id}
-              bookID={data[i].id}
-              bookName={data[i].nameBook}
-              imgUrl={data[i].photoUrls[0]}
-              author={data[i].author}
-            />
-          );
-          console.log(data[i]);
-          setBookList(result);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setBookList([]);
-      });
-  }, []);
+    // BookGridView()
+    //   .then((response) => {
+    //     const data = response.data.data.doc;
+    //     const result: React.ReactElement[] = [];
+    //     for (let i = 0; i < data.length; i++) {
+    //       result.push(
+    //         <BookPreview
+    //           key={data[i].id}
+    //           bookID={data[i].id}
+    //           bookName={data[i].nameBook}
+    //           imgUrl={data[i].photoUrls[0]}
+    //           author={data[i].author}
+    //         />
+    //       );
+    //       console.log(data[i]);
+    //       setBookList(result);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setBookList([]);
+    //   });
+    const result: React.ReactElement[] = [];
+    books?.forEach((element) => {
+      result.push(
+        <BookPreview
+          key={element.id}
+          bookID={element.id}
+          bookName={element.name}
+          imgUrl={element.imgUrl}
+          author={element.author}
+        />
+      );
+    });
+    setBookList(result);
+  }, [books]);
   return (
     <main className="d-flex justify-content-center">
       <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
@@ -60,14 +76,23 @@ export default function Home() {
         <Stack direction="horizontal" gap={2}>
           {prepareAlphabets()}
         </Stack>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))", gridGap: "92px", paddingLeft: "30px" }}>{bookList}</div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))",
+            gridGap: "92px",
+            paddingLeft: "30px",
+          }}
+        >
+          {bookList}
+        </div>
       </Stack>
     </main>
   );
 }
 
 const prepareAlphabets = () => {
-  let result :React.ReactElement[] = [];
+  let result: React.ReactElement[] = [];
   for (let i = 65; i < 91; i++) {
     result.push(
       <Button
