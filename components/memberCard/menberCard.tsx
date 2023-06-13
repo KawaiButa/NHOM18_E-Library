@@ -1,7 +1,5 @@
 import { Montserrat, Roboto } from "next/font/google";
 import { Button, Card, Stack, Image, Container } from "react-bootstrap";
-
-import User from "../../models/user";
 const roboto = Roboto({
     weight: "700",
     subsets: ["vietnamese"],
@@ -48,13 +46,13 @@ export default function MemberCard({user = null}) {
                 </div>
                 <Container style={{}}>
                     <Stack gap={2}>
-                        <h1 className={roboto.className}>{user.name}</h1>
-                        <p className={montserrat.className}>Member id: {user.id}</p>
-                        <p className={montserrat.className}>Email: {user.email}</p>
-                        <p className={montserrat.className}>Reader type: {user.readerType}</p>
-                        <p className={montserrat.className}>Address: {user.address}</p>
-                        <p className={montserrat.className}>Date of birth: {user.dateOfBirth.toISOString().split('T')[0]}</p>
-                        <p className={montserrat.className}>Member date: {user.memberDate.toISOString().split('T')[0]}</p>
+                        <h1 className={roboto.className}></h1>
+                        <p className={montserrat.className}>Member id:</p>
+                        <p className={montserrat.className}>Email: </p>
+                        <p className={montserrat.className}>Reader type: </p>
+                        <p className={montserrat.className}>Address: </p>
+                        <p className={montserrat.className}>Date of birth: </p>
+                        <p className={montserrat.className}>Member date: </p>
                     </Stack>
                 </Container>
             </Stack>
