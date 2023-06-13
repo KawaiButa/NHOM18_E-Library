@@ -1,6 +1,9 @@
 "use client";
 import { Montserrat } from "next/font/google";
 import React from "react";
+import useUser from "../../../lib/useUser";
+import fetchJson from "../../../lib/fetchJson";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -9,6 +12,7 @@ const montserrat = Montserrat({
 });
 
 export default function SignUp() {
+  const router = useRouter();
   return (
     <>
       <main>
@@ -54,7 +58,25 @@ export default function SignUp() {
               >
                 Account info
               </p>
-              <form>
+              <form
+                onSubmit={async function HandleSummit(event) {
+                  event.preventDefault();
+                  const body = {
+                    firstName: event.currentTarget.firstName.value,
+                    lastName: event.currentTarget.lastName.value,
+                    email: event.currentTarget.email.value,
+                    password: event.currentTarget.email.value,
+                    passwordConfirm: event.currentTarget.password.value,
+                  };
+                  await fetchJson("/api/signup", {
+                    method: "post",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+                  })
+                    .then((response) => router.push("/landing/login"))
+                    .catch((error) => console.log(error));
+                }}
+              >
                 <div className="row mb-3">
                   <div className="col">
                     <label className={`${montserrat.className}`}>

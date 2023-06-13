@@ -1,13 +1,20 @@
 "use client";
 import { Montserrat } from "next/font/google";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Form, Stack } from "react-bootstrap";
+import useUser from "../../../lib/useUser";
+import fetchJson, { FetchError } from "../../../lib/fetchJson";
+import { mutate } from "swr";
 const montserrat = Montserrat({
-  weight: ["300", "400", "500", "600", "700", "800", '900'],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
   subsets: ["vietnamese"],
 });
 export default function Login() {
+  const { mutateUser } = useUser({
+    redirectTo: "/home",
+    redirectIfFound: true,
+  });
   return (
     <>
       <main style={{ height: "650px" }}>
@@ -50,7 +57,7 @@ export default function Login() {
           >
             <Card className="shadow">
               <Card.Body
-              className="shadow-sm"
+                className="shadow-sm"
                 style={{
                   paddingLeft: "90px",
                   paddingRight: "90px",
@@ -58,7 +65,24 @@ export default function Login() {
                   paddingBottom: "35px",
                 }}
               >
-                <Form style={{width: "439px"}}>
+                <Form
+                  style={{ width: "439px" }}
+                  onSubmit={async function HandleSummitEvent(event) {
+                    event.preventDefault();
+                    const body = {
+                      email: event.currentTarget.email.value,
+                      password: event.currentTarget.password.value,
+                    };
+                    try {
+                        mutateUser(await fetchJson("/api/login", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(body),
+                        }))
+                    } catch (error) {
+                    }
+                  }}
+                >
                   <Stack direction="vertical" gap={3}>
                     <div className="form-group">
                       <div className="form-floating">
@@ -96,13 +120,13 @@ export default function Login() {
                     <Button
                       type="submit"
                       className={`${montserrat.className} btn btn-info btn-block`}
-                      href="/home"
+                      //href="/home"
                       style={{
                         color: "white",
                         borderRadius: "30px",
                         fontWeight: "600",
                         fontSize: "20px",
-                        height: "45px"
+                        height: "45px",
                       }}
                     >
                       Login in
@@ -110,8 +134,14 @@ export default function Login() {
                   </Stack>
                 </Form>
               </Card.Body>
-              <Card.Footer className="d-flex justify-content-center align-items-center " style={{paddingTop:"20px", paddingBottom: "20px"}}>
-                <span className={`${montserrat.className} text-center`} style={{fontSize:"20px", fontWeight:"400"}}>
+              <Card.Footer
+                className="d-flex justify-content-center align-items-center "
+                style={{ paddingTop: "20px", paddingBottom: "20px" }}
+              >
+                <span
+                  className={`${montserrat.className} text-center`}
+                  style={{ fontSize: "20px", fontWeight: "400" }}
+                >
                   {"Don't have an account? "}
                   <a href="/landing/signup" style={{ textDecoration: "none" }}>
                     Sign up
