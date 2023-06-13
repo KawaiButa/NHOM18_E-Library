@@ -15,7 +15,6 @@ import styles from "./bookTag.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import BookAPI from "../../endpoint/bookAPI";
-import Book from "../../models/Book";
 const roboto = Roboto({
   weight: ["400", "700"],
   style: "normal",
@@ -31,10 +30,19 @@ const montserrat = Montserrat({
   style: "normal",
   subsets: ["latin"],
 });
+type Book = {
+  id: string;
+  name: string;
+  author: string;
+  publicationYear: string;
+  imgUrl: string;
+  description: string;
+  ratingsAverage: string;
+}
 export default function BookTag() {
   const search = useSearchParams();
 
-  const [book, setBook] = useState(new Book("", "", "", "", "", ""));
+  const [book, setBook] = useState({id: "",name: "",author: "",publicationYear: "",imgUrl: "",ratingsAverage: "", description: ""} as Book);
   const [showModel, setShowModel] = useState(false);
   const openModel = () => setShowModel(true);
   const closeModel = () => setShowModel(false);
@@ -55,14 +63,15 @@ export default function BookTag() {
         const data = response.data.data.doc;
         console.log(data);
         setBook(
-          new Book(
-            data.nameBook,
-            data.author,
-            data.publicationYear,
-            data.description,
-            data.photoUrls[0],
-            data.ratingsAverage
-          )
+          {
+            id: data._id,
+            name: data.nameBook,
+            author: data.author,
+            publicationYear: data.publicationYear,
+            description: data.description,
+            imgUrl: data.photoUrls[0],
+            ratingsAverage: data.ratingsAverage
+          } as Book
         );
       })
       .catch((error) => {
@@ -143,7 +152,7 @@ export default function BookTag() {
                   className={roboto.className}
                   style={{ fontWeight: "700", fontSize: "25px" }}
                 >
-                  {book.yearOfPublication}
+                  {book.publicationYear}
                 </p>
               </Col>
               <div className="vr" style={{ height: "29px" }} />
@@ -157,7 +166,7 @@ export default function BookTag() {
               </Col>
             </Stack>
             <h1 className={roboto.className} style={{ fontSize: "25px" }}>
-              {"Rating: " + book.rating}
+              {"Rating: " + book.ratingsAverage}
               <span className=" justify-content-center align-items-center" style={{marginLeft: '5px'}}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
