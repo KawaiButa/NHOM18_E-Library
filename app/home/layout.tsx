@@ -18,13 +18,16 @@ import {
   Row,
   Stack,
 } from "react-bootstrap";
-import SidebarMenu from "react-bootstrap-sidebar-menu";
+import SidebarMenu, {
+  SidebarMenuCollapse,
+  SidebarMenuNav,
+  SidebarMenuSub,
+} from "react-bootstrap-sidebar-menu";
 import styles from "../layout.module.css";
 import Image from "next/image";
 import ProfileButton from "../../components/profileButton/profileButton";
 import "next/navigation";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
@@ -70,7 +73,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               className={styles.sidebarNavLink}
               role="button"
-              href="/home"
+              onClick={() => router.push("/home/library")}
             >
               <SideTabButton tab="library">
                 <SidebarMenu.Nav.Title
@@ -84,8 +87,9 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
+              onClick={() => router.push("/home/book")}
             >
-              <SideTabButton tab="Book">
+              <SideTabButton tab="book">
                 <SidebarMenu.Nav.Title
                   className={montserrat.className}
                   style={{ color: "inherit" }}
@@ -97,7 +101,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
-              href="/home/member"
+              onClick={() => router.push("/home/member")}
             >
               <SideTabButton tab="member">
                 <SidebarMenu.Nav.Title
@@ -112,14 +116,59 @@ export default function Layout({ children }) {
               role="button"
               className={styles.sidebarNavLink}
             >
-              <SideTabButton tab="Transaction">
-                <SidebarMenu.Nav.Title
-                  className={montserrat.className}
-                  style={{ color: "inherit" }}
+              <SidebarMenu.Sub>
+                <SidebarMenu.Sub.Toggle
+                  onClick={() => setTab("Transaction")}
+                  style={{
+                    backgroundColor:
+                      Tab == "Transaction" ? "white" : "transparent",
+                    color: Tab == "Transaction" ? "black" : "white",
+                  }}
                 >
-                  Transaction
-                </SidebarMenu.Nav.Title>
-              </SideTabButton>
+                  <SidebarMenu.Nav.Title
+                    className={montserrat.className}
+                    style={{ color: "inherit" }}
+                  >
+                    Transaction
+                  </SidebarMenu.Nav.Title>
+                  <SidebarMenuSub.Collapse style={{ paddingTop: "30px" }}>
+                    <SidebarMenuNav className={styles.sidebarMenuSub}>
+                      <Button className={styles.sidebarMenuSubButton}>
+                        <SidebarMenu.Nav.Title
+                          className={montserrat.className}
+                          style={{ color: "black" }}
+                        >
+                          Borrow card
+                        </SidebarMenu.Nav.Title>
+                      </Button>
+                      <Button className={styles.sidebarMenuSubButton}> 
+                        <SidebarMenu.Nav.Title
+                          className={montserrat.className}
+                          style={{ color: "black" }}
+                        >
+                          Return card
+                        </SidebarMenu.Nav.Title>
+                      </Button>
+                      <Button className={styles.sidebarMenuSubButton}> 
+                        <SidebarMenu.Nav.Title
+                          className={montserrat.className}
+                          style={{ color: "black" }}
+                        >
+                          Fee card
+                        </SidebarMenu.Nav.Title>
+                      </Button>
+                      <Button className={styles.sidebarMenuSubButton}> 
+                        <SidebarMenu.Nav.Title
+                          className={montserrat.className}
+                          style={{ color: "black" }}
+                        >
+                          Remind card
+                        </SidebarMenu.Nav.Title>
+                      </Button>
+                    </SidebarMenuNav>
+                  </SidebarMenuSub.Collapse>
+                </SidebarMenu.Sub.Toggle>
+              </SidebarMenu.Sub>
             </SidebarMenu.Nav.Link>
           </SidebarMenu.Nav>
         </SidebarMenu.Body>
