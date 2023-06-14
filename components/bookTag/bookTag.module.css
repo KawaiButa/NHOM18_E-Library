@@ -45,3 +45,8 @@
     margin-Top: 30px
   }
 }
+
+.btn:active {
+  background-color: red;
+
+}

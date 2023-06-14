@@ -127,7 +127,7 @@ export default function BorrowForm() {
                                                 as="input"
                                                 className="shadow-none"
                                                 list="book"
-                                                style={{ width: "475px" }}
+                                                style={{ width: "492px" }}
                                             ></Form.Control>
                                             <datalist id="book"></datalist>
                                         </Form.Group>

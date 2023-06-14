@@ -1,0 +1,37 @@
+.tableFIxed {
+    width: 100%;
+    background-color: #f3f3f3;
+
+}
+
+.tableFIxed tbody {
+    height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.tableFIxed tbody td {
+    float: left;
+}
+
+.tableFIxed thead tr th {
+
+    float: left;
+
+}
+
+.tableFIxed thead {
+    display: block;
+}
+
+.tableFIxed tbody {
+    display: block;
+}
+
+.tableFIxed td {
+    display: block;
+}
+
+.tableFIxed th {
+    display: block;
+}

@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <header>
-        <meta http-equiv="Refresh" content={`0; url='/landing'`} />
+        <meta http-equiv="Refresh" content={`0; url='/home/library'`} />
       </header>
       <main></main>
     </>
