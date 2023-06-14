@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { Button } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import Link from "next/link";
 
 export default function Landing() {
@@ -73,11 +72,13 @@ export default function Landing() {
             <div className="col-lg-6 col-md-12 col-sm-12">
               <div style={{ marginTop: "60px", marginLeft: "50px" }}>
                 <Image
-                  src="/../public/hero.png"
-                  alt=""
-                  width={524}
-                  height={450}
                   className="landing_hero"
+                  src="/hero.png"
+                  style={{
+                    width: "524px",
+                    height: "450px",
+                  }}
+                  alt=""
                 />
               </div>
             </div>
