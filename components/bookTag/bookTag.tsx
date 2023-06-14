@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -38,11 +38,19 @@ type Book = {
   imgUrl: string;
   description: string;
   ratingsAverage: string;
-}
+};
 export default function BookTag() {
   const search = useSearchParams();
 
-  const [book, setBook] = useState({id: "",name: "",author: "",publicationYear: "",imgUrl: "",ratingsAverage: "", description: ""} as Book);
+  const [book, setBook] = useState({
+    id: "",
+    name: "",
+    author: "",
+    publicationYear: "",
+    imgUrl: "",
+    ratingsAverage: "",
+    description: "",
+  } as Book);
   const [showModel, setShowModel] = useState(false);
   const openModel = () => setShowModel(true);
   const closeModel = () => setShowModel(false);
@@ -62,17 +70,15 @@ export default function BookTag() {
       .then((response) => {
         const data = response.data.data.doc;
         console.log(data);
-        setBook(
-          {
-            id: data._id,
-            name: data.nameBook,
-            author: data.author,
-            publicationYear: data.publicationYear,
-            description: data.description,
-            imgUrl: data.photoUrls[0],
-            ratingsAverage: data.ratingsAverage
-          } as Book
-        );
+        setBook({
+          id: data._id,
+          name: data.nameBook,
+          author: data.author,
+          publicationYear: data.publicationYear,
+          description: data.description,
+          imgUrl: data.photoUrls[0],
+          ratingsAverage: data.ratingsAverage,
+        } as Book);
       })
       .catch((error) => {
         console.log(error);
@@ -167,7 +173,10 @@ export default function BookTag() {
             </Stack>
             <h1 className={roboto.className} style={{ fontSize: "25px" }}>
               {"Rating: " + book.ratingsAverage}
-              <span className=" justify-content-center align-items-center" style={{marginLeft: '5px'}}>
+              <span
+                className=" justify-content-center align-items-center"
+                style={{ marginLeft: "5px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="35"
@@ -379,10 +388,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}              onClick={() => {
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
                 changeValueModal("Status");
                 closeModel();
-              }}>
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"
@@ -412,10 +424,13 @@ export default function BookTag() {
                 </p>
               </Stack>
             </Button>
-            <Button className={styles.ModalButton}              onClick={() => {
+            <Button
+              className={styles.ModalButton}
+              onClick={() => {
                 changeValueModal("Title");
                 closeModel();
-              }}>
+              }}
+            >
               <Stack
                 direction="horizontal"
                 className="d-flex align-items-center"

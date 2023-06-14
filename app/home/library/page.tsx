@@ -32,39 +32,47 @@ export default function Home() {
     });
     setBookList(result);
   }, [books]);
-  return (
-    <main className="d-flex justify-content-center">
-      <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
-        <header
-          className="rounded"
-          style={{
-            width: "985px",
-            backgroundColor: "black",
-            paddingLeft: "52px",
-            color: "white",
-          }}
-        >
-          <h1
-            className={montserrat.className}
-            style={{ paddingTop: "5px", fontWeight: "700", fontSize: "35px" }}
+  if (books)
+    return (
+      <main className="d-flex justify-content-center">
+        <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
+          <header
+            className="rounded"
+            style={{
+              width: "985px",
+              backgroundColor: "black",
+              paddingLeft: "52px",
+              color: "white",
+            }}
           >
-            Book List
-          </h1>
-        </header>
-        <Stack direction="horizontal" gap={2}>
-          {prepareAlphabets()}
+            <h1
+              className={montserrat.className}
+              style={{ paddingTop: "5px", fontWeight: "700", fontSize: "35px" }}
+            >
+              Book List
+            </h1>
+          </header>
+          <Stack direction="horizontal" gap={2}>
+            {prepareAlphabets()}
+          </Stack>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))",
+              gridGap: "92px",
+              paddingLeft: "30px",
+            }}
+          >
+            {bookList}
+          </div>
         </Stack>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))",
-            gridGap: "92px",
-            paddingLeft: "30px",
-          }}
-        >
-          {bookList}
-        </div>
-      </Stack>
+      </main>
+    );
+  return (
+    <main className="d-flex justify-content-center align-items-center" style={{width: "100%", height: "100%"}}>
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     </main>
   );
 }

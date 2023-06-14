@@ -166,7 +166,7 @@ export default function Layout({ children }) {
                           Fee card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}>
+                      <Button className={styles.sidebarMenuSubButton}  onClick={() => router.push("/home/transaction/remind")}>
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
