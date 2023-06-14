@@ -1,8 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ["book-library-management.onrender.com"],
-  },
-};
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'book-library-management.onrender.com',
+            port: '',
+            pathname: '/api/v1/books/*************************/images/*',
+          },
+        ],
+      },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

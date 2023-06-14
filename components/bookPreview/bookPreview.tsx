@@ -2,7 +2,8 @@
 import { Roboto } from "next/font/google";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import { Container, Image } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import Image from "next/image";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -33,7 +34,9 @@ export default function BookPreview({ imgUrl, bookID, bookName, author }) {
               src={imgUrl}
               crossOrigin="anonymous"
               alt=""
-              style={{ width: "146px", height: "206px", borderRadius: "5px" }}
+              width={146}
+              height={206}
+              style={{ borderRadius: "5px" }}
             />
             <h5
               className={roboto.className}
