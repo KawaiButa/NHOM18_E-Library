@@ -45,7 +45,7 @@ export default function BorrowForm() {
       >
         <div
           style={{
-            width: "403px",
+            width: "368px",
             height: "85px",
             background: "black",
             borderRadius: "10px",

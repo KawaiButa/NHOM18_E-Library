@@ -18,28 +18,6 @@ export default function Home() {
   const [bookList, setBookList] = useState<ReactElement[]>([]);
   const { books } = useBook();
   useEffect(() => {
-    // BookGridView()
-    //   .then((response) => {
-    //     const data = response.data.data.doc;
-    //     const result: React.ReactElement[] = [];
-    //     for (let i = 0; i < data.length; i++) {
-    //       result.push(
-    //         <BookPreview
-    //           key={data[i].id}
-    //           bookID={data[i].id}
-    //           bookName={data[i].nameBook}
-    //           imgUrl={data[i].photoUrls[0]}
-    //           author={data[i].author}
-    //         />
-    //       );
-    //       console.log(data[i]);
-    //       setBookList(result);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setBookList([]);
-    //   });
     const result: React.ReactElement[] = [];
     books?.forEach((element) => {
       result.push(
@@ -68,7 +46,7 @@ export default function Home() {
         >
           <h1
             className={montserrat.className}
-            style={{ paddingTop: "5px", fontWeight: "700", fontSize: "45px" }}
+            style={{ paddingTop: "5px", fontWeight: "700", fontSize: "35px" }}
           >
             Book List
           </h1>
