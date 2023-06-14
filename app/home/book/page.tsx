@@ -22,16 +22,9 @@ export default function AddBook() {
           width: "100%",
           maxWidth: "1178px",
           paddingLeft: "80px",
-          paddingRight: "100px "
+          paddingRight: "100px ",
         }}
       >
-        <h1
-          className={roboto.className}
-          style={{ fontWeight: "700", fontSize: "25px", marginTop: "20px" }}
-        >
-          Add Book
-        </h1>
-        <hr />
         <Form>
           <div className="form-group">
             <label className={montserrat.className}>Title:</label>

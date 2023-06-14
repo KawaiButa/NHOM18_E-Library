@@ -29,6 +29,7 @@ import ProfileButton from "../../components/profileButton/profileButton";
 import "next/navigation";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import useUser from "../../lib/useUser";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
   style: "normal",
@@ -39,6 +40,7 @@ export default function Layout({ children }) {
   console.log(pathName.split("/").slice(-1)[0]);
   const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
   const router = useRouter();
+  const { user } = useUser();
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -73,7 +75,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               className={styles.sidebarNavLink}
               role="button"
-              onClick={() => router.push("/home/library")}
+              href="/home/library"
             >
               <SideTabButton tab="library">
                 <SidebarMenu.Nav.Title
@@ -87,7 +89,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
-              onClick={() => router.push("/home/book")}
+              href={"/home/book"}
             >
               <SideTabButton tab="book">
                 <SidebarMenu.Nav.Title
@@ -101,7 +103,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
-              onClick={() => router.push("/home/member")}
+              href="/home/member"
             >
               <SideTabButton tab="member">
                 <SidebarMenu.Nav.Title
@@ -133,7 +135,14 @@ export default function Layout({ children }) {
                   </SidebarMenu.Nav.Title>
                   <SidebarMenuSub.Collapse style={{ paddingTop: "30px" }}>
                     <SidebarMenuNav className={styles.sidebarMenuSub}>
-                      <Button className={styles.sidebarMenuSubButton} onClick={() => router.push("/home/transaction/borrow")}>
+                      <Button
+                        className={styles.sidebarMenuSubButton}
+                        onClick={() => {
+                          if (user?.role == "admin")
+                            router.push("/home/transaction/borrow");
+                          else router.push("/home/transaction/borrow/add");
+                        }}
+                      >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -141,7 +150,7 @@ export default function Layout({ children }) {
                           Borrow card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}> 
+                      <Button className={styles.sidebarMenuSubButton} onClick={() => router.push("/home/transaction/return")}>
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -149,7 +158,7 @@ export default function Layout({ children }) {
                           Return card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}> 
+                      <Button className={styles.sidebarMenuSubButton}>
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -157,7 +166,7 @@ export default function Layout({ children }) {
                           Fee card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}> 
+                      <Button className={styles.sidebarMenuSubButton}  onClick={() => router.push("/home/transaction/remind")}>
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -196,6 +205,7 @@ export default function Layout({ children }) {
                 <FormGroup
                   className=" d-flex justify-content-center align-items-center"
                   style={{ width: "721px" }}
+                  id="searchFormGroup"
                 >
                   <InputGroup className="border rounded align-items-center">
                     <div

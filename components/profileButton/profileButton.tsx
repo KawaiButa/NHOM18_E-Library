@@ -13,8 +13,7 @@ const montserrat = Montserrat({
 });
 export default function ProfileButton() {
   const router = useRouter();
-  const {user, mutateUser} = useUser();
-  console.log(user)
+  const { user, mutateUser } = useUser();
   if (true)
     return (
       <div className={styles.profileDropdown}>
@@ -128,7 +127,15 @@ export default function ProfileButton() {
                 backgroundColor: "transparent",
                 borderWidth: "0px",
               }}
-              onClick={() => fetch("/api/logout",{method: "POST"}).then((response) => {mutate("api/user",null), router.push("/landing/login")}).catch((error) => {console.log(error)})}
+              onClick={() =>
+                fetch("/api/logout", { method: "POST" })
+                  .then((response) => {
+                    mutate("api/user", null), router.push("/landing/login");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  })
+              }
             >
               <Container
                 className="d-flex justify-content-center align-items-center "
@@ -161,8 +168,4 @@ export default function ProfileButton() {
         </div>
       </div>
     );
-  else {
-    router.push("/landing/login");
-    return <> </>;
-  }
 }

@@ -49,7 +49,7 @@ export default function BorrowForm() {
                 <div
                     style={{
                         width: "403px",
-                        height: "85px",
+                        height: "60px",
                         background: "black",
                         borderRadius: "10px",
                         zIndex: "2",
@@ -62,7 +62,7 @@ export default function BorrowForm() {
                             fontWeight: "700",
                             color: "white",
                             textAlign: "center",
-                            top: "21px",
+                            top: "12px",
                             position: "relative",
                         }}
                     >
@@ -248,7 +248,7 @@ export default function BorrowForm() {
                                     className={montserrat.className}
                                     style={{
                                         width: "231px",
-                                        height: "76px",
+                                        height: "68px",
                                         borderRadius: "20px",
                                         position: "absolute",
                                         backgroundColor: "#44B8CB",

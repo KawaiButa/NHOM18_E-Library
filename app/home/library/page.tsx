@@ -18,28 +18,6 @@ export default function Home() {
   const [bookList, setBookList] = useState<ReactElement[]>([]);
   const { books } = useBook();
   useEffect(() => {
-    // BookGridView()
-    //   .then((response) => {
-    //     const data = response.data.data.doc;
-    //     const result: React.ReactElement[] = [];
-    //     for (let i = 0; i < data.length; i++) {
-    //       result.push(
-    //         <BookPreview
-    //           key={data[i].id}
-    //           bookID={data[i].id}
-    //           bookName={data[i].nameBook}
-    //           imgUrl={data[i].photoUrls[0]}
-    //           author={data[i].author}
-    //         />
-    //       );
-    //       console.log(data[i]);
-    //       setBookList(result);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setBookList([]);
-    //   });
     const result: React.ReactElement[] = [];
     books?.forEach((element) => {
       result.push(
@@ -54,39 +32,47 @@ export default function Home() {
     });
     setBookList(result);
   }, [books]);
-  return (
-    <main className="d-flex justify-content-center">
-      <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
-        <header
-          className="rounded"
-          style={{
-            width: "985px",
-            backgroundColor: "black",
-            paddingLeft: "52px",
-            color: "white",
-          }}
-        >
-          <h1
-            className={montserrat.className}
-            style={{ paddingTop: "5px", fontWeight: "700", fontSize: "45px" }}
+  if (books)
+    return (
+      <main className="d-flex justify-content-center">
+        <Stack direction="vertical" style={{ paddingLeft: "52px" }} gap={3}>
+          <header
+            className="rounded"
+            style={{
+              width: "985px",
+              backgroundColor: "black",
+              paddingLeft: "52px",
+              color: "white",
+            }}
           >
-            Book List
-          </h1>
-        </header>
-        <Stack direction="horizontal" gap={2}>
-          {prepareAlphabets()}
+            <h1
+              className={montserrat.className}
+              style={{ paddingTop: "5px", fontWeight: "700", fontSize: "35px" }}
+            >
+              Book List
+            </h1>
+          </header>
+          <Stack direction="horizontal" gap={2}>
+            {prepareAlphabets()}
+          </Stack>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))",
+              gridGap: "92px",
+              paddingLeft: "30px",
+            }}
+          >
+            {bookList}
+          </div>
         </Stack>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(0px, 147px))",
-            gridGap: "92px",
-            paddingLeft: "30px",
-          }}
-        >
-          {bookList}
-        </div>
-      </Stack>
+      </main>
+    );
+  return (
+    <main className="d-flex justify-content-center align-items-center" style={{width: "100%", height: "100%"}}>
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     </main>
   );
 }
