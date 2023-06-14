@@ -1,7 +1,9 @@
 "use client";
 import { Montserrat } from "next/font/google";
-import React4 from "react";
-
+import React from "react";
+import styles from "./forgetpassword.module.css";
+import { Alert } from "react-bootstrap";
+import axios from "axios";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
@@ -51,7 +53,23 @@ export default function FogetPassword() {
           }}
         >
           <div className="col-md-4">
-            <form>
+            <form
+              onSubmit={async function HandleSummitEvent(event) {
+                event.preventDefault();
+                const body = {
+                  email: event.currentTarget.email.value,
+                };
+                const response = await fetch("/api/forgetPassword", {
+                  method: "post",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(body),
+                });
+                if(response.status == 200)
+                  alert("A email has been sent to the email. Please check your mailbox")
+                else
+                alert("There are some error on the server side right now. Please try again in a few minutes")
+              }}
+            >
               <div className="form-group">
                 <div className="form-floating">
                   <input
