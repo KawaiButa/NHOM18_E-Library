@@ -15,6 +15,23 @@ export default function Login() {
     redirectTo: "/home",
     redirectIfFound: true,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const Loading = ({ child }) => {
+    if (isLoading) {
+      return (
+        <main
+          className="d-flex justify-content-center align-items-center"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </main>
+      );
+    } else {
+      return child;
+    }
+  };
   return (
     <>
       <main style={{ height: "650px" }}>
@@ -65,74 +82,83 @@ export default function Login() {
                   paddingBottom: "35px",
                 }}
               >
-                <Form
-                  style={{ width: "439px" }}
-                  onSubmit={async function HandleSummitEvent(event) {
-                    event.preventDefault();
-                    const body = {
-                      email: event.currentTarget.email.value,
-                      password: event.currentTarget.password.value,
-                    };
-                    try {
-                        mutateUser(await fetchJson("/api/login", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify(body),
-                        }))
-                    } catch (error) {
-                    }
-                  }}
-                >
-                  <Stack direction="vertical" gap={3}>
-                    <div className="form-group">
-                      <div className="form-floating">
-                        <input
-                          type="email"
-                          className={`${montserrat.className} form-control`}
-                          id="email"
-                          placeholder="Email"
-                        />
-                        <label className={montserrat.className}>Email</label>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="form-floating">
-                        <input
-                          type="password"
-                          className={`${montserrat.className} form-control`}
-                          id="password"
-                          placeholder="Password"
-                        />
-                        <label className={montserrat.className}>Password</label>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <a
-                        href="/landing/forgetpassword"
-                        style={{
-                          textDecoration: "none",
-                        }}
-                        className={montserrat.className}
-                      >
-                        Forgot password?
-                      </a>
-                    </div>
-                    <Button
-                      type="submit"
-                      className={`${montserrat.className} btn btn-info btn-block`}
-                      //href="/home"
-                      style={{
-                        color: "white",
-                        borderRadius: "30px",
-                        fontWeight: "600",
-                        fontSize: "20px",
-                        height: "45px",
+                {Loading({
+                  child: (
+                    <Form
+                      style={{ width: "439px" }}
+                      onSubmit={async function HandleSummitEvent(event) {
+                        event.preventDefault();
+                        setIsLoading(true);
+                        const body = {
+                          email: event.currentTarget.email.value,
+                          password: event.currentTarget.password.value,
+                        };
+                        try {
+                          mutateUser(
+                            await fetchJson("/api/login", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify(body),
+                            })
+                          );
+                        } catch (error) {setIsLoading(false);}
                       }}
                     >
-                      Login in
-                    </Button>
-                  </Stack>
-                </Form>
+                      <Stack direction="vertical" gap={3}>
+                        <div className="form-group">
+                          <div className="form-floating">
+                            <input
+                              type="email"
+                              className={`${montserrat.className} form-control`}
+                              id="email"
+                              placeholder="Email"
+                            />
+                            <label className={montserrat.className}>
+                              Email
+                            </label>
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <div className="form-floating">
+                            <input
+                              type="password"
+                              className={`${montserrat.className} form-control`}
+                              id="password"
+                              placeholder="Password"
+                            />
+                            <label className={montserrat.className}>
+                              Password
+                            </label>
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <a
+                            href="/landing/forgetpassword"
+                            style={{
+                              textDecoration: "none",
+                            }}
+                            className={montserrat.className}
+                          >
+                            Forgot password?
+                          </a>
+                        </div>
+                        <Button
+                          type="submit"
+                          className={`${montserrat.className} btn btn-info btn-block`}
+                          style={{
+                            color: "white",
+                            borderRadius: "30px",
+                            fontWeight: "600",
+                            fontSize: "20px",
+                            height: "45px",
+                          }}
+                        >
+                          Login in
+                        </Button>
+                      </Stack>
+                    </Form>
+                  ),
+                })}
               </Card.Body>
               <Card.Footer
                 className="d-flex justify-content-center align-items-center "

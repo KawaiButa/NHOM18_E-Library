@@ -20,7 +20,7 @@ export async function GET(req:NextRequest){
         var result: Book[] = []
         const data = response.data.data.doc;
         data.forEach(element => {
-            result.push(new Book(element._id, element.nameBook, element.author, element.photoUrls[0]))
+            result.push(new Book(element._id, element.nameBook, element.author, element.photoUrls[0], element.numberOfBooks))
         });
         return NextResponse.json(result,{status: 200, statusText:"OK"});
     }

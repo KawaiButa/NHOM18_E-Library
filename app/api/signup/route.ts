@@ -2,13 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: NextRequest) {
-    let data = JSON.stringify({
-        "firstName": "Phap",
-        "lastName": "Nguyen",
-        "email": "nh151700@gmail.com",
-        "password": "12345678910",
-        "passwordConfirm": "12345678910"
-    });
+    let data = await req.json()
 
     let config = {
         method: 'post',
@@ -17,15 +11,18 @@ export async function POST(req: NextRequest) {
         headers: {
             'Content-Type': 'application/json'
         },
-        data: data
+        data: data.body
     };
 
-    const response = await axios.request(config)
-    if (response.status == 201)
-        return NextResponse.json(response.data, {
-            status: 200,
-            headers: { 'Set-Cookie': `token=${response.data.token}` },
-        });
-    else
-        return NextResponse.json(undefined, { status: response.status, statusText: response.statusText })
+    const res = await axios.request(config).then((response) => {
+        if (response.status == 201)
+            return NextResponse.json(response, {
+                status: 200,
+                headers: { 'Set-Cookie': `token=${response.data.token}` },
+            })
+        else
+            return NextResponse.json(undefined, { status: response.status, statusText: response.statusText });
+    }).catch((error) => new NextResponse(error.response.data.message, { status: 409, statusText: "Conflict" }))
+    return res;
+
 }

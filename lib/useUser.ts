@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react'
 export default function useUser({
   redirectTo = '',
   redirectIfFound = false,
+  backwardIfFound = true,
 } = {}) {
   const router = useRouter()
   const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {router.push("/landing/login")});
@@ -27,6 +28,10 @@ export default function useUser({
       (redirectIfFound && user)
     ) {
       router.push(redirectTo)
+    }
+    if(backwardIfFound && user)
+    {
+      router.back()
     }
   }, [user, redirectIfFound, redirectTo])
 
