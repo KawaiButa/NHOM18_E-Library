@@ -1,4 +1,5 @@
 import { Montserrat, Roboto } from "next/font/google";
+import { after } from "node:test";
 import React, { useEffect, useState } from "react";
 import {
     Button,
@@ -12,6 +13,7 @@ import {
     Stack,
     InputGroup,
     Table,
+    Dropdown,
 } from "react-bootstrap";
 
 const roboto = Roboto({
@@ -25,10 +27,17 @@ const montserrat = Montserrat({
 });
 
 export default function SearchBar() {
+    const [selectedItems, setSelectedItems] = useState([]);
+
     return (
         <>
-            <Container>
-                <div className="d-flex">
+            <style>{`
+        .dropdown-toggle::after {
+          display: none !important;
+        }
+      `}</style>
+            <Container style={{ height: "180px" }}>
+                <div className="d-flex justify-content-center">
                     <div
                         className="mb-3 d-flex"
                         style={{
@@ -41,7 +50,7 @@ export default function SearchBar() {
                     >
                         <Image
                             src="/Search.png"
-                            alt="union"
+                            alt="search"
                             style={{
                                 width: "17px",
                                 height: "17px",
@@ -66,19 +75,46 @@ export default function SearchBar() {
                                 fontSize: "14px",
                             }}
                         />
-                        <Button
-                            variant="primary"
-                            style={{
-                                borderRadius: "16px",
-                                position: "relative",
-                            }}
-                        >
-                            <Image
-                                src="/Union.png"
-                                alt="union"
-                                style={{ width: "12px", height: "15px" }}
-                            />
-                        </Button>
+                        <Dropdown autoClose="outside">
+                            <Dropdown.Toggle
+                                variant="primary"
+                                id="dropdown-checkbox"
+                                style={{
+                                    borderRadius: "16px",
+                                }}
+                            >
+                                <Image
+                                    src="/Union.png"
+                                    alt="union"
+                                    style={{
+                                        width: "12px",
+                                        height: "15px",
+                                        marginRight: "2px",
+                                        zIndex: "2",
+                                    }}
+                                />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu
+                                className="custom-dropdown-menu"
+                                style={{ fontSize: "15px" }}
+                            >
+                                <Dropdown.ItemText>
+                                    Search with:
+                                </Dropdown.ItemText>
+                                <Dropdown.Item>
+                                    <input type="checkbox" />
+                                    <span>User ID</span>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <input type="checkbox" />
+                                    <span>Borrow Card ID</span>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <input type="checkbox" />
+                                    <span>Admin ID</span>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
 
                     <Button
@@ -104,48 +140,6 @@ export default function SearchBar() {
                             All
                         </p>
                     </Button>
-                </div>
-                <div
-                    className="mt-3 d-flex"
-                    style={{
-                        width: "170px",
-                        height: "38px",
-                        borderRadius: "12px",
-                        overflow: "hidden",
-                        background: "#3E60F9",
-                    }}
-                >
-                    <FormControl
-                        style={{
-                            width: "160px",
-                            color: "white",
-                            background: "#3E60F9",
-                            borderColor: "#3E60F9",
-                            position: "relative",
-                            left: "10px",
-                            top: "1px",
-                            fontSize: "14px",
-                        }}
-                        as="select"
-                    >
-                        <option value="" disabled hidden>
-                            Search with
-                        </option>
-                        <option>User ID</option>
-                        <option>Borrow Card ID</option>
-                    </FormControl>
-                    <Image
-                        src="/drop.png"
-                        style={{
-                            width: "15px",
-                            height: "8px",
-                            position: "relative",
-                            top: "16px",
-                            right: "15px",
-                            zIndex: "1",
-                            pointerEvents: "none",
-                        }}
-                    />
                 </div>
             </Container>
         </>
