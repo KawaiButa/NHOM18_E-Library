@@ -44,6 +44,8 @@ export default function SearchBar() {
         .dropdown-toggle::after {
           display: none !important;
         }
+        
+       
       `}</style>
             <Container style={{ height: "180px" }}>
                 <div className="d-flex justify-content-center">
@@ -90,6 +92,8 @@ export default function SearchBar() {
                                 id="dropdown-checkbox"
                                 style={{
                                     borderRadius: "16px",
+                                    background: "#44B8CB",
+                                    borderColor: "#44B8CB",
                                 }}
                             >
                                 <Image
@@ -116,6 +120,7 @@ export default function SearchBar() {
                                             marginBottom: "5px",
                                             marginLeft: "15px",
                                         }}
+                                        color="#44B8CB"
                                         key={index}
                                         type="switch"
                                         id={`checkbox-${index}`}
@@ -138,6 +143,8 @@ export default function SearchBar() {
                             width: "78px",
                             height: "38px",
                             left: "40px",
+                            background: "#44B8CB",
+                            borderColor: "#44B8CB",
                         }}
                     >
                         <p
