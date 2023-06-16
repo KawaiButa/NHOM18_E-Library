@@ -27,8 +27,17 @@ const montserrat = Montserrat({
 });
 
 export default function SearchBar() {
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [checkboxes, setCheckboxes] = useState([
+        { label: "User ID", checked: false },
+        { label: "Borrow Book ID", checked: false },
+        { label: "Admin ID", checked: false },
+    ]);
 
+    const handleCheckboxChange = (index) => {
+        const updatedCheckboxes = [...checkboxes];
+        updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+        setCheckboxes(updatedCheckboxes);
+    };
     return (
         <>
             <style>{`
@@ -95,24 +104,28 @@ export default function SearchBar() {
                                 />
                             </Dropdown.Toggle>
                             <Dropdown.Menu
-                                className="custom-dropdown-menu"
-                                style={{ fontSize: "15px" }}
+                                className={montserrat.className}
+                                style={{ width: "200px" }}
                             >
                                 <Dropdown.ItemText>
                                     Search with:
                                 </Dropdown.ItemText>
-                                <Dropdown.Item>
-                                    <input type="checkbox" />
-                                    <span>User ID</span>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <input type="checkbox" />
-                                    <span>Borrow Card ID</span>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <input type="checkbox" />
-                                    <span>Admin ID</span>
-                                </Dropdown.Item>
+                                {checkboxes.map((checkbox, index) => (
+                                    <Form.Check
+                                        style={{
+                                            marginBottom: "5px",
+                                            marginLeft: "15px",
+                                        }}
+                                        key={index}
+                                        type="switch"
+                                        id={`checkbox-${index}`}
+                                        label={checkbox.label}
+                                        checked={checkbox.checked}
+                                        onChange={() =>
+                                            handleCheckboxChange(index)
+                                        }
+                                    />
+                                ))}
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
