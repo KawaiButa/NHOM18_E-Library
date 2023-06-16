@@ -14,10 +14,11 @@ import ReturnCard from "./components/returnCard";
 import ReturnListCard from "./components/returnListCard";
 import FeeListCard from "./components/feeListCard";
 import RemindListCard from "./components/remindListCard";
+import BookList from "./components/bookList";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <RemindListCard />
+            <BookList />
         </main>
     );
 }
