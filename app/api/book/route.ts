@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     var result: Book[] = []
     const data = response.data.data.doc;
     data.forEach(element => {
-      result.push(new Book(element._id, element.nameBook, element.author, element.photoUrls[0], element.numberOfBooks))
+      result.push(new Book(element._id, element.nameBook, element.author, element.photoUrls[0], element.publisher, element.numberOfBooks))
     });
     return NextResponse.json(result, { status: 200, statusText: "OK" });
   }
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       .then((response) => {
         if (response.status == 201) {
           const data = response.data.data.doc
-          const book = new Book(data._id, data.nameBook,data.author,data.photoUrls[0],data.numberOfBooks)
+          const book = new Book(data._id, data.nameBook,data.author,data.photoUrls[0], data.publisher,data.numberOfBooks)
           return NextResponse.json(book, { status: 200, statusText: "Success" })
         }
         else
