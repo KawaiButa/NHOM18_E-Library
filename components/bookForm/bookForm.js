@@ -1,19 +1,44 @@
 "use client";
 import axios from "axios";
 import { Montserrat, Roboto } from "next/font/google";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormData from "form-data";
 import { Col, Container, Form, FormControl, Row } from "react-bootstrap";
-import BookAPI from "../../../../endpoint/bookAPI";
-
+import { useRouter } from "next/navigation";
+import BookAPI from "../../endpoint/bookAPI";
+import Book from "../../models/Book";
 const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["vietnamese"],
   style: "normal",
 });
 
-export default function AddBook() {
+export default function BookForm({ id }) {
   const [img, setImg] = useState(null);
+  const router = useRouter();
+  useEffect(() => {
+    if (id) {
+      axios
+        .get("/api/book/" + id, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          document
+            .getElementById("bookTitle")
+            .setAttribute("defaultValue", data.name);
+          document.getElementById("bookTitle").setAttribute("disabled", true)
+          document.getElementById("author").setAttribute("defaultValue", data.author)
+        })
+        .catch((error) => {
+          alert(error.response.data);
+          router.back();
+        });
+    }
+  }, []);
   return (
     <main>
       <Container
@@ -45,11 +70,11 @@ export default function AddBook() {
               })
               .then((response) => {
                 if (response.status == 200) {
-                  return response
-                } else{
+                  return response;
+                } else {
                   alert(response.data);
-                  return response
-                } 
+                  return response;
+                }
               })
               .catch((error) => {
                 alert(error.response.data);

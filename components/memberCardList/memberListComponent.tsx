@@ -273,6 +273,7 @@ export default function MemberListCard() {
           <CloseButton onClick={closeModal}></CloseButton>
         </Modal.Header>
         <Modal.Body
+        id="modalBody"
           style={{
             borderBottomWidth: "2px",
             paddingLeft: "15px",
@@ -307,6 +308,14 @@ export default function MemberListCard() {
                 borderRadius: "30px",
               }}
               onClick={async function HandleSummitEvent(event) {
+                const element = document.getElementById("modalBody");
+                element?.replaceChildren();
+                var child1 = document.createElement("div");
+                child1.className = "spinner-border";
+                var child2 = document.createElement("div");
+                child2.className = "justify-content-center align-items-center";
+                child2.append(child1);
+                element?.append(child2);
                 event.preventDefault();
                 const response = await fetch(
                   "/api/reader/" + readers?.at(index)?.readerId,

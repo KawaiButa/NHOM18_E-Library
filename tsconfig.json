@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     "app/home/detail.jsx"
-, "components/borrowForm/borrowForm.js", "app/home/book/add/page.jsx"  ],
+, "components/borrowForm/borrowForm.js", "app/home/book/add/page.tsx", "components/bookForm/bookForm.tsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -31,7 +31,10 @@ const montserrat = Montserrat({
 export default function BorrowCardDetail({ id }) {
     const [modal, setModal] = useState(false);
     const [bookList, setBookList] = useState(new Array<React.ReactElement>());
-    const openModal = () => setModal(true);
+    const openModal = () => {
+        document.getElementById("cancelButton")?.focus();
+        setModal(true);
+    }
     const closeModal = () => setModal(false);
     const [index, setIndex] = useState(-1);
     const router = useRouter();
@@ -429,6 +432,7 @@ export default function BorrowCardDetail({ id }) {
                                     borderRadius: "30px",
                                 }}
                                 onClick={closeModal}
+                                id="cancelButton"
                             >
                                 <p
                                     className={montserrat.className}
