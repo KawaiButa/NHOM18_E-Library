@@ -1,7 +1,9 @@
 "use client";
+import axios from "axios";
 import { Montserrat, Roboto } from "next/font/google";
 import React from "react";
-import { Container, Form, FormControl } from "react-bootstrap";
+import FormData from "form-data";
+import { Col, Container, Form, FormControl, Row } from "react-bootstrap";
 
 const montserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -25,10 +27,60 @@ export default function AddBook() {
           paddingRight: "100px ",
         }}
       >
-        <Form>
+        <Form
+          onSubmit={async function HandleSummitEvent(event) {
+            event.preventDefault();
+            const body = {
+              nameBook: event.currentTarget.bookTitle.value,
+              typeBook: "test",
+              author: event.currentTarget.author.value,
+              publicationYear: event.currentTarget.year.value,
+              publisher: event.currentTarget.publisher.value,
+              price: event.currentTarget.price.value,
+              description: event.currentTarget.description.value,
+              numberOfBooks: event.currentTarget.amount.value,
+            };
+            axios
+              .post("/api/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+              })
+              .then((response) => {
+                if (response.status == 200) {
+                  const book = response.data;
+                  console.log(book);
+                  const data = new FormData();
+                  console.log(data);
+                  data.append(
+                    "photos",
+                    event.currentTarget.coverImage.files[0]
+                  );
+                  axios
+                    .patch("/api/book/" + book.id, data, {
+                      method: "PATCH",
+                      headers: {
+                        "Content-Type": `multipart/form-data`,
+                      },
+                    })
+                    .then((response) => {
+                      alert("Add book successfully");
+                    })
+                    .catch((error) => alert(error.response.data));
+                } else alert(response.data);
+              })
+              .catch((error) => {
+                alert(error.response.data);
+              });
+          }}
+        >
           <div className="form-group">
             <label className={montserrat.className}>Title:</label>
-            <FormControl type="text" id="title" style={{ marginTop: "10px" }} />
+            <FormControl
+              type="text"
+              id="bookTitle"
+              style={{ marginTop: "10px" }}
+            />
           </div>
           <div className="form-group" style={{ marginTop: "20px" }}>
             <label className={montserrat.className}>Author:</label>
@@ -57,32 +109,22 @@ export default function AddBook() {
             />
           </div>
           <div className="form-group" style={{ marginTop: "20px" }}>
-            <label className={montserrat.className}>Publish Date:</label>
             <div className="row" style={{ marginTop: "10px" }}>
-              <div className="col">
+              <Col xs={10}>
+                <label className={montserrat.className}>Publish Date:</label>
                 <input
                   type="text"
                   className="form-control"
                   id="year"
                   placeholder="Year"
                 />
-              </div>
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="month"
-                  placeholder="Month"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="day"
-                  placeholder="Day"
-                />
-              </div>
+              </Col>
+              <Col xs={2}>
+                <div className="form-group">
+                  <label className={montserrat.className}>Amount:</label>
+                  <input type="number" className="form-control" id="amount" />
+                </div>
+              </Col>
             </div>
           </div>
           <div className="row" style={{ marginTop: "20px" }}>
@@ -104,7 +146,7 @@ export default function AddBook() {
                 <input
                   type="file"
                   className="form-control-file"
-                  id="cover-image"
+                  id="coverImage"
                 />
               </div>
             </div>

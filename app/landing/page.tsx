@@ -63,7 +63,7 @@ export default function Landing() {
                     color: "white",
                     maxWidth: "100%",
                   }}
-                  href="landing/login"
+                  href="/home"
                 >
                   Get Started
                 </Button>

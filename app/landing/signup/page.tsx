@@ -4,6 +4,7 @@ import React from "react";
 import useUser from "../../../lib/useUser";
 import fetchJson from "../../../lib/fetchJson";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -65,16 +66,16 @@ export default function SignUp() {
                     firstName: event.currentTarget.firstName.value,
                     lastName: event.currentTarget.lastName.value,
                     email: event.currentTarget.email.value,
-                    password: event.currentTarget.email.value,
+                    password: event.currentTarget.password.value,
                     passwordConfirm: event.currentTarget.password.value,
                   };
-                  await fetchJson("/api/signup", {
+                  await axios.post("/api/signup", {
                     method: "post",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body),
                   })
                     .then((response) => router.push("/landing/login"))
-                    .catch((error) => console.log(error));
+                    .catch((error) => {alert(error.response.data)});
                 }}
               >
                 <div className="row mb-3">

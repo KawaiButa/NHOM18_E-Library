@@ -68,13 +68,17 @@ export default function Home() {
         </Stack>
       </main>
     );
-  return (
-    <main className="d-flex justify-content-center align-items-center" style={{width: "100%", height: "100%"}}>
-      <div className="spinner-border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </main>
-  );
+  else
+    return (
+      <main
+        className="d-flex justify-content-center align-items-center"
+        style={{ width: "100%", height: "100%" }}
+      >
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </main>
+    );
 }
 
 const prepareAlphabets = () => {
@@ -98,14 +102,3 @@ const prepareAlphabets = () => {
   }
   return result;
 };
-
-function BookGridView(): Promise<any> {
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: BookAPI.allEndpoint,
-    headers: {},
-  };
-
-  return axios.request(config);
-}

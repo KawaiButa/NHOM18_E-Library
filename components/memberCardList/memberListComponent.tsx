@@ -14,6 +14,10 @@ import {
   Table,
 } from "react-bootstrap";
 import styles from "./memberListCard.module.css";
+import useReader from "../../lib/useReader";
+import { mutate } from "swr";
+import { fetchData } from "next-auth/client/_utils";
+import fetchJson from "../../lib/fetchJson";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -23,12 +27,102 @@ const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["latin"],
 });
-export default function MemberListCard({ onAdd }) {
-  const [memberList, setMemberList] = useState({});
+export default function MemberListCard() {
+  const { readers, mutateReader } = useReader();
   const [modal, setModal] = useState(false);
-
-  const openModal = () => setModal(true);
+  const [memberList, setMemberList] = useState(new Array<React.ReactElement>());
+  const [index, setIndex] = useState(0);
+  const memberTable = () => {
+    if (readers)
+      return (
+        <Table
+          responsive
+          striped
+          hover
+          style={{ marginTop: "48px", borderBottomColor: "#D9D9D9" }}
+        >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Reader type</th>
+              <th>Address</th>
+              <th>Member date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>{memberList}</tbody>
+        </Table>
+      );
+    else
+      return (
+        <main
+          className="d-flex justify-content-center align-items-center"
+          style={{ width: "100%", height: "40%" }}
+        >
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </main>
+      );
+  };
+  const openModal = () => {
+    setModal(true);
+  };
   const closeModal = () => setModal(false);
+  useEffect(() => {
+    const result: React.ReactElement[] = [];
+    if (readers) {
+      readers.forEach((element, index) => {
+        result.push(
+          <tr>
+            <td>{index + 1}</td>
+            <td>{element.name}</td>
+            <td>{element.readerType}</td>
+            <td>{element.address}</td>
+            <td>{element.memberDate}</td>
+            <td>
+              <Button
+                style={{
+                  width: "27px",
+                  height: "27px",
+                  padding: "0px",
+                  marginTop: "0px",
+                  borderWidth: "0px",
+                  marginRight: "10px",
+                  backgroundColor: "transparent",
+                }}
+                href={"/home/member/" + element.readerId}
+              >
+                <Image src="/icon_edit.png" alt="delete" />
+              </Button>
+              <button
+                className={styles.button}
+                style={{
+                  width: "27px",
+                  height: "27px",
+                  borderWidth: "0px",
+                  backgroundColor: "transparent",
+                }}
+                onClick={(event) => {
+                  const index =
+                    event.currentTarget.parentElement?.parentElement?.firstChild
+                      ?.textContent;
+                  var string;
+                  if (index) string = Number.parseInt(index) - 1;
+                  setIndex(string);
+                  openModal();
+                }}
+              >
+                <Image src="/icon_delete.png" alt="delete" />
+              </button>
+            </td>
+          </tr>
+        );
+      });
+      setMemberList(result);
+    }
+  }, [readers]);
   return (
     <>
       <Card style={{ width: "1055px", height: "868px" }}>
@@ -58,7 +152,7 @@ export default function MemberListCard({ onAdd }) {
                 borderWidth: "0px",
                 borderRadius: "30px",
               }}
-              onClick={onAdd}
+              href="/home/member/undefined"
             >
               <p
                 className={montserrat.className}
@@ -164,83 +258,7 @@ export default function MemberListCard({ onAdd }) {
               </Col>
             </Stack>
           </Stack>
-          <Table
-            responsive
-            striped
-            hover
-            style={{ marginTop: "48px", borderBottomColor: "#D9D9D9" }}
-          >
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Member ID</th>
-                <th>Name</th>
-                <th>Reader type</th>
-                <th>Address</th>
-                <th>Member date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>2</td>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <td key={index}>Table cell {index}</td>
-                ))}
-                <td>
-                  <button
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      marginRight: "13px",
-                      borderWidth: "0px",
-                    }}
-                  >
-                    <Image src="/icon_edit.png" alt="delete" />
-                  </button>
-                  <button
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      borderWidth: "0px",
-                    }}
-                    onClick={openModal}
-                  >
-                    <Image src="/icon_delete.png" alt="delete" />
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <td key={index}>Table cell {index}</td>
-                ))}
-                <td>
-                  <button
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      marginRight: "13px",
-                      borderWidth: "0px",
-                    }}
-                  >
-                    <Image src="/icon_edit.png" alt="delete" />
-                  </button>
-                  <button
-                    className={styles.button}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      borderWidth: "0px",
-                    }}
-                    onClick={openModal}
-                  >
-                    <Image src="/icon_delete.png" alt="delete" />
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
+          {memberTable()}
         </Card.Body>
       </Card>
       <Modal show={modal} size="lg" style={{}}>
@@ -262,10 +280,19 @@ export default function MemberListCard({ onAdd }) {
           }}
         >
           <p
+            id="deleteInform"
             className={roboto.className}
             style={{ fontSize: "20px", fontWeight: "300" }}
           >
-            You want to delete member with ID: 21522007
+            {"Do you want to delete reader with name: " +
+              readers?.at(index)?.name}
+          </p>
+          <p
+            id="deleteInform"
+            className={roboto.className}
+            style={{ fontSize: "20px", fontWeight: "300" }}
+          >
+            {"ID: " + readers?.at(index)?.readerId}
           </p>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-end">
@@ -278,6 +305,29 @@ export default function MemberListCard({ onAdd }) {
                 backgroundColor: "#CE433F",
                 borderWidth: "0px",
                 borderRadius: "30px",
+              }}
+              onClick={async function HandleSummitEvent(event) {
+                event.preventDefault();
+                const response = await fetch(
+                  "/api/reader/" + readers?.at(index)?.readerId,
+                  {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                  }
+                );
+                if (response.status == 200) {
+                  closeModal();
+                  await mutateReader(
+                    await fetchJson("/api/reader", {
+                      method: "GET",
+                      headers: { "Content-Type": "application/json" },
+                    })
+                  );
+                } else {
+                  alert(
+                    "There is a problem with server.\nPlease try again in a few seconds"
+                  );
+                }
               }}
             >
               <p
@@ -320,38 +370,4 @@ export default function MemberListCard({ onAdd }) {
       </Modal>
     </>
   );
-  const tableRow = (id, user) => {
-    return (
-      <tr>
-        <td>{id}</td>
-        <td>{user.id}</td>
-        <td>{user.name}</td>
-        <td>{user.readerType}</td>
-        <td>{user.address}</td>
-        <td>{user.memberDate}</td>
-        <td>
-          <button
-            style={{
-              width: "27px",
-              height: "27px",
-              marginRight: "13px",
-              borderWidth: "0px",
-            }}
-          >
-            <Image src="/icon_edit.png" alt="delete" />
-          </button>
-          <button
-            style={{
-              width: "27px",
-              height: "27px",
-              borderWidth: "0px",
-            }}
-            onClick={openModal}
-          >
-            <Image src="/icon_delete.png" alt="delete" />
-          </button>
-        </td>
-      </tr>
-    );
-  };
 }
