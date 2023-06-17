@@ -8,7 +8,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const token = req.cookies.get("token")?.value;
     if (token) {
         const data = await req.formData()
-        console.log(data)
+        //console.log(data)
         const res = axios.patch(BookAPI.oneBookEndpoint + params.id, data, {
             method: "PATCH",
             headers: {
