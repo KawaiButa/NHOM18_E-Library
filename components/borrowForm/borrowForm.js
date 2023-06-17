@@ -16,27 +16,37 @@ import { Montserrat } from "next/font/google";
 import useBook from "../../lib/useBook";
 import useUser from "../../lib/useUser";
 import styles from "./borrowForm.module.css";
+import axios from "axios";
+import useReader from "../../lib/useReader";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["vietnamese"],
 });
-export default function BorrowForm() {
+export default function BorrowForm({ id }) {
   const { user } = useUser();
   const { books } = useBook();
-  
+  const { readers } = useReader();
   const [count, setCount] = useState(1);
-  const [borrowBook,setBorrowBook] = useState([]);
+  const [borrowBook, setBorrowBook] = useState([]);
   const [borrowBookList, setBorrowBookList] = useState([]);
-  const [maxBook,setMaxBook] = useState([]);
+  const [maxBook, setMaxBook] = useState([]);
+  const router = useRouter();
   const bookTable = () => {
     const result = [];
-    console.log(borrowBook)
-    borrowBook.forEach((element,index) => {
-        result.push(<tr><td>{index + 1}</td><td>{element.name}</td><td>{element.amount}</td></tr>);
+    console.log(borrowBook);
+    borrowBook.forEach((element, index) => {
+      result.push(
+        <tr>
+          <td>{index + 1}</td>
+          <td>{element.name}</td>
+          <td>{element.quantity}</td>
+        </tr>
+      );
     });
     setBorrowBookList(result);
-  }
+  };
   useEffect(() => {
     var list = document.getElementById("book");
     list?.replaceChildren([]);
@@ -46,12 +56,42 @@ export default function BorrowForm() {
       option.id = element.id;
       list?.appendChild(option);
     });
+    readers?.forEach((element) => {
+      var option = document.createElement("option");
+      option.value = element.name;
+      option.id = element.id;
+    });
     var memberName = document.getElementById("memberName");
-    if (memberName) memberName.value = user?.name;
+    if (memberName && !id) memberName.value = user?.name;
     var amount = document.getElementById("amount");
     if (amount) amount.value = count + "/" + maxBook;
-  }, [books, user, count, maxBook]);
-  if (books && user)
+    if (id) {
+      axios
+        .get("/api/borrow/" + id, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          setBorrowBook(data.books);
+          bookTable()
+          console.log(response)
+          var memberName = document.getElementById("memberName");
+          if (memberName) {
+            memberName.value =
+              data.borrower.firstName + " " + data.borrower.lastName;
+            memberName.disabled = true;
+          }
+        })
+        .catch((error) => {
+          alert(error.response.data);
+          router.back();
+        });
+    }
+  }, [books, user, count, maxBook, readers]);
+  if (books && user && readers)
     return (
       <>
         <Row
@@ -98,11 +138,39 @@ export default function BorrowForm() {
             }}
           >
             <Form
+              id="form"
               style={{
                 width: "860px",
                 alignSelf: "center",
                 position: "relative",
                 top: "70px",
+              }}
+              onSubmit={async function HandleSubmit(event) {
+                event.preventDefault();
+                const temp = [];
+                borrowBook.map((value, index) =>
+                  temp.push({ bookId: value.id, quantity: value.amount })
+                );
+                const body = {
+                  books: temp,
+                };
+                axios
+                  .post("/api/borrow", {
+                    method: "POST",
+                    headers: { "Content-type": "application/json" },
+                    body: JSON.stringify(body),
+                  })
+                  .then((response) => {
+                    if (response.status == 200)
+                      alert("Created borrow-book card successfully");
+                    else
+                      alert(
+                        "There is a error on the server. Please try again in a few second"
+                      );
+                  })
+                  .catch((error) => {
+                    alert(error.response.data);
+                  });
               }}
             >
               <Stack gap={5}>
@@ -139,19 +207,17 @@ export default function BorrowForm() {
                             var flag = false;
                             for (let index = 0; index < books.length; index++) {
                               const element = books[index];
-                              console.log(event.currentTarget.value)
-                              if(element.name == event.currentTarget.value)
-                              {
+                              console.log(event.currentTarget.value);
+                              if (element.name == event.currentTarget.value) {
                                 setMaxBook(element.numberOfBooks);
-                                setCount(1)
+                                setCount(1);
                                 flag = true;
                                 break;
                               }
                             }
-                            if(!flag)
-                            {
-                              setCount(0)
-                              setMaxBook("0")
+                            if (!flag) {
+                              setCount(0);
+                              setMaxBook("0");
                             }
                           }}
                         ></Form.Control>
@@ -190,7 +256,9 @@ export default function BorrowForm() {
                               position: "relative",
                               height: "20px",
                             }}
-                            onClick={() => {if(count != maxBook) setCount(count + 1);}}
+                            onClick={() => {
+                              if (count != maxBook) setCount(count + 1);
+                            }}
                           ></Image>
                           <Image
                             src="/down.png"
@@ -201,7 +269,9 @@ export default function BorrowForm() {
                               position: "relative",
                               height: "20px",
                             }}
-                            onClick={() => {if(count != 0) setCount(count - 1)}}
+                            onClick={() => {
+                              if (count != 0) setCount(count - 1);
+                            }}
                           ></Image>
                         </Stack>
                       </Stack>
@@ -233,8 +303,8 @@ export default function BorrowForm() {
                       }
                       for (let index = 0; index < borrowBook.length; index++) {
                         const element = borrowBook[index];
-                        console.log(option)
-                        console.log(element)
+                        console.log(option);
+                        console.log(element);
                         if (option.id == element.id) {
                           borrowBook.splice(index, 1);
                           break;
@@ -245,7 +315,7 @@ export default function BorrowForm() {
                         borrowBook.push({
                           id: option.id,
                           name: option.name,
-                          amount: count,
+                          quantity: count,
                         });
                         bookTable();
                       }
@@ -261,7 +331,12 @@ export default function BorrowForm() {
                       <Form.Label className={montserrat.className}>
                         Book order list
                       </Form.Label>
-                      <table className={`${styles.tableFixed} table`} onSelect={(event)=>{console.log(event.currentTarget)}}>
+                      <table
+                        className={`${styles.tableFixed} table`}
+                        onSelect={(event) => {
+                          console.log(event.currentTarget);
+                        }}
+                      >
                         <thead>
                           <tr>
                             <th class="col-xs-3">STT</th>
@@ -286,7 +361,12 @@ export default function BorrowForm() {
                       background: "#D9D9D9",
                       borderColor: "#D9D9D9",
                     }}
-                    onClick={() => {var temp = [...borrowBook]; temp.pop();setBorrowBook(temp); bookTable()}}
+                    onClick={() => {
+                      var temp = [...borrowBook];
+                      temp.pop();
+                      setBorrowBook(temp);
+                      bookTable();
+                    }}
                   >
                     Undo
                   </Button>
@@ -294,6 +374,7 @@ export default function BorrowForm() {
 
                 <Container className="d-flex justify-content-center">
                   <Button
+                    type="submit"
                     className={montserrat.className}
                     style={{
                       width: "231px",

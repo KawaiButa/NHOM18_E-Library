@@ -39,9 +39,7 @@ type Book = {
   description: string;
   ratingsAverage: string;
 };
-export default function BookTag() {
-  const search = useSearchParams();
-
+export default function BookTag({id}) {
   const [book, setBook] = useState({
     id: "",
     name: "",
@@ -60,7 +58,7 @@ export default function BookTag() {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: BookAPI.oneBookEndpoint + search.get("bookId"),
+      url: BookAPI.oneBookEndpoint + id,
       headers: {
         Authorization: "Bearer {{jwt}}",
       },

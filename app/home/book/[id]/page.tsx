@@ -9,13 +9,12 @@ const montserrat = Montserrat({
   style: "normal",
   subsets: ["vietnamese"],
 });
-export default function BookDetail() {
+export default function BookDetail({ params }: { params: { id: string } }) {
   const route = useRouter();
   return (
     <Container
       fluid
       className="d-flex justify-content-center align-items-start flex-column"
-      style={{ marginLeft: "80px" }}
     >
       <Button
         className= {montserrat.className}
@@ -33,7 +32,7 @@ export default function BookDetail() {
       >
         Back
       </Button>
-      <BookTag></BookTag>
+      <BookTag id = {params.id}></BookTag>
     </Container>
   );
 }

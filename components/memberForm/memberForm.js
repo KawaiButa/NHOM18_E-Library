@@ -16,34 +16,36 @@ const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["vietnamese"],
 });
-export default function MemberForm({readerID}) {
+export default function MemberForm({ readerID }) {
   const [imgUrl, setImgUrl] = useState("#");
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {async function onCreate() {
-    if(readerID && readerID != "undefined")
-    {
-        const res = await axios.get("/api/reader/" + readerID,  {
+  useEffect(() => {
+    async function onCreate() {
+      if (readerID && readerID != "undefined") {
+        const res = await axios.get("/api/reader/" + readerID, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-        })
-        if(res.status == 200)
-        {
-          const data = res.data
-          console.log(data)
-          document.getElementById("fullName").value = data.fullName;
+        });
+        if (res.status == 200) {
+          console.log(res);
+          const data = res.data;
+          document.getElementById("email").value = data.email;
+          document.getElementById("fullName").value = data.name;
           document.getElementById("readerType").value = data.readerType;
           document.getElementById("address").value = data.address;
-          document.getElementById("dateOfBirth").value = data.dateOfBirth;
-          document.getElementById("memberDate").value = date.cardCreatedAt;
+          document.getElementById("dateOfBirth").value = String(
+            data.dateOfBirth
+          ).substring(0, 10);
+          document.getElementById("memberID").value = data.readerId;
           document.getElementById("memberDate").style.visibility = "visible";
-          document.getElementById("email").value = data.email; 
-          document.getElementById("id")
+          document.getElementById("memberDate").lastElementChild.value = String(
+            data.memberDate
+          ).substring(0,10);
         }
+      }
     }
-
-  }
-  onCreate();
-}, [])
+    onCreate();
+  }, []);
   if (!isLoading)
     return (
       <>
@@ -67,7 +69,6 @@ export default function MemberForm({readerID}) {
                 body: JSON.stringify(body),
               })
               .then((response) => {
-                console.log(response);
                 if (response.status == 201) {
                   alert("Add member successfully");
                   document.getElementById("form").reset();
@@ -78,7 +79,7 @@ export default function MemberForm({readerID}) {
                 }
               })
               .catch((error) => {
-                alert(error.response.data)
+                alert(error.response.data);
               });
             await res;
             setIsLoading(false);
@@ -101,7 +102,12 @@ export default function MemberForm({readerID}) {
                 <Form.Label className={montserrat.className}>
                   Member ID
                 </Form.Label>
-                <Form.Control size="lg" type="id" disabled={true} />
+                <Form.Control
+                  size="lg"
+                  type="id"
+                  disabled={true}
+                  id={"memberID"}
+                />
               </FormGroup>
               <FormGroup>
                 <Form.Label className={montserrat.className}>
@@ -140,16 +146,11 @@ export default function MemberForm({readerID}) {
                   id="dateOfBirth"
                 />
               </Form.Group>
-              <Form.Group style={{ visibility: "hidden" }}>
+              <Form.Group id="memberDate" style={{ visibility: "hidden" }}>
                 <Form.Label className={montserrat.className}>
                   Member date
                 </Form.Label>
-                <Form.Control
-                  size="lg"
-                  type="date"
-                  placeholder="Member date"
-                  id="memberDate"
-                />
+                <Form.Control size="lg" type="date" placeholder="Member date" />
               </Form.Group>
             </Stack>
             <Container

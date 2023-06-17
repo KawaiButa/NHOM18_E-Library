@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     const token = req.cookies.get("token")?.value
     if (token) {
         let config = {
-            method: 'delete',
+            method: 'get',
             maxBodyLength: Infinity,
             url: 'https://book-library-management.onrender.com/api/v1/readers/' + params.id,
             headers: {
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             .then((response) => {
                 if (response.status == 200) {
                     const data = response.data.data.doc;
-                    const reader = new Reader(data._id, data.fullName, data.readerType, data.address, data.cardCreatedAt);
+                    const reader = new Reader(data._id, data.fullName, data.readerType, data.address, data.cardCreatedAt, data.email, data.dateOfBirth);
                     return NextResponse.json(reader, { status: 200, statusText: "Success" })
                 }
                 else

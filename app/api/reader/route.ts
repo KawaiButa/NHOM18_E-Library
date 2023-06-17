@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
             const result: Reader[] = [];
             console.log(data)
             data.forEach(element => {
-                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt)
+                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.email, element.dateOfBirth)
                 result.push(reader);
             });
             return NextResponse.json(result);

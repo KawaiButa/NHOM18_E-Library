@@ -44,7 +44,6 @@ export default function MemberListCard() {
           <thead>
             <tr>
               <th>No</th>
-              <th>Member ID</th>
               <th>Name</th>
               <th>Reader type</th>
               <th>Address</th>
@@ -78,7 +77,6 @@ export default function MemberListCard() {
         result.push(
           <tr>
             <td>{index + 1}</td>
-            <td>{element.readerId}</td>
             <td>{element.name}</td>
             <td>{element.readerType}</td>
             <td>{element.address}</td>
@@ -91,6 +89,7 @@ export default function MemberListCard() {
                   padding: "0px",
                   marginTop: "0px",
                   borderWidth: "0px",
+                  marginRight: "10px",
                   backgroundColor: "transparent",
                 }}
                 href={"/home/member/" + element.readerId}
