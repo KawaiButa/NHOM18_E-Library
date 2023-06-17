@@ -12,13 +12,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         const res = axios.patch(BookAPI.oneBookEndpoint + params.id, data, {
             method: "PATCH",
             headers: {
-                "Content-Type": `multipart/form-data`,
+                "content-type": "multipart/form-data",
                 "Authorization": "Bearer " + token,
               },
         }).then((response) => {
             if (response.status == 201) {
                 const data = response.data.data.doc
-                const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.numberOfBooks)
+                const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
                 return NextResponse.json(book, { status: 200, statusText: "Success" })
             }
             else
