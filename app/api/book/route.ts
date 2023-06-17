@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const body = await req.json();
   if (token) {
-    console.log(body.body)
+    //console.log(body.body)
     let config = {
       method: 'post',
       maxBodyLength: Infinity,

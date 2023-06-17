@@ -8,7 +8,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const token = req.cookies.get("token")?.value;
     if (token) {
         const data = await req.formData()
-        console.log(data)
+        //console.log(data)
         const res = axios.patch(BookAPI.oneBookEndpoint + params.id, data, {
             method: "PATCH",
             headers: {
@@ -31,4 +31,28 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     else
         return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
 
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }){
+    const token = req.cookies.get("token")?.value;
+    if (token) {
+        const res = axios.delete(BookAPI.oneBookEndpoint + params.id,{
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+                "Authorization": "Bearer " + token,
+              },
+        }).then((response) => {
+            if (response.status == 204) {
+                return NextResponse.json("Deleted", { status: 200, statusText: "Success" })
+            }
+            else
+                return NextResponse.json(response.data, { status: response.status, statusText: response.statusText })
+        }).catch((error) => {
+            return NextResponse.json(error.response.data.message, { status: 409, statusText: "Conflict" })
+        })
+        return res
+    }
+    else
+        return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
 }

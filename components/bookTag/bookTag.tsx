@@ -49,11 +49,6 @@ export default function BookTag({id}) {
     ratingsAverage: "",
     description: "",
   } as Book);
-  const [showModel, setShowModel] = useState(false);
-  const openModel = () => setShowModel(true);
-  const closeModel = () => setShowModel(false);
-  const [changeModal, setChangeModal] = useState("None");
-  const changeValueModal = (value) => setChangeModal(value);
   useEffect(() => {
     let config = {
       method: "get",
@@ -120,7 +115,6 @@ export default function BookTag({id}) {
                   borderColor: "#D9D9D9",
                   backgroundColor: "transparent",
                 }}
-                onClick={openModel}
               >
                 <Image
                   src="/icon_pen_add.ico"

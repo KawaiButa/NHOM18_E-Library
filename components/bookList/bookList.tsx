@@ -17,6 +17,8 @@ import styles from "../borrowCardList/borrowListCard.module.css";
 import axios from "axios";
 import useBook from "../../lib/useBook";
 import { useRouter } from "next/navigation";
+import fetchJson from "../../lib/fetchJson";
+import Book from "../../models/Book";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -28,9 +30,14 @@ const montserrat = Montserrat({
 });
 
 export default function BookList() {
-  const [bookList, setBookList] = useState({});
+  const [modal, setModal] = useState(false);
+  const [index, setIndex] = useState(0);
   const router = useRouter();
-  const { books } = useBook();
+  const { books, mutateBook } = useBook();
+  const [selectedBooks, setSelectedBooks] = useState(new Array<Book>());
+
+  const openModal = () => setModal(true);
+  const closeModal = () => setModal(false);
   const bookTable = () => {
     if (books) {
       return (
@@ -49,21 +56,69 @@ export default function BookList() {
               <th>Author</th>
               <th>Publisher</th>
               <th>Amount</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {books.map((element, index) => (
-              <tr key={element.id} onDoubleClick={(event) => {
-                event.preventDefault()
-                const index = event.currentTarget.firstChild?.firstChild?.nodeValue
-                if(index)
-                    router.push("/home/book/" + books.at((Number.parseInt(index) - 1))?.id )
-              }}>
+              <tr
+                key={element.id}
+                onDoubleClick={(event) => {
+                  event.preventDefault();
+                  const index =
+                    event.currentTarget.firstChild?.firstChild?.nodeValue;
+                  if (index)
+                    router.push(
+                      "/home/book/" + books.at(Number.parseInt(index) - 1)?.id
+                    );
+                }}
+                onClick={(event) => {
+                  if (event.currentTarget.style.borderWidth == "") {
+                    event.currentTarget.style.borderWidth = "2px";
+                    event.currentTarget.style.borderColor = "red";
+                    const temp = [...selectedBooks];
+                    temp.push(element);
+                    setSelectedBooks(temp);
+                  } else {
+                    event.currentTarget.style.borderWidth = "0px";
+                    event.currentTarget.style.borderColor = "";
+                    const temp = [...selectedBooks];
+                    temp.splice(temp.indexOf(element), 0);
+                    setSelectedBooks(temp);
+                  }
+                  console.log(selectedBooks);
+                }}
+              >
                 <td>{index + 1}</td>
                 <td>{element.name}</td>
                 <td>{element.author}</td>
                 <td>{element.publisher}</td>
                 <td>{element.numberOfBooks}</td>
+                <td>
+                  <button
+                    className={styles.button}
+                    style={{
+                      width: "27px",
+                      height: "27px",
+                      borderWidth: "0px",
+                      position: "relative",
+                      left: "10px",
+                      backgroundColor: "transparent",
+                    }}
+                    onClick={(event) => {
+                      const ind =
+                        event.currentTarget.parentElement?.parentElement
+                          ?.firstChild?.textContent;
+                      var string;
+                      if (ind) string = Number.parseInt(ind) - 1;
+                      setIndex(string);
+                      console.log(string);
+                      openModal();
+                    }}
+                  >
+                    <Image src="/icon_delete.png" alt="delete" />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -129,7 +184,13 @@ export default function BookList() {
                 borderRadius: "30px",
               }}
             >
-              <Stack as="a" direction="horizontal" gap={2} href="/home/book/add" style={{textDecoration: "none"}}>
+              <Stack
+                as="a"
+                direction="horizontal"
+                gap={2}
+                href="/home/book/add"
+                style={{ textDecoration: "none" }}
+              >
                 <Image
                   src="/bookIcon.png"
                   style={{
@@ -175,21 +236,28 @@ export default function BookList() {
                 overflowY: "auto",
               }}
             >
-                {bookTable()}
+              {bookTable()}
             </div>
           </div>
 
-          <Container className="mt-4 d-flex justify-content-center">
+          <Container
+            className="mt-4 d-flex justify-content-center"
+            style={{
+              visibility: selectedBooks.length > 0 ? "visible" : "hidden",
+            }}
+          >
             <Button
               className={styles.button}
               style={{
                 width: "144px",
                 height: "58px",
                 borderRadius: "20px",
-                backgroundColor: "#44B8CB",
                 color: "white",
 
-                borderColor: "#44B8CB",
+                backgroundColor: "#CE433F",
+              }}
+              onClick={() => {
+                
               }}
             >
               <p
@@ -200,11 +268,127 @@ export default function BookList() {
                   marginTop: "5px",
                 }}
               >
-                Detail
+                Delete
               </p>
             </Button>
           </Container>
         </Card>
+        <Modal show={modal} size="lg" style={{}}>
+          <Modal.Header
+            style={{
+              borderBottomWidth: "2px",
+              paddingLeft: "15px",
+              paddingRight: "15px",
+            }}
+          >
+            <Modal.Title>Delete this book?</Modal.Title>
+            <CloseButton onClick={closeModal}></CloseButton>
+          </Modal.Header>
+          <Modal.Body
+            id="modalBody"
+            style={{
+              borderBottomWidth: "2px",
+              paddingLeft: "15px",
+              paddingRight: "15px",
+            }}
+          >
+            <p
+              className={roboto.className}
+              style={{ fontSize: "20px", fontWeight: "300" }}
+            >
+              {"You want to delete this book with name: " +
+                books?.at(index)?.name}
+            </p>
+            <p
+              className={roboto.className}
+              style={{ fontSize: "20px", fontWeight: "300" }}
+            >
+              {"by: " + books?.at(index)?.author}
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="d-flex justify-content-end">
+            <Stack direction="horizontal" gap={3}>
+              <Button
+                className={styles.button}
+                style={{
+                  height: "32px",
+                  width: "98px",
+                  backgroundColor: "#CE433F",
+                  borderWidth: "0px",
+                  borderRadius: "30px",
+                }}
+                onClick={async function HandleSummitEvent(event) {
+                  event.preventDefault();
+                  const element = document.getElementById("modalBody");
+                  element?.replaceChildren();
+                  var child1 = document.createElement("div");
+                  child1.className = "spinner-border";
+                  var child2 = document.createElement("div");
+                  child2.className =
+                    "justify-content-center align-items-center";
+                  child2.append(child1);
+                  element?.append(child2);
+                  const id = books?.at(index)?.id;
+                  const name = books?.at(index)?.name;
+                  const response = await fetch("/api/book/" + id, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                  });
+                  console.log(response);
+                  if (response.status == 200) {
+                    closeModal();
+                    await mutateBook(
+                      await fetchJson("/api/book", {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                    );
+                    alert("Delete book with name " + name + " successfully");
+                  } else {
+                    alert(
+                      "There is a problem with server.\nPlease try again in a few seconds"
+                    );
+                  }
+                }}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    alignSelf: "center",
+                  }}
+                >
+                  Delete
+                </p>
+              </Button>
+              <Button
+                className={styles.button}
+                style={{
+                  height: "32px",
+                  width: "98px",
+                  backgroundColor: "#026EFF",
+                  borderWidth: "0px",
+                  borderRadius: "30px",
+                }}
+                onClick={closeModal}
+              >
+                <p
+                  className={montserrat.className}
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    alignSelf: "center",
+                  }}
+                >
+                  Cancel
+                </p>
+              </Button>
+            </Stack>
+          </Modal.Footer>
+        </Modal>
       </Row>
     </>
   );

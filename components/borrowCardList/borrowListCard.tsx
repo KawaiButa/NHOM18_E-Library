@@ -38,7 +38,7 @@ export default function BorrowListCard() {
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
   const borrowTable = () => {
-    if(borrows)
+    if (borrows)
       return (
         <Table
           responsive
@@ -58,9 +58,7 @@ export default function BorrowListCard() {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            {borrowList}
-          </tbody>
+          <tbody>{borrowList}</tbody>
         </Table>
       );
     else
@@ -76,46 +74,51 @@ export default function BorrowListCard() {
       );
   };
   useEffect(() => {
-    if(borrows)
-    {
-        const result:React.ReactElement[] = []
-        console.log(borrows)
-        borrows.forEach((element, index) => {
-            result.push(<tr onDoubleClick={() => router.push("/home/transaction/borrow/"+ element.borrowId)}>
-                <td>{index  +  1}</td>
-                <td>{element.readerName}</td>
-                <td>{element.dateCreated}</td>
-                <td>{element.expectedReturnDate}</td>
-                <td>
-                  <button
-                    className={styles.button}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      borderWidth: "0px",
-                      position: "relative",
-                      left: "10px",
-                      backgroundColor: "transparent",
-                    }}
-                    onClick={(event) => {
-                        const ind =
-                          event.currentTarget.parentElement?.parentElement?.firstChild
-                            ?.textContent;
-                        var string;
-                        if (ind) string = Number.parseInt(ind) - 1;
-                        setIndex(string);
-                        console.log(string)
-                        openModal();
-                      }}
-                  >
-                    <Image src="/icon_delete.png" alt="delete" />
-                  </button>
-                </td>
-              </tr>)
-        });
-        setBorrowList(result);
+    if (borrows) {
+      const result: React.ReactElement[] = [];
+      console.log(borrows);
+      borrows.forEach((element, index) => {
+        result.push(
+          <tr
+            onDoubleClick={() =>
+              router.push("/home/transaction/borrow/" + element.borrowId)
+            }
+          >
+            <td>{index + 1}</td>
+            <td>{element.readerName}</td>
+            <td>{element.dateCreated}</td>
+            <td>{element.expectedReturnDate}</td>
+            <td>
+              <button
+                className={styles.button}
+                style={{
+                  width: "27px",
+                  height: "27px",
+                  borderWidth: "0px",
+                  position: "relative",
+                  left: "10px",
+                  backgroundColor: "transparent",
+                }}
+                onClick={(event) => {
+                  const ind =
+                    event.currentTarget.parentElement?.parentElement?.firstChild
+                      ?.textContent;
+                  var string;
+                  if (ind) string = Number.parseInt(ind) - 1;
+                  setIndex(string);
+                  console.log(string);
+                  openModal();
+                }}
+              >
+                <Image src="/icon_delete.png" alt="delete" />
+              </button>
+            </td>
+          </tr>
+        );
+      });
+      setBorrowList(result);
     }
-  },[borrows])
+  }, [borrows]);
   return (
     <>
       <Row
@@ -238,6 +241,7 @@ export default function BorrowListCard() {
             <CloseButton onClick={closeModal}></CloseButton>
           </Modal.Header>
           <Modal.Body
+            id="modalBody"
             style={{
               borderBottomWidth: "2px",
               paddingLeft: "15px",
@@ -248,7 +252,9 @@ export default function BorrowListCard() {
               className={roboto.className}
               style={{ fontSize: "20px", fontWeight: "300" }}
             >
-              {"You want to delete this borrow card with ID: " + borrows?.at(index)?.borrowId + "?"}
+              {"You want to delete this borrow card with ID: " +
+                borrows?.at(index)?.borrowId +
+                "?"}
             </p>
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-end">
@@ -263,31 +269,36 @@ export default function BorrowListCard() {
                   borderRadius: "30px",
                 }}
                 onClick={async function HandleSummitEvent(event) {
-                    event.preventDefault();
-                    const id = borrows?.at(index)?.borrowId;
-                    const response = await fetch(
-                      "/api/borrow/" + id,
-                      {
-                        method: "DELETE",
+                  event.preventDefault();
+                  const element = document.getElementById("modalBody");
+                  element?.replaceChildren();
+                  var child1 = document.createElement("div");
+                  child1.className = "spinner-border";
+                  var child2 = document.createElement("div");
+                  child2.append(child1);
+                  element?.append(child2);
+                  const id = borrows?.at(index)?.borrowId;
+                  const response = await fetch("/api/borrow/" + id, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                  });
+                  console.log(response);
+                  if (response.status == 200) {
+                    closeModal();
+                    await mutateBorrow(
+                      await fetchJson("/api/reader", {
+                        method: "GET",
                         headers: { "Content-Type": "application/json" },
-                      }
+                      })
                     );
-                    console.log(response)
-                    if (response.status == 200) {
-                      closeModal();
-                      await mutateBorrow(
-                        await fetchJson("/api/reader", {
-                          method: "GET",
-                          headers: { "Content-Type": "application/json" },
-                        })
-                      );
-                      alert("Delete borrow form with id " + id + " successfully")
-                    } else {
-                      alert(
-                        "There is a problem with server.\nPlease try again in a few seconds"
-                      );
-                    }
-                  }}              >
+                    alert("Delete borrow form with id " + id + " successfully");
+                  } else {
+                    alert(
+                      "There is a problem with server.\nPlease try again in a few seconds"
+                    );
+                  }
+                }}
+              >
                 <p
                   className={montserrat.className}
                   style={{
