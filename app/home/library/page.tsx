@@ -6,8 +6,10 @@ import { Montserrat, Roboto } from "next/font/google";
 import BookAPI from "../../../endpoint/bookAPI";
 import BookPreview from "../../../components/bookPreview/bookPreview";
 import { useSession } from "next-auth/react";
-import useUser from "../../../lib/useUser";
+import useUser from "../../../lib/useProfile";
 import useBook from "../../../lib/useBook";
+import { useSearchParams } from "next/navigation";
+import Book from "../../../models/Book";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
@@ -17,20 +19,54 @@ const montserrat = Montserrat({
 export default function Home() {
   const [bookList, setBookList] = useState<ReactElement[]>([]);
   const { books } = useBook();
+  const search = useSearchParams();
   useEffect(() => {
+    const param = search.get("alphabet");
     const result: React.ReactElement[] = [];
-    books?.forEach((element) => {
-      result.push(
-        <BookPreview
-          key={element.id}
-          bookID={element.id}
-          bookName={element.name}
-          imgUrl={element.imgUrl}
-          author={element.author}
-        />
-      );
-    });
-    setBookList(result);
+    if (Array.from(search).length != 0 && books) {
+      var bookAfterSearch: Book[] = [...books];
+      search.forEach((value, key) => {
+        const temp = [...bookAfterSearch];
+        if (key == "search") {
+          bookAfterSearch?.forEach((element) => {
+            if (!element.name.includes(value)) temp.splice(temp.indexOf(element), 1);
+          });
+        }
+        if (key == "alphabet") {
+          bookAfterSearch?.forEach((element) => {
+            console.log(element.name[0])
+            console.log(element.name[0].includes(value))
+            if (!element.name[0].includes(value)) temp.splice(temp.indexOf(element), 1);
+          });
+        }
+        bookAfterSearch = [...temp];
+      });
+      bookAfterSearch?.forEach((element) => {
+        result.push(
+          <BookPreview
+            key={element.id}
+            bookID={element.id}
+            bookName={element.name}
+            imgUrl={element.imgUrl}
+            author={element.author}
+          />
+        );
+      });
+      setBookList(result);
+    } else {
+      books?.forEach((element) => {
+        result.push(
+          <BookPreview
+            key={element.id}
+            bookID={element.id}
+            bookName={element.name}
+            imgUrl={element.imgUrl}
+            author={element.author}
+          />
+        );
+      });
+      setBookList(result);
+    }
   }, [books]);
   if (books)
     return (
@@ -87,7 +123,7 @@ const prepareAlphabets = () => {
     result.push(
       <Button
         key={i}
-        onClick={() => {}}
+        href={"/home/library?" + "alphabet=" + String.fromCharCode(i)}
         value={String.fromCharCode(i)}
         className="d-flex border-0"
         style={{

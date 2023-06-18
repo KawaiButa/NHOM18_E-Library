@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import useBook from "../../lib/useBook";
-import useUser from "../../lib/useUser";
+import useUser from "../../lib/useProfile";
 import styles from "./borrowForm.module.css";
 import axios from "axios";
 import useReader from "../../lib/useReader";
@@ -153,6 +153,7 @@ export default function BorrowForm({ id }) {
                 );
                 const body = {
                   books: temp,
+                  expectedReturnDate: event.currentTarget.expectedReturnDate.valueAsDate.toISOString()
                 };
                 axios
                   .post("/api/borrow", {
@@ -174,21 +175,36 @@ export default function BorrowForm({ id }) {
               }}
             >
               <Stack gap={5}>
-                <Col md={8}>
-                  <Form.Group>
-                    <Form.Label className={montserrat.className}>
-                      Member Name
-                    </Form.Label>
-                    <input
-                      id="memberName"
-                      type="text"
-                      list="name"
-                      className="form-control"
-                      disabled={user?.role == "admin" ? false : true}
-                    />
-                    <datalist id="name"></datalist>
-                  </Form.Group>
-                </Col>
+                <Row>
+                  <Col md={8}>
+                    <Form.Group>
+                      <Form.Label className={montserrat.className}>
+                        Member Name
+                      </Form.Label>
+                      <input
+                        id="memberName"
+                        type="text"
+                        list="name"
+                        className="form-control"
+                        disabled={user?.role == "admin" ? false : true}
+                      />
+                      <datalist id="name"></datalist>
+                    </Form.Group>
+                  </Col>
+                  <Col >
+                    <Form.Group>
+                      <Form.Label className={montserrat.className}>
+                        Expected Return date
+                      </Form.Label>
+                      <input
+                        id="expectedReturnDate"
+                        type="date"
+                        className="form-control"
+                      />
+                      <datalist id="name"></datalist>
+                    </Form.Group>
+                  </Col>
+                </Row>
 
                 <Stack direction="horizontal" gap={5}>
                   <Col md={8}>

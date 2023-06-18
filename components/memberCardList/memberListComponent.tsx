@@ -15,9 +15,8 @@ import {
 } from "react-bootstrap";
 import styles from "./memberListCard.module.css";
 import useReader from "../../lib/useReader";
-import { mutate } from "swr";
-import { fetchData } from "next-auth/client/_utils";
 import fetchJson from "../../lib/fetchJson";
+import { useSearchParams } from "next/navigation";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -29,6 +28,7 @@ const montserrat = Montserrat({
 });
 export default function MemberListCard() {
   const { readers, mutateReader } = useReader();
+  const search = useSearchParams();
   const [modal, setModal] = useState(false);
   const [memberList, setMemberList] = useState(new Array<React.ReactElement>());
   const [index, setIndex] = useState(0);
@@ -73,54 +73,177 @@ export default function MemberListCard() {
   useEffect(() => {
     const result: React.ReactElement[] = [];
     if (readers) {
-      readers.forEach((element, index) => {
-        result.push(
-          <tr>
-            <td>{index + 1}</td>
-            <td>{element.name}</td>
-            <td>{element.readerType}</td>
-            <td>{element.address}</td>
-            <td>{element.memberDate}</td>
-            <td>
-              <Button
-                style={{
-                  width: "27px",
-                  height: "27px",
-                  padding: "0px",
-                  marginTop: "0px",
-                  borderWidth: "0px",
-                  marginRight: "10px",
-                  backgroundColor: "transparent",
-                }}
-                href={"/home/member/" + element.readerId}
-              >
-                <Image src="/icon_edit.png" alt="delete" />
-              </Button>
-              <button
-                className={styles.button}
-                style={{
-                  width: "27px",
-                  height: "27px",
-                  borderWidth: "0px",
-                  backgroundColor: "transparent",
-                }}
-                onClick={(event) => {
-                  const index =
-                    event.currentTarget.parentElement?.parentElement?.firstChild
-                      ?.textContent;
-                  var string;
-                  if (index) string = Number.parseInt(index) - 1;
-                  setIndex(string);
-                  openModal();
-                }}
-              >
-                <Image src="/icon_delete.png" alt="delete" />
-              </button>
-            </td>
-          </tr>
-        );
-      });
-      setMemberList(result);
+      if (Array.from(search).length > 0) {
+        var readerAfterSearch = [...readers];
+        search.forEach((value, key) => {
+          switch (key) {
+            case "name": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                if (!element.name.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "address": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                if (!element.address.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "email": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                if (!element.email.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "readerType": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                if (!element.readerType.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "memberDate": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                var part = element.memberDate.slice(0, 10).split("-");
+                var date = part[0] + "/" + part[1] + "/" + part[2];
+                if (!date.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "memberId": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                if (!element.readerId.includes(value, 0))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+            case "dateOfBirth": {
+              const temp = [...readerAfterSearch];
+              readerAfterSearch.forEach((element) => {
+                var part = element.dateOfBirth.slice(0, 10).split("-");
+                var date = part[0] + "/" + part[1] + "/" + part[2];
+                if (!date.includes(value))
+                  temp.splice(temp.indexOf(element), 1);
+              });
+              readerAfterSearch = [...temp];
+              break;
+            }
+          }
+        });
+        readerAfterSearch.forEach((element, index) => {
+          result.push(
+            <tr>
+              <td>{index + 1}</td>
+              <td>{element.name}</td>
+              <td>{element.readerType}</td>
+              <td>{element.address}</td>
+              <td>{element.memberDate}</td>
+              <td>
+                <Button
+                  style={{
+                    width: "27px",
+                    height: "27px",
+                    padding: "0px",
+                    marginTop: "0px",
+                    borderWidth: "0px",
+                    marginRight: "10px",
+                    backgroundColor: "transparent",
+                  }}
+                  href={"/home/member/" + element.readerId}
+                >
+                  <Image src="/icon_edit.png" alt="delete" />
+                </Button>
+                <button
+                  className={styles.button}
+                  style={{
+                    width: "27px",
+                    height: "27px",
+                    borderWidth: "0px",
+                    backgroundColor: "transparent",
+                  }}
+                  onClick={(event) => {
+                    const index =
+                      event.currentTarget.parentElement?.parentElement
+                        ?.firstChild?.textContent;
+                    var string;
+                    if (index) string = Number.parseInt(index) - 1;
+                    setIndex(string);
+                    openModal();
+                  }}
+                >
+                  <Image src="/icon_delete.png" alt="delete" />
+                </button>
+              </td>
+            </tr>
+          );
+        });
+        setMemberList(result);
+      } else {
+        readers.forEach((element, index) => {
+          result.push(
+            <tr>
+              <td>{index + 1}</td>
+              <td>{element.name}</td>
+              <td>{element.readerType}</td>
+              <td>{element.address}</td>
+              <td>{element.memberDate}</td>
+              <td>
+                <Button
+                  style={{
+                    width: "27px",
+                    height: "27px",
+                    padding: "0px",
+                    marginTop: "0px",
+                    borderWidth: "0px",
+                    marginRight: "10px",
+                    backgroundColor: "transparent",
+                  }}
+                  href={"/home/member/" + element.readerId}
+                >
+                  <Image src="/icon_edit.png" alt="delete" />
+                </Button>
+                <button
+                  className={styles.button}
+                  style={{
+                    width: "27px",
+                    height: "27px",
+                    borderWidth: "0px",
+                    backgroundColor: "transparent",
+                  }}
+                  onClick={(event) => {
+                    const index =
+                      event.currentTarget.parentElement?.parentElement
+                        ?.firstChild?.textContent;
+                    var string;
+                    if (index) string = Number.parseInt(index) - 1;
+                    setIndex(string);
+                    openModal();
+                  }}
+                >
+                  <Image src="/icon_delete.png" alt="delete" />
+                </button>
+              </td>
+            </tr>
+          );
+        });
+        setMemberList(result);
+      }
     }
   }, [readers]);
   return (
@@ -166,98 +289,162 @@ export default function MemberListCard() {
               </p>
             </Button>
           </div>
-          <Stack gap={5} style={{ marginLeft: "20px", marginRight: "125px" }}>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control style={{ height: "100%" }} placeholder="Name" />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control style={{ height: "100%" }} placeholder="Email" />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Member date"
-                />
-              </Col>
-            </Stack>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Date of birth"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Address"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Reader type"
-                />
-              </Col>
-            </Stack>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Member ID"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }} />
-              <Col sm={4} style={{ height: "50px", alignItems: "end" }}>
-                <Stack direction="horizontal" gap={3}>
-                  <Button
-                    className={styles.button}
-                    style={{
-                      height: "32px",
-                      width: "98px",
-                      backgroundColor: "#44B8CB",
-                      borderWidth: "0px",
-                      borderRadius: "30px",
-                    }}
-                  >
-                    <p
-                      className={montserrat.className}
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const searchQuery: Array<{ key: string; value: string }> = [];
+              if (event.currentTarget.readerName.value)
+                searchQuery.push({
+                  key: "name",
+                  value: event.currentTarget.readerName.value,
+                });
+              if (event.currentTarget.email.value)
+                searchQuery.push({
+                  key: "email",
+                  value: event.currentTarget.email.value,
+                });
+              if (event.currentTarget.memberDate.value)
+                searchQuery.push({
+                  key: "memberDate",
+                  value: event.currentTarget.memberDate.value,
+                });
+              if (event.currentTarget.dateOfBirth.value)
+                searchQuery.push({
+                  key: "dateOfBirth",
+                  value: event.currentTarget.dateOfBirth.value,
+                });
+              if (event.currentTarget.address.value)
+                searchQuery.push({
+                  key: "address",
+                  value: event.currentTarget.address.value,
+                });
+              if (event.currentTarget.readerType.value)
+                searchQuery.push({
+                  key: "readerType",
+                  value: event.currentTarget.readerType.value,
+                });
+              if (event.currentTarget.memberId.value)
+                searchQuery.push({
+                  key: "memberId",
+                  value: event.currentTarget.memberId.value,
+                });
+              const url = new URL(document.URL.split("?")[0]);
+              searchQuery.forEach((element) => {
+                url.searchParams.set(element.key, element.value);
+              });
+              window.location.replace(url.href)
+            }}
+          >
+            <Stack gap={5} style={{ marginLeft: "20px", marginRight: "125px" }}>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Name"
+                    id="readerName"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Email"
+                    id="email"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Member date: mm/dd/yyyy"
+                    type="text"
+                    id="memberDate"
+                  />
+                </Col>
+              </Stack>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Date of birth: mm/dd/yyyy"
+                    type="text"
+                    id="dateOfBirth"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Address"
+                    id="address"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Reader type"
+                    id="readerType"
+                  />
+                </Col>
+              </Stack>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Member ID"
+                    id="memberId"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }} />
+                <Col sm={4} style={{ height: "50px", alignItems: "end" }}>
+                  <Stack direction="horizontal" gap={3}>
+                    <Button
+                      className={styles.button}
                       style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        alignSelf: "center",
+                        height: "32px",
+                        width: "98px",
+                        backgroundColor: "#44B8CB",
+                        borderWidth: "0px",
+                        borderRadius: "30px",
                       }}
+                      type="submit"
                     >
-                      Search
-                    </p>
-                  </Button>
-                  <Button
-                    className={styles.button}
-                    style={{
-                      height: "32px",
-                      width: "98px",
-                      backgroundColor: "#D9D9D9",
-                      borderWidth: "0px",
-                      borderRadius: "30px",
-                    }}
-                  >
-                    <p
-                      className={montserrat.className}
+                      <p
+                        className={montserrat.className}
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          alignSelf: "center",
+                        }}
+                      >
+                        Search
+                      </p>
+                    </Button>
+                    <Button
+                      className={styles.button}
                       style={{
-                        color: "black",
-                        fontSize: "16px",
-                        alignSelf: "center",
+                        height: "32px",
+                        width: "98px",
+                        backgroundColor: "#D9D9D9",
+                        borderWidth: "0px",
+                        borderRadius: "30px",
                       }}
+                      href="/home/member"
                     >
-                      Reset
-                    </p>
-                  </Button>
-                </Stack>
-              </Col>
+                      <p
+                        className={montserrat.className}
+                        style={{
+                          color: "black",
+                          fontSize: "16px",
+                          alignSelf: "center",
+                        }}
+                      >
+                        Reset
+                      </p>
+                    </Button>
+                  </Stack>
+                </Col>
+              </Stack>
             </Stack>
-          </Stack>
+          </Form>
           {memberTable()}
         </Card.Body>
       </Card>
@@ -273,7 +460,7 @@ export default function MemberListCard() {
           <CloseButton onClick={closeModal}></CloseButton>
         </Modal.Header>
         <Modal.Body
-        id="modalBody"
+          id="modalBody"
           style={{
             borderBottomWidth: "2px",
             paddingLeft: "15px",

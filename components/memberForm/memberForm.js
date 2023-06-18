@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import axios from "axios";
+import useUser from "../../lib/useUser";
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -19,6 +20,7 @@ const montserrat = Montserrat({
 export default function MemberForm({ readerID }) {
   const [imgUrl, setImgUrl] = useState("#");
   const [isLoading, setIsLoading] = useState(false);
+  const { users, mutateUser } = useUser();
   useEffect(() => {
     async function onCreate() {
       if (readerID && readerID != "undefined") {
@@ -40,12 +42,29 @@ export default function MemberForm({ readerID }) {
           document.getElementById("memberDate").style.visibility = "visible";
           document.getElementById("memberDate").lastElementChild.value = String(
             data.memberDate
-          ).substring(0,10);
+          ).substring(0, 10);
+        }
+      } else {
+        if (users) {
+          var datalist = document.getElementById("user");
+          datalist.replaceChildren()
+          users.forEach((element, index) => {
+            var option = document.createElement("option");
+            option.id = element.id;
+            option.value = element.name
+            option.innerHTML =  "Id: " + element.id
+            datalist.append(option);
+          });
+          document.getElementById("fullName").disabled = false
+
+        }
+        else{
+          document.getElementById("fullName").disabled = true
         }
       }
     }
     onCreate();
-  }, []);
+  }, [users]);
   if (!isLoading)
     return (
       <>
@@ -95,7 +114,9 @@ export default function MemberForm({ readerID }) {
                 type="name"
                 placeholder="Your name"
                 id="fullName"
+                list="user"
               />
+              <datalist id="user" onC></datalist>
             </Form.Group>
             <Stack direction="horizontal" gap={5}>
               <FormGroup>

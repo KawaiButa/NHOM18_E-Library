@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, Image, Stack } from "react-bootstrap";
 import styles from "./profileButton.module.css";
 import { useRouter } from "next/navigation";
-import { getSession, useSession } from "next-auth/react";
-import useUser from "../../lib/useUser";
 import { mutate } from "swr";
+import useProfile from "../../lib/useProfile";
 const montserrat = Montserrat({
   weight: ["500", "700"],
   style: "normal",
@@ -13,7 +12,7 @@ const montserrat = Montserrat({
 });
 export default function ProfileButton() {
   const router = useRouter();
-  const { user, mutateUser } = useUser();
+  const { profile } = useProfile();
   if (true)
     return (
       <div className={styles.profileDropdown}>
@@ -36,7 +35,7 @@ export default function ProfileButton() {
               gridRow: "1",
             }}
           >
-            {user?.name}
+            {profile?.name}
           </span>
         </div>
         <div className={styles.profileDropdownContent}>
@@ -48,6 +47,7 @@ export default function ProfileButton() {
                 backgroundColor: "transparent",
                 borderWidth: "0px",
               }}
+              href="/home/member/profile/aaa"
             >
               <Container
                 className="d-flex justify-content-center align-items-center "

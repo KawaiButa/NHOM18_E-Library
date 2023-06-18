@@ -253,7 +253,7 @@ export default function BookList() {
                 height: "58px",
                 borderRadius: "20px",
                 color: "white",
-
+                borderWidth: "0px",
                 backgroundColor: "#CE433F",
               }}
               onClick={() => {

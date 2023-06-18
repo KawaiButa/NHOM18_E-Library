@@ -1,15 +1,16 @@
-import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import endpoint from "../../../endpoint/Utils";
-import { User } from "../../../models/user";
+import axios from "axios";
+import ReturnForm from "../../../models/returnForm";
+import Book from "../../../models/Book";
 
-export async function GET(req:NextRequest){
+export async function GET(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
     if (token) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: endpoint + '/api/v1/users',
+            url: endpoint + '/api/v1/return-book-forms',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
@@ -19,10 +20,14 @@ export async function GET(req:NextRequest){
         const res = await axios.request(config)
             .then((response) => {
                 if (response.status == 200) {
-                    const result: User[] = []
+                    const result: ReturnForm[] = []
                     const data = response.data.data.doc;
                     data.forEach(element => {
-                        result.push({id: element._id, name: element.firstName + " " + element.lastName, email: element.email, image: "", role: element.role } as User)
+                        const books: Array<{ id: string, quantity: Number }> = []
+                        element.lostBooks.forEach(element => {
+                            books.push({ id: element.bookId, quantity: element.quantity })
+                        });
+                        result.push(new ReturnForm(element._id, element.borrowBookForm, element.borrower, books, element.lateFee, element.returnDate))
                     });
                     console.log(result)
                     return NextResponse.json(result, { status: 200, statusText: "Success" });
@@ -38,4 +43,5 @@ export async function GET(req:NextRequest){
     }
     else
         return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
+
 }

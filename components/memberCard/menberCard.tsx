@@ -11,7 +11,6 @@ const montserrat = Montserrat({
 })
 
 export default function MemberCard({user = null}) {
-  if (user == null) return;
   return (
     <>
       <Card className="border-bottom border-5" style={{width: "973px", height: "631px"}}>
