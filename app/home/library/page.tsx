@@ -5,7 +5,6 @@ import { Button, Stack } from "react-bootstrap";
 import { Montserrat, Roboto } from "next/font/google";
 import BookAPI from "../../../endpoint/bookAPI";
 import BookPreview from "../../../components/bookPreview/bookPreview";
-import { useSession } from "next-auth/react";
 import useUser from "../../../lib/useProfile";
 import useBook from "../../../lib/useBook";
 import { useSearchParams } from "next/navigation";
