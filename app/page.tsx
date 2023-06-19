@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import styles from "./page.module.css";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import BookTag from "./bookTag";
 import MemberForm from "./components/memberForm";
@@ -14,10 +13,11 @@ import ReturnCard from "./components/returnCard";
 import ReturnListCard from "./components/returnListCard";
 import FeeListCard from "./components/feeListCard";
 import RemindListCard from "./components/remindListCard";
+import TopUp_payment from "./components/topUp_payment/topUp_payment";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <RemindListCard />
+            <TopUp_payment />
         </main>
     );
 }
