@@ -83,7 +83,7 @@ export default function BookList() {
                     event.currentTarget.style.borderWidth = "0px";
                     event.currentTarget.style.borderColor = "";
                     const temp = [...selectedBooks];
-                    temp.splice(temp.indexOf(element), 0);
+                    temp.splice(temp.indexOf(element), 1);
                     setSelectedBooks(temp);
                   }
                   console.log(selectedBooks);

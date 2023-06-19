@@ -1,10 +1,8 @@
 import React from 'react'
 import { User } from '../../../models/user'
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies, headers } from 'next/headers'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 export async function GET(req: NextRequest) {
     const cookieStore = cookies()
     const token = req.cookies.get("token")
@@ -25,16 +23,12 @@ export async function GET(req: NextRequest) {
         const response = await axios.request(config)
         if (response.status == 200) {
             const resData = response.data.data.doc;
-            const user = {id: resData._id, name: resData.firstName + " " + resData.lastName, email: resData.email, image: "", role: resData.role } as User
+            const user = { id: resData._id, name: resData.firstName + " " + resData.lastName, email: resData.email, image: "", role: resData.role } as User
             return NextResponse.json(user)
-
         }
-        else {
+        else
             return new NextResponse(null, { status: response.status, statusText: response.statusText })
-
-        }
-    } else {
+    } else
         return new NextResponse(null, { status: 401, statusText: "Unauthorized" })
-    }
 
 }

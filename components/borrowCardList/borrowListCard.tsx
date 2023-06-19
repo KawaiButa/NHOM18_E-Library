@@ -29,10 +29,10 @@ const montserrat = Montserrat({
 });
 
 export default function BorrowListCard() {
-  const [borrowList, setBorrowList] = useState(new Array<React.ReactElement>());
   const { borrows, mutateBorrow } = useBorrow();
   const [modal, setModal] = useState(false);
   const [index, setIndex] = useState(0);
+  const [selectedBorrow, setSelectedBorrow] = useState(new Array<BorrowForm>());
   const router = useRouter();
 
   const openModal = () => setModal(true);
@@ -58,7 +58,63 @@ export default function BorrowListCard() {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>{borrowList}</tbody>
+          <tbody>
+            {borrows?.map((element, index) => (
+              <tr
+                onDoubleClick={() =>
+                  router.push("/home/transaction/borrow/" + element.borrowId)
+                }
+                key={index}
+                onClick={(event) => {
+                  if (event.currentTarget.style.borderWidth == "") {
+                    event.currentTarget.style.borderWidth = "2px";
+                    event.currentTarget.style.borderColor = "red";
+                    const temp = [...selectedBorrow];
+                    temp.push(element);
+                    setSelectedBorrow(temp);
+                  } else {
+                    event.currentTarget.style.borderWidth = "";
+                    event.currentTarget.style.borderColor = "";
+                    const temp = [...selectedBorrow];
+                    console.log(temp.indexOf(element))
+                    temp.splice(temp.indexOf(element), 0);
+                    setSelectedBorrow(temp);
+                  }
+                  console.log(selectedBorrow)
+                }}
+              >
+                <td>{index + 1}</td>
+                <td>{element.readerName}</td>
+                <td>{element.dateCreated}</td>
+                <td>{element.expectedReturnDate}</td>
+                <td>
+                  <button
+                    className={styles.button}
+                    style={{
+                      width: "27px",
+                      height: "27px",
+                      borderWidth: "0px",
+                      position: "relative",
+                      left: "10px",
+                      backgroundColor: "transparent",
+                    }}
+                    onClick={(event) => {
+                      const ind =
+                        event.currentTarget.parentElement?.parentElement
+                          ?.firstChild?.textContent;
+                      var string;
+                      if (ind) string = Number.parseInt(ind) - 1;
+                      setIndex(string);
+                      console.log(string);
+                      openModal();
+                    }}
+                  >
+                    <Image src="/icon_delete.png" alt="delete" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
       );
     else
@@ -74,50 +130,6 @@ export default function BorrowListCard() {
       );
   };
   useEffect(() => {
-    if (borrows) {
-      const result: React.ReactElement[] = [];
-      console.log(borrows);
-      borrows.forEach((element, index) => {
-        result.push(
-          <tr
-            onDoubleClick={() =>
-              router.push("/home/transaction/borrow/" + element.borrowId)
-            }
-          >
-            <td>{index + 1}</td>
-            <td>{element.readerName}</td>
-            <td>{element.dateCreated}</td>
-            <td>{element.expectedReturnDate}</td>
-            <td>
-              <button
-                className={styles.button}
-                style={{
-                  width: "27px",
-                  height: "27px",
-                  borderWidth: "0px",
-                  position: "relative",
-                  left: "10px",
-                  backgroundColor: "transparent",
-                }}
-                onClick={(event) => {
-                  const ind =
-                    event.currentTarget.parentElement?.parentElement?.firstChild
-                      ?.textContent;
-                  var string;
-                  if (ind) string = Number.parseInt(ind) - 1;
-                  setIndex(string);
-                  console.log(string);
-                  openModal();
-                }}
-              >
-                <Image src="/icon_delete.png" alt="delete" />
-              </button>
-            </td>
-          </tr>
-        );
-      });
-      setBorrowList(result);
-    }
   }, [borrows]);
   return (
     <>
@@ -211,21 +223,34 @@ export default function BorrowListCard() {
             </div>
           </div>
 
-          <Container className="mt-4 d-flex justify-content-center">
+          <Container
+            className="mt-4 d-flex justify-content-center"
+            style={{
+              visibility: selectedBorrow.length > 0 ? "visible" : "hidden",
+            }}
+          >
             <Button
-              className={montserrat.className}
+              className={styles.button}
               style={{
                 width: "144px",
                 height: "58px",
                 borderRadius: "20px",
-                backgroundColor: "#44B8CB",
                 color: "white",
-                fontWeight: "bold",
-                fontSize: "20px",
-                borderColor: "#44B8CB",
+                borderWidth: "0px",
+                backgroundColor: "#CE433F",
               }}
+              onClick={() => {}}
             >
-              Detail
+              <p
+                className={montserrat.className}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "24px",
+                  marginTop: "5px",
+                }}
+              >
+                Delete
+              </p>
             </Button>
           </Container>
         </Card>

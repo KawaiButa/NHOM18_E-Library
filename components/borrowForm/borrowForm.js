@@ -7,45 +7,72 @@ import {
   Row,
   Image,
   Col,
-  FormGroup,
+  Table,
   Stack,
 } from "react-bootstrap";
 
 import React, { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import useBook from "../../lib/useBook";
-import useUser from "../../lib/useProfile";
 import styles from "./borrowForm.module.css";
 import axios from "axios";
 import useReader from "../../lib/useReader";
 import { useRouter } from "next/navigation";
-
+import useProfile from "../../lib/useProfile";
 const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["vietnamese"],
 });
 export default function BorrowForm({ id }) {
-  const { user } = useUser();
+  const { profile } = useProfile();
   const { books } = useBook();
   const { readers } = useReader();
   const [count, setCount] = useState(1);
   const [borrowBook, setBorrowBook] = useState([]);
-  const [borrowBookList, setBorrowBookList] = useState([]);
   const [maxBook, setMaxBook] = useState([]);
+  const [selectedReader, setSelectedReader] = useState(null);
   const router = useRouter();
   const bookTable = () => {
-    const result = [];
-    console.log(borrowBook);
-    borrowBook.forEach((element, index) => {
-      result.push(
-        <tr>
-          <td>{index + 1}</td>
-          <td>{element.name}</td>
-          <td>{element.quantity}</td>
-        </tr>
+    if (borrowBook) {
+      return (
+        <Table
+          responsive
+          striped
+          hover
+          className={`${styles.tableFixed} table`}
+          onSelect={(event) => {
+            console.log(event.currentTarget);
+          }}
+        >
+          <thead>
+            <tr>
+              <th class="col-xs-3">STT</th>
+              <th class="col-xs-3">Name</th>
+              <th class="col-xs-6"> Amount</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            {borrowBook.map((element, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{element.name}</td>
+                <td>{element.quantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       );
-    });
-    setBorrowBookList(result);
+    } else
+      return (
+        <main
+          className="d-flex justify-content-center align-items-center"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </main>
+      );
   };
   useEffect(() => {
     var list = document.getElementById("book");
@@ -56,15 +83,22 @@ export default function BorrowForm({ id }) {
       option.id = element.id;
       list?.appendChild(option);
     });
+    var nameList = document.getElementById("name");
+    nameList?.replaceChildren();
     readers?.forEach((element) => {
       var option = document.createElement("option");
       option.value = element.name;
-      option.id = element.id;
+      option.id = element.index;
+      option.innerHTML = element.email;
+      nameList?.appendChild(option);
     });
     var memberName = document.getElementById("memberName");
-    if (memberName && !id) memberName.value = user?.name;
+    if (memberName && !id) memberName.value = profile?.name;
     var amount = document.getElementById("amount");
-    if (amount) amount.value = count + "/" + maxBook;
+    if (amount) {
+      amount.value = count + "/" + maxBook;
+      amount.disabled = false;
+    }
     if (id) {
       axios
         .get("/api/borrow/" + id, {
@@ -76,8 +110,8 @@ export default function BorrowForm({ id }) {
         .then((response) => {
           const data = response.data;
           setBorrowBook(data.books);
-          bookTable()
-          console.log(response)
+          bookTable();
+          console.log(response);
           var memberName = document.getElementById("memberName");
           if (memberName) {
             memberName.value =
@@ -90,8 +124,8 @@ export default function BorrowForm({ id }) {
           router.back();
         });
     }
-  }, [books, user, count, maxBook, readers]);
-  if (books && user && readers)
+  }, [books, profile, count, maxBook, readers]);
+  if (books && profile && readers)
     return (
       <>
         <Row
@@ -151,10 +185,17 @@ export default function BorrowForm({ id }) {
                 borrowBook.map((value, index) =>
                   temp.push({ bookId: value.id, quantity: value.amount })
                 );
+                var time;
+                if (event.currentTarget.expectedReturnDate.valueAsDate)
+                  time =
+                    event.currentTarget.expectedReturnDate.valueAsDate.toISOString();
+                else time = Date.now().toISOString();
                 const body = {
                   books: temp,
-                  expectedReturnDate: event.currentTarget.expectedReturnDate.valueAsDate.toISOString()
+                  expectedReturnDate: time,
+                  borrower: selectedReader.readerId,
                 };
+                console.log(body)
                 axios
                   .post("/api/borrow", {
                     method: "POST",
@@ -162,9 +203,10 @@ export default function BorrowForm({ id }) {
                     body: JSON.stringify(body),
                   })
                   .then((response) => {
-                    if (response.status == 200)
+                    if (response.status == 200) {
                       alert("Created borrow-book card successfully");
-                    else
+                      router.refresh();
+                    } else
                       alert(
                         "There is a error on the server. Please try again in a few second"
                       );
@@ -186,12 +228,19 @@ export default function BorrowForm({ id }) {
                         type="text"
                         list="name"
                         className="form-control"
-                        disabled={user?.role == "admin" ? false : true}
+                        disabled={profile?.role == "admin" ? false : true}
+                        onChange={() => {
+                          var datalist = document.getElementById("name");
+                          datalist.childNodes.forEach((element) => {
+                            setSelectedReader(readers.at(element.id));
+                            console.log(selectedReader);
+                          });
+                        }}
                       />
                       <datalist id="name"></datalist>
                     </Form.Group>
                   </Col>
-                  <Col >
+                  <Col>
                     <Form.Group>
                       <Form.Label className={montserrat.className}>
                         Expected Return date
@@ -322,18 +371,28 @@ export default function BorrowForm({ id }) {
                         console.log(option);
                         console.log(element);
                         if (option.id == element.id) {
-                          borrowBook.splice(index, 1);
+                          const temp = [...borrowBook];
+                          temp.at(index).quantity = count;
+                          setBorrowBook(temp);
+                          option = null;
                           break;
                         }
                       }
 
                       if (option) {
-                        borrowBook.push({
+                        const temp = [...borrowBook];
+                        temp.push({
                           id: option.id,
                           name: option.name,
                           quantity: count,
                         });
-                        bookTable();
+                        setBorrowBook(temp);
+                      }
+                      document.getElementById("bookName").value = "";
+                      var amount = document.getElementById("amount");
+                      if (amount) {
+                        amount.value = "";
+                        amount.disabled = true;
                       }
                     }}
                   >
@@ -347,21 +406,7 @@ export default function BorrowForm({ id }) {
                       <Form.Label className={montserrat.className}>
                         Book order list
                       </Form.Label>
-                      <table
-                        className={`${styles.tableFixed} table`}
-                        onSelect={(event) => {
-                          console.log(event.currentTarget);
-                        }}
-                      >
-                        <thead>
-                          <tr>
-                            <th class="col-xs-3">STT</th>
-                            <th class="col-xs-3">Name</th>
-                            <th class="col-xs-6"> Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody id="tableBody">{borrowBookList}</tbody>
-                      </table>
+                      {bookTable()}
                     </Form.Group>
                   </Col>
                   <Button

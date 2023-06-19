@@ -23,7 +23,7 @@ export async function GET(req:NextRequest){
           const result:BorrowForm[] = []
           const data = response.data.data.doc;
           data.forEach(element => {
-              result.push(new BorrowForm(element._id, element.borrower._id,element.borrower.firstName + " " + element.borrower.lastName, element.borrowDate, element.expectedReturnDate))
+              result.push(new BorrowForm(element._id, element.borrower._id,element.borrower.fullName, element.borrowDate, element.expectedReturnDate))
           });
           console.log(result)
           return NextResponse.json(result, { status: 200, statusText: "Success" });

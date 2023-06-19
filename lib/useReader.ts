@@ -5,8 +5,6 @@ import useSWR from 'swr'
 import { User } from '../models/user'
 import { get } from 'http'
 import axios from 'axios'
-import { updateSession } from '@auth0/nextjs-auth0'
-import { useSession } from 'next-auth/react'
 import Reader from '../models/reader'
 
 export default function useReader() {

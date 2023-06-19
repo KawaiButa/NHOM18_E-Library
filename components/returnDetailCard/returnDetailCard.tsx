@@ -14,7 +14,7 @@ import {
     Stack,
     Table,
 } from "react-bootstrap";
-import styles from "./borrowCardDetail.module.css";
+import styles from "../borrowCardList/borrowCardDetail/borrowCardDetail.module.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { eventNames } from "process";
