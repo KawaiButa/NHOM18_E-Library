@@ -83,7 +83,7 @@ export default function BookList() {
                     event.currentTarget.style.borderWidth = "0px";
                     event.currentTarget.style.borderColor = "";
                     const temp = [...selectedBooks];
-                    temp.splice(temp.indexOf(element), 0);
+                    temp.splice(temp.indexOf(element), 1);
                     setSelectedBooks(temp);
                   }
                   console.log(selectedBooks);
@@ -253,7 +253,7 @@ export default function BookList() {
                 height: "58px",
                 borderRadius: "20px",
                 color: "white",
-
+                borderWidth: "0px",
                 backgroundColor: "#CE433F",
               }}
               onClick={() => {

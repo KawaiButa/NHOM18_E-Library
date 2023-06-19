@@ -5,13 +5,10 @@ import useSWR from 'swr'
 import { User } from '../models/user'
 import { get } from 'http'
 import axios from 'axios'
-import { updateSession } from '@auth0/nextjs-auth0'
-import { useSession } from 'next-auth/react'
 import Reader from '../models/reader'
 
 export default function useReader() {
-  const router = useRouter()
-  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {});
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {alert(error.response.data)});
   const { data: readers, mutate: mutateReader } = useSWR<Reader[]>('/api/reader', fetcher)
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)

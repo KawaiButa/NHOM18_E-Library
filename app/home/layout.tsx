@@ -29,7 +29,9 @@ import ProfileButton from "../../components/profileButton/profileButton";
 import "next/navigation";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import useUser from "../../lib/useUser";
+import useUser from "../../lib/useProfile";
+import path from "path";
+import useProfile from "../../lib/useProfile";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
   style: "normal",
@@ -40,7 +42,7 @@ export default function Layout({ children }) {
   console.log(pathName.split("/").slice(-1)[0]);
   const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
   const router = useRouter();
-  const { user } = useUser();
+  const { profile } = useProfile();
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -138,7 +140,7 @@ export default function Layout({ children }) {
                       <Button
                         className={styles.sidebarMenuSubButton}
                         onClick={() => {
-                          if (user?.role == "admin")
+                          if (profile?.role == "admin")
                             router.push("/home/transaction/borrow");
                           else router.push("/home/transaction/borrow/add");
                         }}
@@ -150,7 +152,10 @@ export default function Layout({ children }) {
                           Borrow card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton} onClick={() => router.push("/home/transaction/return")}>
+                      <Button
+                        className={styles.sidebarMenuSubButton}
+                        onClick={() => router.push("/home/transaction/return")}
+                      >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -158,7 +163,9 @@ export default function Layout({ children }) {
                           Return card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}>
+                      <Button className={styles.sidebarMenuSubButton}
+                                              onClick={() => router.push("/home/transaction/fee")}
+                                              >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -166,7 +173,10 @@ export default function Layout({ children }) {
                           Fee card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}  onClick={() => router.push("/home/transaction/remind")}>
+                      <Button
+                        className={styles.sidebarMenuSubButton}
+                        onClick={() => router.push("/home/transaction/remind")}
+                      >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -214,7 +224,18 @@ export default function Layout({ children }) {
                     >
                       <image className="icon bi-search fa-lg"></image>
                     </div>
-                    <FormControl size="lg" className="border-0"></FormControl>
+                    <FormControl
+                      size="lg"
+                      className="border-0"
+                      onKeyDown={(event) => {
+                        if (event.key == "Enter") {
+                          event.preventDefault();
+                          var url = new URL(document.URL.split("?")[0])
+                          url.searchParams.set("search", event.currentTarget.value);
+                          window.location.replace(url)
+                        }
+                      }}
+                    ></FormControl>
                   </InputGroup>
                 </FormGroup>
               </Col>

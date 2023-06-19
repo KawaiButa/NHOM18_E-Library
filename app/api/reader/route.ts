@@ -21,12 +21,14 @@ export async function POST(req: NextRequest) {
             },
             data: body.body
         };
-        var message: string = "";
-        const res = await axios.request(config).catch((error) => { message = error.response.data.message; return new Response('', { status: 409, statusText: "Conflict" }); });
-        if (res.status == 201)
-            return NextResponse.json("Success", { status: res.status, statusText: res.statusText });
-        else
-            return NextResponse.json(message, { status: 409, statusText: "Conflict" });
+        const res = await axios.request(config).then((response) => {
+            if (response.status == 201) {
+                const element = response.data
+                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.email, element.dateOfBirth)
+                return NextResponse.json(reader, { status: 200, statusText: "Success" })
+            }
+        }).catch((error) => { return NextResponse.json(error.response.data, { status: 409, statusText: "Conflict" }); });
+        return res
     }
     else
         return NextResponse.json("No access token", { status: 401, statusText: "Unauthorized" })

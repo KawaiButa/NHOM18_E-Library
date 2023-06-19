@@ -8,9 +8,10 @@ import {
   Stack,
 } from "react-bootstrap";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Montserrat } from "next/font/google";
 import axios from "axios";
+import useUser from "../../lib/useUser";
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -19,6 +20,8 @@ const montserrat = Montserrat({
 export default function MemberForm({ readerID }) {
   const [imgUrl, setImgUrl] = useState("#");
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState();
+  const { users, mutateUser } = useUser();
   useEffect(() => {
     async function onCreate() {
       if (readerID && readerID != "undefined") {
@@ -40,12 +43,27 @@ export default function MemberForm({ readerID }) {
           document.getElementById("memberDate").style.visibility = "visible";
           document.getElementById("memberDate").lastElementChild.value = String(
             data.memberDate
-          ).substring(0,10);
+          ).substring(0, 10);
+        }
+      } else {
+        if (users) {
+          var datalist = document.getElementById("user");
+          datalist.replaceChildren();
+          users.forEach((element, index) => {
+            var option = document.createElement("option");
+            option.id = element.id;
+            option.value = element.email;
+            option.innerHTML = "Id: " + element.id;
+            datalist.append(option);
+          });
+          document.getElementById("fullName").disabled = false;
+        } else {
+          document.getElementById("fullName").disabled = true;
         }
       }
     }
     onCreate();
-  }, []);
+  }, [users, selectedUser]);
   if (!isLoading)
     return (
       <>
@@ -62,7 +80,7 @@ export default function MemberForm({ readerID }) {
               email: event.currentTarget.email.value,
             };
             setIsLoading(true);
-            const res = axios
+            const res = await axios
               .post("/api/reader", {
                 method: "POST",
                 headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -81,22 +99,34 @@ export default function MemberForm({ readerID }) {
               .catch((error) => {
                 alert(error.response.data);
               });
-            await res;
+            if(res.status == 201)
+            {
+              //await axios.patch()
+            }
             setIsLoading(false);
           }}
         >
           <Stack gap={5}>
             <Form.Group>
-              <Form.Label className={montserrat.className}>
-                Member Name
-              </Form.Label>
+              <Form.Label className={montserrat.className}>Email</Form.Label>
               <Form.Control
                 size="lg"
-                type="name"
-                placeholder="Your name"
-                id="fullName"
+                type="email"
+                placeholder="Like youremail@gmail.com"
+                id="email"
+                list="user"
+                onChange={(event) => {
+                  const email = event.currentTarget.value;
+                  for (let i = 0; i < users.length; i++) {
+                    const element = users.at(i);
+                    if (element.email == email) setSelectedUser(element);
+                  }
+                  console.log(selectedUser);
+                }}
               />
             </Form.Group>
+            <datalist id="user" onC></datalist>
+
             <Stack direction="horizontal" gap={5}>
               <FormGroup>
                 <Form.Label className={montserrat.className}>
@@ -117,12 +147,15 @@ export default function MemberForm({ readerID }) {
               </FormGroup>
             </Stack>
             <Form.Group>
-              <Form.Label className={montserrat.className}>Email</Form.Label>
+              <Form.Label className={montserrat.className}>
+                Member Name
+              </Form.Label>
               <Form.Control
                 size="lg"
-                type="email"
-                placeholder="Like youremail@gmail.com"
-                id="email"
+                type="name"
+                placeholder="Your name"
+                id="fullName"
+                defaultValue={selectedUser == null ? "" : selectedUser.name}
               />
             </Form.Group>
             <Form.Group>

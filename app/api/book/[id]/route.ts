@@ -8,12 +8,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const token = req.cookies.get("token")?.value;
     if (token) {
         const data = await req.formData()
-        //console.log(data)
         const res = axios.patch(BookAPI.oneBookEndpoint + params.id, data, {
             method: "PATCH",
             headers: {
-                "content-type": "multipart/form-data",
+                "Content-Type": "multipart/form-data",
                 "Authorization": "Bearer " + token,
+                'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlZmE1YjU1MmYxYjZhNTNjZmYwMiIsImlhdCI6MTY4NjMwMjYzMCwiZXhwIjoxNjg2OTA3NDMwfQ.8S4UCi9m6ZVgtotNOAemN4RvF2A-TZ0NGjqZAp3cuk4'
               },
         }).then((response) => {
             if (response.status == 201) {
@@ -41,6 +41,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
             headers: {
                 "content-type": "application/json",
                 "Authorization": "Bearer " + token,
+                'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlZmE1YjU1MmYxYjZhNTNjZmYwMiIsImlhdCI6MTY4NjMwMjYzMCwiZXhwIjoxNjg2OTA3NDMwfQ.8S4UCi9m6ZVgtotNOAemN4RvF2A-TZ0NGjqZAp3cuk4'
+
               },
         }).then((response) => {
             if (response.status == 204) {
