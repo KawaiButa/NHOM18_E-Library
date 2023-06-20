@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Montserrat } from "next/font/google";
 import axios from "axios";
 import useUser from "../../lib/useUser";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -19,9 +20,11 @@ const montserrat = Montserrat({
 });
 export default function MemberForm({ readerID }) {
   const [imgUrl, setImgUrl] = useState("#");
+  const [img, setImg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState();
   const { users, mutateUser } = useUser();
+  const router = useRouter();
   useEffect(() => {
     async function onCreate() {
       if (readerID && readerID != "undefined") {
@@ -80,30 +83,53 @@ export default function MemberForm({ readerID }) {
               email: event.currentTarget.email.value,
             };
             setIsLoading(true);
+            let config = {
+              method: readerID ? "patch" : "post",
+              maxBodyLength: Infinity,
+              url: "/api/reader/" + readerID,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              data: JSON.stringify(body),
+            };
             const res = await axios
-              .post("/api/reader", {
-                method: "POST",
-                headers: { "Content-type": "application/json; charset=UTF-8" },
-                body: JSON.stringify(body),
-              })
+              .request(config)
               .then((response) => {
-                if (response.status == 201) {
+                if (response.status == 200) {
                   alert("Add member successfully");
-                  document.getElementById("form").reset();
                 } else {
                   alert(
                     "There is a problem with the server. \n Please try again in a few seconds or contact to us"
                   );
                 }
+                return response
               })
               .catch((error) => {
                 alert(error.response.data);
               });
-            if(res.status == 201)
-            {
-              //await axios.patch()
+            if (res.status == 200 && img) {
+              const data = new FormData();
+              console.log(res.data)
+              const userId = res.data.userId;
+              data.append("avatar", img);
+              axios
+                .patch("/api/profile/" + userId, data, {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then((response) => {
+                  if (response.status == 200) {
+                    alert("Update avatar successfully");
+                  }
+                })
+                .catch((error) => {
+                  alert(error.response.data);
+                });
             }
-            setIsLoading(false);
+            if (readerID && readerID != "undefined") router.back();
+            else router.refresh();
           }}
         >
           <Stack gap={5}>
@@ -219,6 +245,9 @@ export default function MemberForm({ readerID }) {
                           if (
                             document.getElementById("ImageControl").files[0]
                           ) {
+                            setImg(
+                              document.getElementById("ImageControl").files[0]
+                            );
                             setImgUrl(
                               URL.createObjectURL(
                                 document.getElementById("ImageControl").files[0]
@@ -232,6 +261,7 @@ export default function MemberForm({ readerID }) {
                             document.getElementById(
                               "ImageHolder"
                             ).style.height = "369px";
+                            console.log(img)
                           }
                         }}
                       />

@@ -85,10 +85,10 @@ export default function BorrowForm({ id }) {
     });
     var nameList = document.getElementById("name");
     nameList?.replaceChildren();
-    readers?.forEach((element) => {
+    readers?.forEach((element, index) => {
       var option = document.createElement("option");
       option.value = element.name;
-      option.id = element.index;
+      option.id = index;
       option.innerHTML = element.email;
       nameList?.appendChild(option);
     });
@@ -189,7 +189,8 @@ export default function BorrowForm({ id }) {
                 if (event.currentTarget.expectedReturnDate.valueAsDate)
                   time =
                     event.currentTarget.expectedReturnDate.valueAsDate.toISOString();
-                else time = Date.now().toISOString();
+                else time = null
+                console.log(selectedReader)
                 const body = {
                   books: temp,
                   expectedReturnDate: time,
@@ -232,6 +233,7 @@ export default function BorrowForm({ id }) {
                         onChange={() => {
                           var datalist = document.getElementById("name");
                           datalist.childNodes.forEach((element) => {
+                            console.log(element)
                             setSelectedReader(readers.at(element.id));
                             console.log(selectedReader);
                           });

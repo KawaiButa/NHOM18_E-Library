@@ -13,7 +13,7 @@ const montserrat = Montserrat({
 export default function ProfileButton() {
   const router = useRouter();
   const { profile } = useProfile();
-  if (true)
+  if (profile)
     return (
       <div className={styles.profileDropdown}>
         <div className={styles.profileDropdownDiv}>
@@ -47,7 +47,7 @@ export default function ProfileButton() {
                 backgroundColor: "transparent",
                 borderWidth: "0px",
               }}
-              href="/home/member/profile/aaa"
+              href={"/home/member/profile/" + profile.id}
             >
               <Container
                 className="d-flex justify-content-center align-items-center "
@@ -168,4 +168,5 @@ export default function ProfileButton() {
         </div>
       </div>
     );
+  else return <></>;
 }

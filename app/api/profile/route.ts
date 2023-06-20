@@ -2,15 +2,12 @@ import React from 'react'
 import { User } from '../../../models/user'
 import axios, { Axios } from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies, headers } from 'next/headers'
 export async function GET(req: NextRequest) {
-    const cookieStore = cookies()
     const token = req.cookies.get("token")
     console.log(token)
     if (token) {
         // in a real world application you might read the user id from the session and then do a database request
         // to get more information on the user if needed
-        let data = '';
         let config = {
             method: 'GET',
             maxBodyLength: Infinity,
