@@ -36,6 +36,5 @@ export default function Transaction() {
         <BorrowListCard id={member?.readerId}></BorrowListCard>
       </div>
     );
-    else return    <>
-  </>
+  else return <></>;
 }

@@ -45,7 +45,7 @@ export default function Layout({ children }) {
   const { profile } = useProfile();
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
-  }, []);
+  }, [profile]);
   return (
     <Col
       direction="horizontal"
@@ -88,34 +88,45 @@ export default function Layout({ children }) {
                 </SidebarMenu.Nav.Title>
               </SideTabButton>
             </SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Link
-              role="button"
-              className={styles.sidebarNavLink}
-              href={"/home/book"}
-            >
-              <SideTabButton tab="book">
-                <SidebarMenu.Nav.Title
-                  className={montserrat.className}
-                  style={{ color: "inherit" }}
+            {profile && profile.role == "admin" ? (
+              <>
+                <SidebarMenu.Nav.Link
+                  role="button"
+                  className={styles.sidebarNavLink}
+                  href={"/home/book"}
                 >
-                  Book
-                </SidebarMenu.Nav.Title>
-              </SideTabButton>
-            </SidebarMenu.Nav.Link>
-            <SidebarMenu.Nav.Link
-              role="button"
-              className={styles.sidebarNavLink}
-              href={(profile && profile.role == "admin")? "/home/member":"/home/profile/" + profile?.id}
-            >
-              <SideTabButton tab="member">
-                <SidebarMenu.Nav.Title
-                  className={montserrat.className}
-                  style={{ color: "inherit" }}
+                  <SideTabButton tab="book">
+                    <SidebarMenu.Nav.Title
+                      className={montserrat.className}
+                      style={{ color: "inherit" }}
+                    >
+                      Book
+                    </SidebarMenu.Nav.Title>
+                  </SideTabButton>
+                </SidebarMenu.Nav.Link>
+                <SidebarMenu.Nav.Link
+                  role="button"
+                  className={styles.sidebarNavLink}
+                  href={
+                    profile && profile.role == "admin"
+                      ? "/home/member"
+                      : "/home/profile/" + profile?.id
+                  }
                 >
-                  Member
-                </SidebarMenu.Nav.Title>
-              </SideTabButton>
-            </SidebarMenu.Nav.Link>
+                  <SideTabButton tab="member">
+                    <SidebarMenu.Nav.Title
+                      className={montserrat.className}
+                      style={{ color: "inherit" }}
+                    >
+                      Member
+                    </SidebarMenu.Nav.Title>
+                  </SideTabButton>
+                </SidebarMenu.Nav.Link>
+              </>
+            ) : (
+              <></>
+            )}
+
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
@@ -163,9 +174,10 @@ export default function Layout({ children }) {
                           Return card
                         </SidebarMenu.Nav.Title>
                       </Button>
-                      <Button className={styles.sidebarMenuSubButton}
-                                              onClick={() => router.push("/home/transaction/fee")}
-                                              >
+                      <Button
+                        className={styles.sidebarMenuSubButton}
+                        onClick={() => router.push("/home/transaction/fee")}
+                      >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
@@ -230,9 +242,12 @@ export default function Layout({ children }) {
                       onKeyDown={(event) => {
                         if (event.key == "Enter") {
                           event.preventDefault();
-                          var url = new URL(document.URL.split("?")[0])
-                          url.searchParams.set("search", event.currentTarget.value);
-                          window.location.replace(url)
+                          var url = new URL(document.URL.split("?")[0]);
+                          url.searchParams.set(
+                            "search",
+                            event.currentTarget.value
+                          );
+                          window.location.replace(url);
                         }
                       }}
                     ></FormControl>

@@ -1,9 +1,7 @@
 import {
   Container,
   Form,
-
   Image,
-
   Stack,
   Nav,
   InputGroup,
@@ -13,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import useProfile from "../../lib/useProfile";
 import axios from "axios";
+import userFinancial from "../../lib/useFinancial";
 const montserrat = Montserrat({
   weight: ["400", "700"],
   subsets: ["vietnamese"],
@@ -99,7 +98,42 @@ const TopUp_payment = () => {
                   Top up account
                 </p>
               </h2>
-              <Form>
+              <Form
+                onSubmit={async function HandleSummitEvent(event) {
+                  console.log(topUpMoney);
+                  event.preventDefault();
+                  if (topUpMoney != 0) {
+                    const data = {
+                      money: topUpMoney,
+                    };
+                    let config = {
+                      method: "post",
+                      maxBodyLength: Infinity,
+                      url: "/api/financial/topUp",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      data: data,
+                    };
+                    await axios
+                      .request(config)
+                      .then((response) => {
+                        if (response.status == 200) {
+                          window.open(response.data, "_blank").focus();
+                          window.location.reload();
+                        } else {
+                          alert(response.data);
+                          window.location.reload();
+                        }
+                      })
+                      .catch((error) => {
+                        alert(error.response.data);
+                      });
+                  } else {
+                    alert("Please insert a number");
+                  }
+                }}
+              >
                 <Form.Group controlId="memberName">
                   <Stack direction="horizontal">
                     <Form.Label style={{ width: "130px" }}>
@@ -127,65 +161,68 @@ const TopUp_payment = () => {
                     />
                   </Stack>
                 </Form.Group>
-              </Form>
-            </div>
-
-            <div className="section" style={{ marginTop: "20px" }}>
-              <h2>
-                <p
-                  className={montserrat.className}
-                  style={{ fontSize: "25px", fontWeight: "600" }}
-                >
-                  Top up
-                </p>
-              </h2>
-              <Stack style={{ alignItems: "center", marginTop: "30px" }}>
-                <InputGroup style={{ width: "300px" }}>
-                  <div
-                    className="input-group-prepend"
-                    style={{
-                      width: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderTopLeftRadius: "10px",
-                      borderBottomLeftRadius: "10px",
-                    }}
-                  >
-                    <Image
-                      src="/money.png"
+                <div className="section" style={{ marginTop: "20px" }}>
+                  <h2>
+                    <p
+                      className={montserrat.className}
+                      style={{ fontSize: "25px", fontWeight: "600" }}
+                    >
+                      Top up
+                    </p>
+                  </h2>
+                  <Stack style={{ alignItems: "center", marginTop: "30px" }}>
+                    <InputGroup style={{ width: "300px" }}>
+                      <div
+                        className="input-group-prepend"
+                        style={{
+                          width: "50px",
+                          border: "1px solid #D9D9D9",
+                          borderTopLeftRadius: "10px",
+                          borderBottomLeftRadius: "10px",
+                        }}
+                      >
+                        <Image
+                          src="/money.png"
+                          style={{
+                            width: "25px",
+                            height: "30px",
+                            marginTop: "10px",
+                            marginLeft: "14px",
+                          }}
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Top up amount"
+                        min={0}
+                        max="any"
+                        step={1000}
+                        style={{ boxShadow: "none" }}
+                        onChange={(event) => {
+                          topUpMoney = event.currentTarget.value;
+                        }}
+                      />
+                    </InputGroup>
+                    <button
+                      className="btn btn-primary"
                       style={{
-                        width: "25px",
-                        height: "30px",
-                        marginTop: "10px",
-                        marginLeft: "14px",
+                        width: "100px",
+                        height: "40px",
+                        marginTop: "30px",
                       }}
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Top up amount"
-                    style={{ boxShadow: "none" }}
-                  />
-                </InputGroup>
-                <p className="balance-info" style={{ marginTop: "10px" }}>
-                  Your balance will be{" 1000 "}
-                </p>
-                <button
-                  className="btn btn-primary"
-                  style={{
-                    width: "100px",
-                    height: "40px",
-                    marginTop: "30px",
-                  }}
-                >
-                  <p
-                    className={montserrat.className}
-                    style={{ fontSize: "18px" }}
-                  >
-                    Top up
-                  </p>
-                </button>
-              </Stack>
+                      type="submit"
+                    >
+                      <p
+                        className={montserrat.className}
+                        style={{ fontSize: "18px" }}
+                      >
+                        Top up
+                      </p>
+                    </button>
+                  </Stack>
+                </div>
+              </Form>
             </div>
           </div>
         </Stack>
@@ -260,12 +297,18 @@ const TopUp_payment = () => {
                     />
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     placeholder=""
+                    min={1000}
+                    max={financial.totalDebt}
+                    step={1000}
                     style={{
                       boxShadow: "none",
                       textAlign: "center",
+                    }}
+                    onChange={(event) => {
+                      payMoney = event.currentTarget.value;
                     }}
                   />
                 </InputGroup>
@@ -281,7 +324,12 @@ const TopUp_payment = () => {
                 <span className="label mr-2" style={{ color: "#B1B1B1" }}>
                   Total Fee
                 </span>
-                <span className="value">40000 VNĐ</span>
+                <span className="value">
+                  {new Intl.NumberFormat("vn-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(financial.totalDebt)}
+                </span>
               </div>
               <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
               <div
@@ -309,7 +357,10 @@ const TopUp_payment = () => {
                     fontSize: "20px",
                   }}
                 >
-                  29000 VNĐ
+                  {new Intl.NumberFormat("vn-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(financial.balance - payMoney)}
                 </span>
               </div>
             </div>
@@ -330,10 +381,12 @@ const TopUp_payment = () => {
       </div>
     );
   };
-
+  const { financial } = userFinancial();
   const [activeTab, setActiveTab] = useState("topup");
   const [member, setMember] = useState(null);
   const { profile } = useProfile();
+  var topUpMoney = 0;
+  var payMoney = 0;
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -355,7 +408,9 @@ const TopUp_payment = () => {
           router.back();
         });
     }
-    onCreate();
+    if (profile) {
+      onCreate();
+    }
   }, [profile]);
   if (member)
     return (
@@ -369,7 +424,7 @@ const TopUp_payment = () => {
           }}
         >
           <Stack style={{ alignItems: "center" }}>
-            <BalanceContainer balance={1000} />
+            <BalanceContainer balance={financial.balance} />
             <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
             <div>
               {activeTab === "topup" && <TopUp />}
