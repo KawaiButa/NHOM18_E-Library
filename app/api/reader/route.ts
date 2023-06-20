@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
         const res = await axios.request(config).then((response) => {
             if (response.status == 201) {
                 const element = response.data
-                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.email, element.dateOfBirth)
+                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.user, element.email, element.dateOfBirth)
                 return NextResponse.json(reader, { status: 200, statusText: "Success" })
             }
         }).catch((error) => { return NextResponse.json(error.response.data, { status: 409, statusText: "Conflict" }); });
@@ -54,10 +54,10 @@ export async function GET(req: NextRequest) {
             const result: Reader[] = [];
             console.log(data)
             data.forEach(element => {
-                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.email, element.dateOfBirth)
+                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.user, element.email, element.dateOfBirth)
                 result.push(reader);
             });
-            return NextResponse.json(result);
+            return NextResponse.json(result, {status: 200, statusText: "Success"});
         }
         else
             return NextResponse.json(null, { status: response.status, statusText: response.statusText })

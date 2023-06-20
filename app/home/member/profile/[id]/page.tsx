@@ -5,6 +5,6 @@ import MemberCard from "../../../../../components/memberCard/menberCard";
 
 export default function Page({params}: {params: {id: String}}){
     return     <div className="d-flex justify-content-center align-items-center">
-    <MemberCard/>
+    <MemberCard user= {params.id}/>
   </div>
 }

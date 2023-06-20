@@ -42,17 +42,49 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             .then((response) => {
                 if (response.status == 200) {
                     const data = response.data.data.doc;
-                    const reader = new Reader(data._id, data.fullName, data.readerType, data.address, data.cardCreatedAt, data.email, data.dateOfBirth);
+                    const reader = new Reader(data._id, data.fullName, data.readerType, data.address, data.cardCreatedAt, data.user, data.email, data.dateOfBirth);
                     return NextResponse.json(reader, { status: 200, statusText: "Success" })
                 }
                 else
-                    return NextResponse.json(response.data, { status: response.status, statusText: response.statusText})
+                    return NextResponse.json(response.data, { status: response.status, statusText: response.statusText })
             })
             .catch((error) => {
-                return NextResponse.json(error.response.data.message, {status: 409, statusText: "Conflict"})
+                return NextResponse.json(error.response.data.message, { status: 409, statusText: "Conflict" })
             })
         return res;
     }
     else
         return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
+}
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+    const token = req.cookies.get("token")?.value;
+    if (token) {
+        const body = await req.json()
+        console.log(body)
+        const res = await axios.patch('https://book-library-management.onrender.com/api/v1/readers/' + params.id, body,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NzIzMTIyMiwiZXhwIjoxNjg5ODIzMjIyfQ.knlcSJM_O-Xef7IZrcQ6WjOdW9ddZfNOfj9VWXaMZE4',
+                },
+            }).then((response) => {
+                if (response.status == 200) {
+                    const data = response.data.data.doc
+                    const reader = new Reader(data._id, data.fullName, data.readerType, data.address, data.cardCreatedAt, data.user, data.email, data.dateOfBirth);
+                    console.log(reader)
+                    return NextResponse.json(reader, { status: 200, statusText: "Success" })
+                }
+                else
+                    return NextResponse.json(response.data, { status: response.status, statusText: response.statusText })
+            }).catch((error) => {
+                console.log(error)
+                return NextResponse.json(error.response.data.message, { status: 409, statusText: "Conflict" })
+            })
+        return res
+    }
+    else
+        return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
+
 }

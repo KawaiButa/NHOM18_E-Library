@@ -18,29 +18,33 @@ export default function BookForm({ id }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    if (id) {
-      axios
-        .get("/api/book/" + id, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          const data = response.data;
-          document
-            .getElementById("bookTitle")
-            .setAttribute("defaultValue", data.name);
-          document.getElementById("bookTitle").setAttribute("disabled", true);
-          document
-            .getElementById("author")
-            .setAttribute("defaultValue", data.author);
-        })
-        .catch((error) => {
-          alert(error.response.data);
-          router.back();
-        });
+    async function onCreate() {
+      if (id) {
+        await axios
+          .get("/api/book/" + id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            const data = response.data.data.doc;
+            document.getElementById("bookTitle").value = data.nameBook;
+            document.getElementById("bookTitle").setAttribute("disabled", true);
+            document.getElementById("author").value = data.author;
+            document.getElementById("description").value = data.description;
+            document.getElementById("publisher").value = data.publisher;
+            document.getElementById("amount").value = data.numberOfBooks;
+            document.getElementById("price").value = data.price;
+            document.getElementById("year").value = data.publicationYear;
+          })
+          .catch((error) => {
+            alert(error.response.data);
+            router.back();
+          });
+      }
     }
+    onCreate();
   }, []);
   return (
     <main>
@@ -50,6 +54,7 @@ export default function BookForm({ id }) {
           maxWidth: "1178px",
           paddingLeft: "80px",
           paddingRight: "100px ",
+          height: "100%",
         }}
       >
         {!loading ? (
@@ -67,14 +72,24 @@ export default function BookForm({ id }) {
                 numberOfBooks: event.currentTarget.amount.value,
               };
               setLoading(true);
+              let config = {
+                method: id ? "patch" : "post",
+                maxBodyLength: Infinity,
+                url:
+                  "/api/book/"+
+                  id,
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                data: JSON.stringify(body),
+              };
+
               const res = await axios
-                .post("/api/book", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(body),
-                })
+                .request(config)
                 .then((response) => {
                   if (response.status == 200) {
+                    alert((id ? "Update" : "Create") + " book successfully");
+                    if (!img) router.refresh();
                     return response;
                   } else {
                     return response;
@@ -83,7 +98,7 @@ export default function BookForm({ id }) {
                 .catch((error) => {
                   alert(error.response.data);
                 });
-              if (res.status == 200) {
+              if (res.status == 200 && img) {
                 const data = new FormData();
 
                 data.append("photos", img);
@@ -98,7 +113,7 @@ export default function BookForm({ id }) {
                   .then((response) => {
                     console.log(response.data.data.doc);
                     router.refresh();
-                    alert("Add book successfully");
+                    alert("Update book image successfully");
                   })
                   .catch((error) => alert(error.response.data));
               }
@@ -214,7 +229,11 @@ export default function BookForm({ id }) {
             className="d-flex justify-content-center align-items-center"
             style={{ width: "100%", height: "100%" }}
           >
-            <div className="spinner-border" role="status" style={{width: "100px", height: "100px"}}>
+            <div
+              className="spinner-border"
+              role="status"
+              style={{ width: "100px", height: "100px", marginTop: "200px" }}
+            >
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
