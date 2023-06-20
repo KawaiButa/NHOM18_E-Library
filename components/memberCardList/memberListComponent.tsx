@@ -17,6 +17,7 @@ import styles from "./memberListCard.module.css";
 import useReader from "../../lib/useReader";
 import fetchJson from "../../lib/fetchJson";
 import { useSearchParams } from "next/navigation";
+import removeVietnameseTones from "../../lib/standelizeString";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -80,7 +81,7 @@ export default function MemberListCard() {
             case "name": {
               const temp = [...readerAfterSearch];
               readerAfterSearch.forEach((element) => {
-                if (!element.name.includes(value))
+                if (!removeVietnameseTones(element.name).includes(removeVietnameseTones(value)))
                   temp.splice(temp.indexOf(element), 1);
               });
               readerAfterSearch = [...temp];
@@ -89,7 +90,7 @@ export default function MemberListCard() {
             case "address": {
               const temp = [...readerAfterSearch];
               readerAfterSearch.forEach((element) => {
-                if (!element.address.includes(value))
+                if (!removeVietnameseTones(element.address).includes(removeVietnameseTones(value)))
                   temp.splice(temp.indexOf(element), 1);
               });
               readerAfterSearch = [...temp];
@@ -107,7 +108,7 @@ export default function MemberListCard() {
             case "readerType": {
               const temp = [...readerAfterSearch];
               readerAfterSearch.forEach((element) => {
-                if (!element.readerType.includes(value))
+                if (!removeVietnameseTones(element.readerType).includes(removeVietnameseTones(value)))
                   temp.splice(temp.indexOf(element), 1);
               });
               readerAfterSearch = [...temp];

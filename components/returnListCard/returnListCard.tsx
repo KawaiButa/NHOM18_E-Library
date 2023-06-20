@@ -59,8 +59,8 @@ export default function RemindListCard() {
             {returns.map((element, index) => (
               <tr
                 key={element.id}
-                onDoubleClick={() =>
-                  router.push("/home/transaction/return/" + element.id)
+                onDoubleClick={
+                  () => {}
                 }
               >
                 <td>{index + 1}</td>

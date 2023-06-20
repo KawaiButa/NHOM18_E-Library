@@ -14,10 +14,12 @@ import {
   Table,
 } from "react-bootstrap";
 import styles from "./borrowListCard.module.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import BorrowForm from "../../models/borrowForm";
 import useBorrow from "../../lib/useBorrow";
 import fetchJson from "../../lib/fetchJson";
+import axios from "axios";
+import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -29,16 +31,19 @@ const montserrat = Montserrat({
 });
 
 export default function BorrowListCard() {
+  const [member, setMember] = useState();
   const { borrows, mutateBorrow } = useBorrow();
+  const { profile } = useProfile();
   const [modal, setModal] = useState(false);
   const [index, setIndex] = useState(0);
   const [selectedBorrow, setSelectedBorrow] = useState(new Array<BorrowForm>());
+  1;
   const router = useRouter();
 
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
   const borrowTable = () => {
-    if (borrows)
+    if (borrows && profile && member)
       return (
         <Table
           responsive
@@ -76,11 +81,11 @@ export default function BorrowListCard() {
                     event.currentTarget.style.borderWidth = "";
                     event.currentTarget.style.borderColor = "";
                     const temp = [...selectedBorrow];
-                    console.log(temp.indexOf(element))
+                    console.log(temp.indexOf(element));
                     temp.splice(temp.indexOf(element), 0);
                     setSelectedBorrow(temp);
                   }
-                  console.log(selectedBorrow)
+                  console.log(selectedBorrow);
                 }}
               >
                 <td>{index + 1}</td>
@@ -130,6 +135,26 @@ export default function BorrowListCard() {
       );
   };
   useEffect(() => {
+    async function onCreate() {
+      if (profile) {
+        await axios
+          .get("/api/profile/" + profile?.id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.status == 200) setMember(response.data);
+          })
+          .catch((error) => {
+            alert(error.message.data);
+            router.back();
+          });
+      }
+    }
+    onCreate();
   }, [borrows]);
   return (
     <>

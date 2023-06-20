@@ -17,9 +17,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
                     "Authorization": "Bearer " + token,
                     'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlZmE1YjU1MmYxYjZhNTNjZmYwMiIsImlhdCI6MTY4NjMwMjYzMCwiZXhwIjoxNjg2OTA3NDMwfQ.8S4UCi9m6ZVgtotNOAemN4RvF2A-TZ0NGjqZAp3cuk4'
                 },
-                data: data.body
+                data: data
             }).then((response) => {
-                if (response.status == 201) {
+                if (response.status == 200) {
                     const data = response.data.data.doc
                     const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
                     return NextResponse.json(book, { status: 200, statusText: "Success" })
@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
                     'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlZmE1YjU1MmYxYjZhNTNjZmYwMiIsImlhdCI6MTY4NjMwMjYzMCwiZXhwIjoxNjg2OTA3NDMwfQ.8S4UCi9m6ZVgtotNOAemN4RvF2A-TZ0NGjqZAp3cuk4'
                 },
             }).then((response) => {
-                if (response.status == 201) {
+                if (response.status == 200) {
                     const data = response.data.data.doc
                     const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
                     return NextResponse.json(book, { status: 200, statusText: "Success" })

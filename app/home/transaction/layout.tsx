@@ -15,7 +15,7 @@ export default function Layout({ children }) {
   }, []);
   return (
     <div
-      className="justify-content-center align-items-center"
+      className="justify-content-start align-items-center"
       style={{ marginLeft: "90px", marginRight: "60px" }}
     >
       <h1

@@ -119,7 +119,10 @@ export default function MemberCard({ user }) {
     );
   else
     return (
-      <div className="d-flex justify-content-center align-items-center">
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ width: "973px", height: "631px" }}
+      >
         <h2>
           {
             "You haven't create a member card. Please go to the library to create your card"

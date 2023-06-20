@@ -9,6 +9,7 @@ import useUser from "../../../lib/useProfile";
 import useBook from "../../../lib/useBook";
 import { useSearchParams } from "next/navigation";
 import Book from "../../../models/Book";
+import removeVietnameseTones from "../../../lib/standelizeString";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
@@ -28,14 +29,12 @@ export default function Home() {
         const temp = [...bookAfterSearch];
         if (key == "search") {
           bookAfterSearch?.forEach((element) => {
-            if (!element.name.includes(value)) temp.splice(temp.indexOf(element), 1);
+            if (!removeVietnameseTones(element.name[0]).includes(removeVietnameseTones(value))) temp.splice(temp.indexOf(element), 1);
           });
         }
         if (key == "alphabet") {
           bookAfterSearch?.forEach((element) => {
-            console.log(element.name[0])
-            console.log(element.name[0].includes(value))
-            if (!element.name[0].includes(value)) temp.splice(temp.indexOf(element), 1);
+            if (!removeVietnameseTones(element.name[0]).includes(removeVietnameseTones(value))) temp.splice(temp.indexOf(element), 1);
           });
         }
         bookAfterSearch = [...temp];

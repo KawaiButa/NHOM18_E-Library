@@ -105,7 +105,7 @@ export default function Layout({ children }) {
             <SidebarMenu.Nav.Link
               role="button"
               className={styles.sidebarNavLink}
-              href="/home/member"
+              href={(profile && profile.role == "admin")? "/home/member":"/home/profile/" + profile?.id}
             >
               <SideTabButton tab="member">
                 <SidebarMenu.Nav.Title

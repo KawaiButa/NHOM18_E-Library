@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
                         element.lostBooks.forEach(element => {
                             books.push({ id: element.bookId._id, quantity: element.quantity })
                         });
-                        result.push(new ReturnForm(element._id, element.borrowBookForm._id, element.borrower._id, element.borrower.firstName + " " + element.borrower.lastName, books, element.lateFee, element.borrowBookForm.borrowDate, element.returnDate))
+                        result.push(new ReturnForm(element._id, element.borrowBookForm._id, element.borrower._id, element.borrower.fullName, books, element.lateFee, element.borrowBookForm.borrowDate, element.returnDate))
                     });
                     console.log(result)
                     return NextResponse.json(result, { status: 200, statusText: "Success" });
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
                     const books: Array<{ id: string, quantity: Number }> = []
                     data.lostBooks.forEach(element => {
                         books.push({ id: element.bookId._id, quantity: element.quantity })})
-                        result = new ReturnForm(data._id, data.borrowBookForm._id, data.borrower._id, data.borrower.firstName + " " + data.borrower.lastName, books, data.lateFee, data.borrowBookForm.borrowDate, data.returnDate)
+                        result = new ReturnForm(data._id, data.borrowBookForm._id, data.borrower._id, data.borrower.fullName, books, data.lateFee, data.borrowBookForm.borrowDate, data.returnDate)
                         return NextResponse.json(result, { status: 200, statusText: "Success" });
                 }
                 else

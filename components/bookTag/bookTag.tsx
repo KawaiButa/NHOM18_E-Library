@@ -12,6 +12,7 @@ import { Montserrat, Open_Sans, Roboto } from "next/font/google";
 import styles from "./bookTag.module.css";
 import axios from "axios";
 import BookAPI from "../../endpoint/bookAPI";
+import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
   weight: ["400", "700"],
   style: "normal",
@@ -38,6 +39,7 @@ type Book = {
   price: string;
 };
 export default function BookTag({id}) {
+  const {profile} = useProfile()
   const [book, setBook] = useState({
     id: "",
     name: "",
@@ -73,7 +75,7 @@ export default function BookTag({id}) {
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, profile]);
   return (
     <>
       <Container
@@ -114,8 +116,10 @@ export default function BookTag({id}) {
                   borderWidth: "5px",
                   borderColor: "#D9D9D9",
                   backgroundColor: "transparent",
+                  visibility: (profile && profile.role == "admin")? "visible":"hidden"
                 }}
                 href={"/home/book/add/" + id}
+                
               >
                 <Image
                   src="/icon_pen_add.ico"

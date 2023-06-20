@@ -76,8 +76,8 @@ export default function BookForm({ id }) {
                 method: id ? "patch" : "post",
                 maxBodyLength: Infinity,
                 url:
-                  "/api/book/"+
-                  id,
+                  id? ("/api/book/"+
+                  id):"/api/book/",
                 headers: {
                   "Content-Type": "application/json",
                 },
@@ -111,8 +111,7 @@ export default function BookForm({ id }) {
                     },
                   })
                   .then((response) => {
-                    console.log(response.data.data.doc);
-                    router.refresh();
+                    router.back();
                     alert("Update book image successfully");
                   })
                   .catch((error) => alert(error.response.data));
