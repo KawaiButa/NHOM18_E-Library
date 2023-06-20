@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
         'Authorization': 'Bearer ' + token,
         'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4Njg5MzY4MywiZXhwIjoxNjg5NDg1NjgzfQ.q39M6mpSUyxEbjWDxWOGYGxYpnooNDs7dwA29dpXDW0'
       },
-      data : body.body
+      data : body
     };
     
     const res = await axios.request(config)

@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     "app/home/detail.jsx"
-, "components/borrowForm/borrowForm.js", "app/home/book/add/page.tsx", "components/bookForm/bookForm.tsx", "components/returnListCard/returnCard.js", "components/memberCard/menberCard.js", "components/topUp_payment/topUp_payment.js"  ],
+, "components/borrowForm/borrowForm.js", "app/home/book/add/page.tsx", "components/bookForm/bookForm.tsx", "components/returnListCard/returnCard.js", "components/memberCard/menberCard.js", "components/topUp_payment/topUp_payment.js", "app/home/transaction/borrow/page.js"  ],
   "exclude": [
     "node_modules"
   ]
