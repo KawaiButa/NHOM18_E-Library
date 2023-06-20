@@ -21,14 +21,16 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/components/memberForm.jsx"  ],
+    "**/*.tsx",
+    "app/home/detail.jsx"
+, "components/borrowForm/borrowForm.js", "app/home/book/add/page.tsx", "components/bookForm/bookForm.tsx", "components/returnListCard/returnCard.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,0 +1,52 @@
+.bookTag {
+  width: 973px;
+  height: 677px;
+  margin-Right: 0;
+  margin-Left: 0;
+  border-Radius: 10px;
+  border-Collapse: separate;
+  border-Color: black;
+  border-Width: 110px;
+}
+.bookTagImage {
+  width: 161px;
+  height: 243px;
+  margin-Left: 21px;
+  margin-Right: 44px;
+  margin-Top: 64px
+}
+.ModalButton{
+  background-Color:white;
+  border: 0;
+  padding-Top: 15px;
+  padding-Bottom: 15px;
+  border-radius: 30px;
+}
+.ModalButton:hover{
+  background-color: #F6F6F6;
+}
+
+@media screen and (max-width: 786px){
+  .bookTag{
+    width: 90%;
+    height: 500px;
+    margin-Right: 0;
+    margin-Left: 0;
+    border-Radius: 10px;
+    border-Collapse: separate;
+    border-Color: black;
+    border-Width: 110px;
+  }
+  .bookTagImage {
+    width: 100px;
+    height: 100px;
+    margin-Left: 5px;
+    margin-Right: 5px;
+    margin-Top: 30px
+  }
+}
+
+.btn:active {
+  background-color: red;
+
+}
