@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import RemindListCard from "../../../../components/remindCard/remindListCard";
+import TopUp_payment from "../../../../components/topUp_payment/topUp_payment";
 export default function Transaction(){
-    return <RemindListCard/>
+    return <TopUp_payment/>
 }

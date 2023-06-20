@@ -47,8 +47,8 @@ export default function SearchBar() {
         
        
       `}</style>
-            <Container style={{ height: "180px" }}>
-                <div className="d-flex justify-content-center">
+            <Container id="searchBar">
+                <div className="d-flex justify-content-start">
                     <div
                         className="mb-3 d-flex"
                         style={{
@@ -86,7 +86,7 @@ export default function SearchBar() {
                                 fontSize: "14px",
                             }}
                         />
-                        <Dropdown autoClose="outside">
+                        <Dropdown autoClose="outside" style={{zIndex: "10"}}>
                             <Dropdown.Toggle
                                 variant="primary"
                                 id="dropdown-checkbox"

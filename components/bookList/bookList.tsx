@@ -19,6 +19,7 @@ import useBook from "../../lib/useBook";
 import { useRouter } from "next/navigation";
 import fetchJson from "../../lib/fetchJson";
 import Book from "../../models/Book";
+import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -35,11 +36,12 @@ export default function BookList() {
   const router = useRouter();
   const { books, mutateBook } = useBook();
   const [selectedBooks, setSelectedBooks] = useState(new Array<Book>());
+  const { profile } = useProfile();
 
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
   const bookTable = () => {
-    if (books) {
+    if (books && profile) {
       return (
         <Table
           responsive
@@ -94,7 +96,11 @@ export default function BookList() {
                 <td>{element.author}</td>
                 <td>{element.publisher}</td>
                 <td>{element.numberOfBooks}</td>
-                <td>
+                <td
+                  style={{
+                    visibility: profile.role == "admin" ? "visible" : "hidden",
+                  }}
+                >
                   <button
                     className={styles.button}
                     style={{
@@ -182,6 +188,7 @@ export default function BookList() {
                 backgroundColor: "#44B8CB",
                 borderWidth: "0px",
                 borderRadius: "30px",
+                visibility: (profile && profile.role == "admin") ? "visible" : "hidden",
               }}
             >
               <Stack
@@ -386,7 +393,6 @@ export default function BookList() {
             </Stack>
           </Modal.Footer>
         </Modal>
-
       </Row>
     </>
   );
