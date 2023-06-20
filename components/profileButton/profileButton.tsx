@@ -83,6 +83,7 @@ export default function ProfileButton() {
                 backgroundColor: "transparent",
                 borderWidth: "0px",
               }}
+              href="/landing/reset"
             >
               <Container
                 className="d-flex justify-content-center align-items-center "
@@ -108,7 +109,7 @@ export default function ProfileButton() {
                   lineHeight: "29px",
                 }}
               >
-                Feedback
+                Reset password
               </p>
             </Button>
             <Container

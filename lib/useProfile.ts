@@ -17,19 +17,23 @@ export default function useProfile({
     // if no redirect needed, just return (example: already on /dashboard)
     // if user data not yet there (fetch in progress, logged in or not) then don't do anything yet
     if (!redirectTo || !profile) return
-
+    
     if (
       // If redirectTo is set, redirect if the profile was not found.
       (redirectTo && !redirectIfFound && !profile) ||
       // If redirectIfFound is also set, redirect if the profile was found
       (redirectIfFound && profile)
-    ) {
-      router.push(redirectTo)
-    }
-    if(backwardIfFound && profile)
-    {
-      router.back()
-    }
+      ) {
+        router.push(redirectTo)
+      }
+      if(backwardIfFound && profile)
+      {
+        var previousURL = document.referrer
+        console.log(previousURL.split("/").at(-1))
+        if(previousURL.split("/").at(-1) != "signup" && previousURL.split("/").at(-1) != "landing")
+          router.back()
+      }
+      router.push("/home")
   }, [profile, redirectIfFound, redirectTo])
 
   return { profile, mutateProfile }

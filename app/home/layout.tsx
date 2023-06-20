@@ -175,13 +175,13 @@ export default function Layout({ children }) {
                       </Button>
                       <Button
                         className={styles.sidebarMenuSubButton}
-                        onClick={() => router.push("/home/transaction/remind")}
+                        onClick={() => router.push("/home/transaction/wallet")}
                       >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}
                           style={{ color: "inherit" }}
                         >
-                          Remind
+                          Wallet
                         </SidebarMenu.Nav.Title>
                       </Button>
                     </SidebarMenuNav>

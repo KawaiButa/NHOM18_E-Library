@@ -256,9 +256,6 @@ export default function BookList() {
                 borderWidth: "0px",
                 backgroundColor: "#CE433F",
               }}
-              onClick={() => {
-                
-              }}
             >
               <p
                 className={montserrat.className}
@@ -389,6 +386,7 @@ export default function BookList() {
             </Stack>
           </Modal.Footer>
         </Modal>
+
       </Row>
     </>
   );
