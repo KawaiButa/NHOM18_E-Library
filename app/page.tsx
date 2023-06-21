@@ -15,10 +15,11 @@ import FeeListCard from "./components/feeListCard";
 import RemindListCard from "./components/remindListCard";
 import TopUp_payment from "./components/topUp_payment/topUp_payment";
 import TransactionSuccess from "./landing/transactionSuccess/page";
+import Configuration from "./components/configuration/configuration";
 export default function Home() {
     return (
         <main className="d-flex justify-content-center align-items-center">
-            <TransactionSuccess />
+            <Configuration />
         </main>
     );
 }
