@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { Montserrat, Roboto } from "next/font/google";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,11 +20,17 @@ const montserrat = Montserrat({
     subsets: ["latin"],
 });
 
-export default function TransactionSuccess() {
-    const search = useSearchParams()
-    useEffect(() => {
-        
-    },[])
+export default function TransactionSuccess({ params }: { params: { id: string } }) {
+    useEffect(() => {async function onCreate () {
+        await axios.post("/api/transaction/" + params.id,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    };
+    onCreate()
+},[])
     return (
         <>
             <Stack

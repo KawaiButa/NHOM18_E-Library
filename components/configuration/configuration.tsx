@@ -597,7 +597,7 @@ const Transaction = () => {
     );
 };
 const Configuration = () => {
-    const [activeTab, setActiveTab] = useState("topup");
+    const [activeTab, setActiveTab] = useState("reader");
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
