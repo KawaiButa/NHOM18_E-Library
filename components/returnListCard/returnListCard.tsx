@@ -23,13 +23,13 @@ import { METHODS } from "http";
 import { useRouter } from "next/navigation";
 import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
-  weight: "400",
-  subsets: ["latin"],
+    weight: "400",
+    subsets: ["latin"],
 });
 
 const montserrat = Montserrat({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+    weight: ["400", "700"],
+    subsets: ["latin"],
 });
 
 export default function RemindListCard() {
