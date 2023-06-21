@@ -100,7 +100,10 @@ export default function Login() {
                               body: JSON.stringify(body),
                             })
                           );
-                        } catch (error) {setIsLoading(false);}
+                        } catch (error) {
+                          alert(error)
+                          setIsLoading(false);
+                        }
                       }}
                     >
                       <Stack direction="vertical" gap={3}>

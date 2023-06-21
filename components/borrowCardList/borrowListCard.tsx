@@ -155,7 +155,7 @@ export default function BorrowListCard() {
       }
     }
     onCreate();
-  }, [borrows]);
+  }, [profile]);
   return (
     <>
       <Row

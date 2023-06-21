@@ -14,6 +14,8 @@ import {
   Table,
 } from "react-bootstrap";
 import useFee from "../../lib/useFee";
+import useProfile from "../../lib/useProfile";
+import axios from "axios";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -26,6 +28,26 @@ const montserrat = Montserrat({
 
 export default function FeeListCard() {
   const { feeReceipts } = useFee();
+  const { profile } = useProfile();
+  const [member, setMember] = useState(null);
+  useEffect(() => {
+    async function onCreate() {
+      if (profile)
+        await axios
+          .get("/api/profile/" + profile.id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.status == 200) setMember(response.data);
+            if (response.status == 204) setMember(null);
+          });
+    }
+    onCreate();
+  }, []);
   const feeTable = () => {
     if (feeReceipts)
       return (
@@ -61,7 +83,14 @@ export default function FeeListCard() {
       );
     else return <></>;
   };
-  useEffect(() => {}, [feeReceipts])
+  if (member == null)
+  return (
+    <div>
+      <h2>{"You don't have a reader card connect to this account."}</h2>
+      <h2>{"Please contact to the library admin to create a reader card"}</h2>
+    </div>
+  );
+  if(member && profile)
   return (
     <>
       <Row
@@ -111,10 +140,13 @@ export default function FeeListCard() {
                 maxHeight: "350px",
                 overflowY: "auto",
               }}
-            >{feeTable()}</div>
+            >
+              {feeTable()}
+            </div>
           </div>
         </Card>
       </Row>
     </>
   );
+  else return <></>
 }

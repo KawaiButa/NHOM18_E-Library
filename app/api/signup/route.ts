@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
         if (response.status == 201)
             return NextResponse.json(response, {
                 status: 200,
-                headers: { 'Set-Cookie': `token=${response.data.token}` },
             })
         else
             return NextResponse.json(undefined, { status: response.status, statusText: response.statusText });

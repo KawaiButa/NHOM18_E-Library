@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
             },
-            data: body.body
+            data: body
         };
         const res = await axios.request(config).then((response) => {
             if (response.status == 201) {

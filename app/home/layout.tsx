@@ -150,11 +150,8 @@ export default function Layout({ children }) {
                     <SidebarMenuNav className={styles.sidebarMenuSub}>
                       <Button
                         className={styles.sidebarMenuSubButton}
-                        onClick={() => {
-                          if (profile?.role == "admin")
-                            router.push("/home/transaction/borrow");
-                          else router.push("/home/transaction/borrow/add");
-                        }}
+                        onClick={() => router.push("/home/transaction/borrow")}
+
                       >
                         <SidebarMenu.Nav.Title
                           className={montserrat.className}

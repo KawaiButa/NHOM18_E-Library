@@ -243,141 +243,164 @@ const TopUp_payment = () => {
             </p>
           </h2>
         </div>
-        <Stack style={{ alignItems: "center" }}>
-          <div className={montserrat.className} style={{ width: "450px" }}>
-            <h2
-              className="mb-3 text-center"
-              style={{ fontSize: "19px", fontWeight: "600" }}
-            >
-              Payment Detail
-            </h2>
-            <div className="payment-info">
-              <div
-                className="d-flex"
-                style={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: "40px",
-                }}
+        <Form onSubmit={async function HandleSummitEvent(event) {
+          event.preventDefault()
+          const data = {
+            balance: financial.balance,
+            totalDebt: financial.totalDebt,
+            amountPaid: payMoney,
+          }
+          const config = {
+            method: "patch",
+            url: "/api/fee",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          }
+          axios.request(config).then((response) => {
+            alert(response.data)
+          }).catch((error) => {
+            alert(error.response.data)
+          })
+        }}>
+          <Stack style={{ alignItems: "center" }}>
+            <div className={montserrat.className} style={{ width: "450px" }}>
+              <h2
+                className="mb-3 text-center"
+                style={{ fontSize: "19px", fontWeight: "600" }}
               >
-                <span className="label mr-2" style={{ color: "#B1B1B1" }}>
-                  Member
-                </span>
-                <span style={{ color: "black" }}>{member.name}</span>
-              </div>
-              <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
-              <div
-                className="d-flex"
-                style={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span className="label mr-2" style={{ color: "#B1B1B1" }}>
-                  Money Pay
-                </span>
-                <InputGroup style={{ width: "250px" }}>
-                  <div
-                    className="input-group-prepend"
-                    style={{
-                      width: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderTopLeftRadius: "10px",
-                      borderBottomLeftRadius: "10px",
-                    }}
-                  >
-                    <Image
-                      src="/money.png"
+                Payment Detail
+              </h2>
+              <div className="payment-info">
+                <div
+                  className="d-flex"
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: "40px",
+                  }}
+                >
+                  <span className="label mr-2" style={{ color: "#B1B1B1" }}>
+                    Member
+                  </span>
+                  <span style={{ color: "black" }}>{member.name}</span>
+                </div>
+                <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
+                <div
+                  className="d-flex"
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span className="label mr-2" style={{ color: "#B1B1B1" }}>
+                    Money Pay
+                  </span>
+                  <InputGroup style={{ width: "250px" }}>
+                    <div
+                      className="input-group-prepend"
                       style={{
-                        width: "25px",
-                        height: "30px",
-                        marginTop: "10px",
-                        marginLeft: "14px",
+                        width: "50px",
+                        border: "1px solid #D9D9D9",
+                        borderTopLeftRadius: "10px",
+                        borderBottomLeftRadius: "10px",
+                      }}
+                    >
+                      <Image
+                        src="/money.png"
+                        style={{
+                          width: "25px",
+                          height: "30px",
+                          marginTop: "10px",
+                          marginLeft: "14px",
+                        }}
+                      />
+                    </div>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder=""
+                      min={1000}
+                      max={financial.totalDebt}
+                      step={1000}
+                      style={{
+                        boxShadow: "none",
+                        textAlign: "center",
+                      }}
+                      onChange={(event) => {
+                        payMoney = event.currentTarget.value;
                       }}
                     />
-                  </div>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder=""
-                    min={1000}
-                    max={financial.totalDebt}
-                    step={1000}
+                  </InputGroup>
+                </div>
+                <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
+                <div
+                  className="d-flex"
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span className="label mr-2" style={{ color: "#B1B1B1" }}>
+                    Total Fee
+                  </span>
+                  <span className="value">
+                    {new Intl.NumberFormat("vn-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(financial.totalDebt)}
+                  </span>
+                </div>
+                <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
+                <div
+                  className="d-flex"
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: "50px",
+                  }}
+                >
+                  <span
+                    className="label mr-2"
                     style={{
-                      boxShadow: "none",
-                      textAlign: "center",
+                      color: "black",
+                      fontWeight: "600",
+                      fontSize: "20px",
                     }}
-                    onChange={(event) => {
-                      payMoney = event.currentTarget.value;
+                  >
+                    Your Wallet
+                  </span>
+                  <span
+                    style={{
+                      color: "black",
+                      fontWeight: "600",
+                      fontSize: "20px",
                     }}
-                  />
-                </InputGroup>
-              </div>
-              <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
-              <div
-                className="d-flex"
-                style={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span className="label mr-2" style={{ color: "#B1B1B1" }}>
-                  Total Fee
-                </span>
-                <span className="value">
-                  {new Intl.NumberFormat("vn-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(financial.totalDebt)}
-                </span>
-              </div>
-              <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
-              <div
-                className="d-flex"
-                style={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: "50px",
-                }}
-              >
-                <span
-                  className="label mr-2"
-                  style={{
-                    color: "black",
-                    fontWeight: "600",
-                    fontSize: "20px",
-                  }}
-                >
-                  Your Wallet
-                </span>
-                <span
-                  style={{
-                    color: "black",
-                    fontWeight: "600",
-                    fontSize: "20px",
-                  }}
-                >
-                  {new Intl.NumberFormat("vn-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(financial.balance - payMoney)}
-                </span>
+                  >
+                    {new Intl.NumberFormat("vn-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(financial.balance - payMoney)}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <button
-            className="btn btn-primary"
-            style={{
-              width: "100px",
-              height: "40px",
-              marginTop: "40px",
-            }}
-          >
-            <p className={montserrat.className} style={{ fontSize: "18px" }}>
-              Pay
-            </p>
-          </button>
-        </Stack>
+            <button
+              className="btn btn-primary"
+              style={{
+                width: "100px",
+                height: "40px",
+                marginTop: "40px",
+              }}
+              type="submit"
+            >
+              <p className={montserrat.className} style={{ fontSize: "18px" }}>
+                Pay
+              </p>
+            </button>
+          </Stack>
+        </Form>
       </div>
     );
   };
@@ -400,19 +423,21 @@ const TopUp_payment = () => {
           },
         })
         .then((response) => {
-          console.log(response);
           if (response.status == 200) setMember(response.data);
-        })
-        .catch((error) => {
-          alert(error.message.data);
-          router.back();
-        });
+        }).catch((error) => {setMember(null)})
     }
     if (profile) {
       onCreate();
     }
   }, [profile]);
-  if (member)
+  if (member == null)
+    return (
+      <div>
+        <h2>{"You don't have a reader card connect to this account."}</h2>
+        <h2>{"Please contact to the library admin to create a reader card"}</h2>
+      </div>
+    );
+  if (financial && member)
     return (
       <>
         <Container
