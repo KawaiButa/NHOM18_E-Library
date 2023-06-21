@@ -60,7 +60,7 @@ export default function Page({ params }: { params: { token: string } }) {
                   passwordConfirm: event.currentTarget.confirmPassword.value,
                 };
                 const config = {
-                  method: "put",
+                  method: "patch",
                   maxBodyLength: Infinity,
                   url: "/api/reset/" + params.token,
                   headers: {
