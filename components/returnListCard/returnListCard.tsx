@@ -22,13 +22,13 @@ import fetchJson from "../../lib/fetchJson";
 import { METHODS } from "http";
 import { useRouter } from "next/navigation";
 const roboto = Roboto({
-  weight: "400",
-  subsets: ["latin"],
+    weight: "400",
+    subsets: ["latin"],
 });
 
 const montserrat = Montserrat({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+    weight: ["400", "700"],
+    subsets: ["latin"],
 });
 
 export default function RemindListCard() {
