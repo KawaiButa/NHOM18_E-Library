@@ -2,10 +2,10 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import endpoint from "../../../../endpoint/Utils";
 
-export async function PUT(req: NextRequest, { params }: { params: { token: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { token: string } }) {
     const data = await req.json()
     let config = {
-        method: 'put',
+        method: 'patch',
         maxBodyLength: Infinity,
         url: endpoint + '/api/v1/users/reset-password/' + params.token,
         headers: {
