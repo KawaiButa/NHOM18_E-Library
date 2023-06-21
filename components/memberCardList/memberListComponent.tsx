@@ -29,32 +29,48 @@ const montserrat = Montserrat({
 });
 export default function MemberListCard() {
     const { readers, mutateReader } = useReader();
-    const [modal, setModal] = useState(false);
+    const [modalDeleteOne, setModalDeleteOne] = useState(false);
+    const [modalDeleteMulti, setModalDeleteMulti] = useState(false);
     const [memberList, setMemberList] = useState(
         new Array<React.ReactElement>()
     );
     const [index, setIndex] = useState(0);
+    const openModalDeleteOne = () => setModalDeleteOne(true);
+    const closeModalDeleteOne = () => setModalDeleteOne(false);
+
+    const openModalDeleteMulti = () => setModalDeleteMulti(true);
+    const closeModalDeleteMulti = () => setModalDeleteMulti(false);
     const memberTable = () => {
         if (readers)
             return (
-                <Table
-                    responsive
-                    striped
-                    hover
-                    style={{ marginTop: "48px", borderBottomColor: "#D9D9D9" }}
+                <div
+                    style={{
+                        height: "450px",
+                        maxHeight: "450px",
+                        overflowY: "auto",
+                    }}
                 >
-                    <thead>
-                        <tr>
-                            <th style={{ width: "40px" }}>No</th>
-                            <th style={{ width: "220px" }}>Name</th>
-                            <th style={{ width: "150px" }}>Reader type</th>
-                            <th style={{ width: "300px" }}>Address</th>
-                            <th style={{ width: "180px" }}>Member date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>{memberList}</tbody>
-                </Table>
+                    <Table
+                        responsive
+                        hover
+                        style={{
+                            marginTop: "48px",
+                            borderBottomColor: "#D9D9D9",
+                        }}
+                    >
+                        <thead>
+                            <tr>
+                                <th style={{ width: "40px" }}>No</th>
+                                <th style={{ width: "220px" }}>Name</th>
+                                <th style={{ width: "150px" }}>Reader type</th>
+                                <th style={{ width: "300px" }}>Address</th>
+                                <th style={{ width: "180px" }}>Member date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>{memberList}</tbody>
+                    </Table>
+                </div>
             );
         else
             return (
@@ -68,10 +84,7 @@ export default function MemberListCard() {
                 </main>
             );
     };
-    const openModal = () => {
-        setModal(true);
-    };
-    const closeModal = () => setModal(false);
+
     useEffect(() => {
         const result: React.ReactElement[] = [];
         if (readers) {
@@ -115,7 +128,7 @@ export default function MemberListCard() {
                                     if (index)
                                         string = Number.parseInt(index) - 1;
                                     setIndex(string);
-                                    openModal();
+                                    openModalDeleteOne();
                                 }}
                             >
                                 <Image src="/icon_delete.png" alt="delete" />
@@ -129,7 +142,7 @@ export default function MemberListCard() {
     }, [readers]);
     return (
         <>
-            <Card style={{ width: "1055px", height: "868px" }}>
+            <Card style={{ width: "1055px", height: "1050px" }}>
                 <Card.Header
                     className={`${roboto.className} text-center`}
                     style={{
@@ -275,9 +288,34 @@ export default function MemberListCard() {
                         </Stack>
                     </Stack>
                     {memberTable()}
+                    <Container className="mt-4 d-flex justify-content-center">
+                        <Button
+                            className={styles.button}
+                            style={{
+                                width: "144px",
+                                height: "58px",
+                                borderRadius: "20px",
+                                color: "white",
+                                borderColor: "#CE433F",
+                                backgroundColor: "#CE433F",
+                            }}
+                            onClick={openModalDeleteMulti}
+                        >
+                            <p
+                                className={montserrat.className}
+                                style={{
+                                    fontWeight: "bold",
+                                    fontSize: "24px",
+                                    marginTop: "5px",
+                                }}
+                            >
+                                Delete
+                            </p>
+                        </Button>
+                    </Container>
                 </Card.Body>
             </Card>
-            <Modal show={modal} size="lg" style={{}}>
+            <Modal show={modalDeleteOne} size="lg" style={{}}>
                 <Modal.Header
                     style={{
                         borderBottomWidth: "2px",
@@ -286,7 +324,7 @@ export default function MemberListCard() {
                     }}
                 >
                     <Modal.Title>Delete this member?</Modal.Title>
-                    <CloseButton onClick={closeModal}></CloseButton>
+                    <CloseButton onClick={closeModalDeleteOne}></CloseButton>
                 </Modal.Header>
                 <Modal.Body
                     id="modalBody"
@@ -346,7 +384,7 @@ export default function MemberListCard() {
                                     }
                                 );
                                 if (response.status == 200) {
-                                    closeModal();
+                                    closeModalDeleteOne();
                                     await mutateReader(
                                         await fetchJson("/api/reader", {
                                             method: "GET",
@@ -384,7 +422,83 @@ export default function MemberListCard() {
                                 borderWidth: "0px",
                                 borderRadius: "30px",
                             }}
-                            onClick={closeModal}
+                            onClick={closeModalDeleteOne}
+                        >
+                            <p
+                                className={montserrat.className}
+                                style={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    fontSize: "16px",
+                                    alignSelf: "center",
+                                }}
+                            >
+                                Cancel
+                            </p>
+                        </Button>
+                    </Stack>
+                </Modal.Footer>
+            </Modal>
+            {/* Modal for deleting multiple books */}
+            <Modal show={modalDeleteMulti} size="lg" style={{}}>
+                <Modal.Header
+                    style={{
+                        borderBottomWidth: "2px",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                    }}
+                >
+                    <Modal.Title>Delete these members?</Modal.Title>
+                    <CloseButton onClick={closeModalDeleteMulti}></CloseButton>
+                </Modal.Header>
+                <Modal.Body
+                    style={{
+                        borderBottomWidth: "2px",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                    }}
+                >
+                    <p
+                        className={roboto.className}
+                        style={{ fontSize: "20px", fontWeight: "300" }}
+                    >
+                        Do you want to delete selected members?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-end">
+                    <Stack direction="horizontal" gap={3}>
+                        <Button
+                            className={styles.button}
+                            style={{
+                                height: "32px",
+                                width: "98px",
+                                backgroundColor: "#CE433F",
+                                borderWidth: "0px",
+                                borderRadius: "30px",
+                            }}
+                        >
+                            <p
+                                className={montserrat.className}
+                                style={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    fontSize: "16px",
+                                    alignSelf: "center",
+                                }}
+                            >
+                                Delete
+                            </p>
+                        </Button>
+                        <Button
+                            className={styles.button}
+                            style={{
+                                height: "32px",
+                                width: "98px",
+                                backgroundColor: "#026EFF",
+                                borderWidth: "0px",
+                                borderRadius: "30px",
+                            }}
+                            onClick={closeModalDeleteMulti}
                         >
                             <p
                                 className={montserrat.className}
