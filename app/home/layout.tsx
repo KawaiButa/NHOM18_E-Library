@@ -38,7 +38,6 @@ const montserrat = Montserrat({
     subsets: ["latin", "vietnamese"],
 });
 export default function Layout({ children }) {
-<<<<<<< HEAD
   const pathName = usePathname();
   console.log(pathName.split("/").slice(-1)[0]);
   const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
@@ -271,16 +270,6 @@ export default function Layout({ children }) {
     </Col>
   );
   function SideTabButton({ children, tab }) {
-=======
-    const pathName = usePathname();
-    console.log(pathName.split("/").slice(-1)[0]);
-    const [Tab, setTab] = useState(pathName.split("/").slice(-1)[0]);
-    const router = useRouter();
-    const { profile } = useProfile();
-    useEffect(() => {
-        require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    }, [profile]);
->>>>>>> 044ed67dbff8503f1f535efe455ea4827cff111d
     return (
         <Col
             direction="horizontal"
@@ -567,20 +556,5 @@ export default function Layout({ children }) {
             </div>
         </Col>
     );
-    function SideTabButton({ children, tab }) {
-        return (
-            <>
-                <Button
-                    className="d-flex justify-content-center align-items-center"
-                    onClick={() => setTab(tab)}
-                    style={{
-                        backgroundColor: tab == Tab ? "white" : "transparent",
-                        color: tab == Tab ? "black" : "white",
-                    }}
-                >
-                    {children}
-                </Button>
-            </>
-        );
-    }
+  }
 }
