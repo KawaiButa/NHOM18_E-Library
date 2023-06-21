@@ -162,24 +162,6 @@ export default function FeeListCard() {
                             </Table>
                         </div>
                     </div>
-
-                    <Container className="mt-4 d-flex justify-content-center">
-                        <Button
-                            className={montserrat.className}
-                            style={{
-                                width: "144px",
-                                height: "58px",
-                                borderRadius: "20px",
-                                backgroundColor: "#44B8CB",
-                                color: "white",
-                                fontWeight: "bold",
-                                fontSize: "20px",
-                                borderColor: "#44B8CB",
-                            }}
-                        >
-                            Detail
-                        </Button>
-                    </Container>
                 </Card>
                 <Modal show={modal} size="lg" style={{}}>
                     <Modal.Header
