@@ -11,7 +11,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
             url: 'https://book-library-management.onrender.com/api/v1/readers/' + params.id,
             headers: {
                 'Authorization': 'Bearer ' + token,
-                'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NjgzODU5MiwiZXhwIjoxNjg3NDQzMzkyfQ.xXMQHih2siprW6uX0Ov7EhAfdtYhQpbzJvm0Pnqlpmw'
             }
         };
 
@@ -34,7 +33,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             url: 'https://book-library-management.onrender.com/api/v1/readers/' + params.id,
             headers: {
                 'Authorization': 'Bearer ' + token,
-                'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NjgzODU5MiwiZXhwIjoxNjg3NDQzMzkyfQ.xXMQHih2siprW6uX0Ov7EhAfdtYhQpbzJvm0Pnqlpmw'
             }
         };
 
@@ -67,7 +65,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NzIzMTIyMiwiZXhwIjoxNjg5ODIzMjIyfQ.knlcSJM_O-Xef7IZrcQ6WjOdW9ddZfNOfj9VWXaMZE4',
+                    'Authorization': 'Bearer ' + token,
                 },
             }).then((response) => {
                 if (response.status == 200) {

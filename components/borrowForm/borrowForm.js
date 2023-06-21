@@ -110,7 +110,6 @@ export default function BorrowForm({ id }) {
         .then((response) => {
           const data = response.data;
           setBorrowBook(data.books);
-          bookTable();
           console.log(response);
           var memberName = document.getElementById("memberName");
           if (memberName) {

@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -8,7 +9,7 @@ import {
   Stack,
 } from "react-bootstrap";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import axios from "axios";
 import useUser from "../../lib/useUser";
@@ -50,15 +51,6 @@ export default function MemberForm({ readerID }) {
         }
       } else {
         if (users) {
-          var datalist = document.getElementById("user");
-          datalist.replaceChildren();
-          users.forEach((element, index) => {
-            var option = document.createElement("option");
-            option.id = element.id;
-            option.value = element.email;
-            option.innerHTML = "Id: " + element.id;
-            datalist.append(option);
-          });
           document.getElementById("fullName").disabled = false;
         } else {
           document.getElementById("fullName").disabled = true;
@@ -67,7 +59,7 @@ export default function MemberForm({ readerID }) {
     }
     onCreate();
   }, [users, selectedUser]);
-  if (!isLoading)
+  if (!isLoading && users)
     return (
       <>
         <Form
@@ -75,18 +67,26 @@ export default function MemberForm({ readerID }) {
           style={{ width: "860px" }}
           onSubmit={async function HandleSubmit(event) {
             event.preventDefault();
+            console.log(img);
             const body = {
               fullName: event.currentTarget.fullName.value,
               readerType: event.currentTarget.readerType.value,
               address: event.currentTarget.address.value,
               dateOfBirth: event.currentTarget.dateOfBirth.value,
               email: event.currentTarget.email.value,
+              user:
+                readerID && readerID != "undefined"
+                  ? readerID
+                  : selectedUser.id,
             };
             setIsLoading(true);
             let config = {
-              method: readerID ? "patch" : "post",
+              method: readerID && readerID != "undefined" ? "patch" : "post",
               maxBodyLength: Infinity,
-              url: "/api/reader/" + readerID,
+              url:
+                readerID && readerID != "undefined"
+                  ? "/api/reader/" + readerID
+                  : "/api/reader",
               headers: {
                 "Content-Type": "application/json",
               },
@@ -97,39 +97,44 @@ export default function MemberForm({ readerID }) {
               .then((response) => {
                 if (response.status == 200) {
                   alert("Add member successfully");
+                  if (response.status == 200 && img) {
+                    const data = new FormData();
+                    const userId =
+                      readerID && readerID != "undefined"
+                        ? readerID
+                        : response.data.readerId;
+                    data.append("avatar", img);
+                    axios
+                      .patch("/api/profile/" + userId, data, {
+                        method: "PATCH",
+                        headers: {
+                          "Content-Type": "multipart/form-data",
+                        },
+                      })
+                      .then((response) => {
+                        if (response.status == 200) {
+                          alert("Update avatar successfully");
+                          if (readerID && readerID != "undefined")
+                            router.back();
+                          else router.refresh();
+                        }
+                      })
+                      .catch((error) => {
+                        alert(error.response.data);
+                        if (readerID && readerID != "undefined") router.back();
+                        else router.refresh();
+                      });
+                  }
                 } else {
                   alert(
                     "There is a problem with the server. \n Please try again in a few seconds or contact to us"
                   );
                 }
-                return response
+                return response;
               })
               .catch((error) => {
                 alert(error.response.data);
               });
-            if (res.status == 200 && img) {
-              const data = new FormData();
-              console.log(res.data)
-              const userId = res.data.userId;
-              data.append("avatar", img);
-              axios
-                .patch("/api/profile/" + userId, data, {
-                  method: "PATCH",
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                })
-                .then((response) => {
-                  if (response.status == 200) {
-                    alert("Update avatar successfully");
-                  }
-                })
-                .catch((error) => {
-                  alert(error.response.data);
-                });
-            }
-            if (readerID && readerID != "undefined") router.back();
-            else router.refresh();
           }}
         >
           <Stack gap={5}>
@@ -137,21 +142,33 @@ export default function MemberForm({ readerID }) {
               <Form.Label className={montserrat.className}>Email</Form.Label>
               <Form.Control
                 size="lg"
-                type="email"
+                type="select"
                 placeholder="Like youremail@gmail.com"
                 id="email"
-                list="user"
+                list="userEmail"
                 onChange={(event) => {
                   const email = event.currentTarget.value;
                   for (let i = 0; i < users.length; i++) {
                     const element = users.at(i);
                     if (element.email == email) setSelectedUser(element);
                   }
-                  console.log(selectedUser);
+                  console.log(users);
                 }}
               />
             </Form.Group>
-            <datalist id="user" onC></datalist>
+            <datalist id="userEmail">
+              {users ? (
+                <>
+                  {users.map((element, index) => (
+                    <option id={index} key={element.id} value={element.email}>
+                      {"Id: " + element.id}
+                    </option>
+                  ))}
+                </>
+              ) : (
+                <></>
+              )}
+            </datalist>
 
             <Stack direction="horizontal" gap={5}>
               <FormGroup>
@@ -261,7 +278,7 @@ export default function MemberForm({ readerID }) {
                             document.getElementById(
                               "ImageHolder"
                             ).style.height = "369px";
-                            console.log(img)
+                            console.log(img);
                           }
                         }}
                       />

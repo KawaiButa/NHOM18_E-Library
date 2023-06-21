@@ -39,6 +39,8 @@ export default function BorrowListCard() {
     const [modalDeleteMulti, setModalDeleteMulti] = useState(false);
     const [index, setIndex] = useState(0);
     const router = useRouter();
+    const {profile} = useProfile()
+    const [member, setMember] = useState()
 
     const openModalDeleteOne = () => setModalDeleteOne(true);
     const closeModalDeleteOne = () => setModalDeleteOne(false);
@@ -65,35 +67,8 @@ export default function BorrowListCard() {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>{borrowList}</tbody>
-                </Table>
-            );
-        else
-            return (
-                <main
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ width: "100%", height: "40%" }}
-                >
-                    <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </main>
-            );
-    };
-    useEffect(() => {
-        if (borrows) {
-            const result: React.ReactElement[] = [];
-            console.log(borrows);
-            borrows.forEach((element, index) => {
-                result.push(
-                    <tr
-                        onDoubleClick={() =>
-                            router.push(
-                                "/home/transaction/borrow/" + element.borrowId
-                            )
-                        }
-                    >
-                        <td>{index + 1}</td>
+                    <tbody>{borrows.map((element, index) => (<tr key={element.borrowId} id={index.toString()}>
+                      <td>{index + 1}</td>
                         <td>{element.readerName}</td>
                         <td>{element.dateCreated}</td>
                         <td>{element.expectedReturnDate}</td>
@@ -123,31 +98,135 @@ export default function BorrowListCard() {
                                 <Image src="/icon_delete.png" alt="delete" />
                             </button>
                         </td>
-                    </tr>
-                );
-            });
-            setBorrowList(result);
-        }
-    }, [borrows]);
-    return (
-        <>
-            <Row
-                className="justify-content-center"
-                style={{ display: "flex", flexDirection: "column" }}
-            >
-                <div
-                    style={{
-                        width: "85%",
-                        height: "70px",
-                        background: "black",
-                        borderRadius: "10px",
-                        position: "relative",
-                        top: "0px",
-                        zIndex: "2",
-                        alignSelf: "center",
-                        padding: "0px",
-                    }}
+                    </tr>))}</tbody>
+                </Table>
+            );
+        else
+            return (
+                <main
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ width: "100%", height: "40%" }}
                 >
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </main>
+            );
+    };
+  useEffect(() => {
+    async function onCreate() {
+      if (profile) {
+        await axios
+          .get("/api/profile/" + profile?.id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.status == 200) setMember(response.data);
+          })
+          .catch((error) => {
+            alert(error.message.data);
+            router.back();
+          });
+      }
+    }
+    onCreate();
+  }, [profile]);
+  return (
+    <>
+      <Row
+        className="justify-content-center"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <div
+          style={{
+            width: "85%",
+            height: "70px",
+            background: "black",
+            borderRadius: "10px",
+            position: "relative",
+            top: "0px",
+            zIndex: "2",
+            alignSelf: "center",
+            padding: "0px",
+          }}
+        >
+          <h2
+            className={montserrat.className}
+            style={{
+              fontWeight: "700",
+              color: "white",
+              textAlign: "center",
+              top: "17px",
+              position: "relative",
+            }}
+          >
+            Borrow Card List
+          </h2>
+          <div
+            className="d-flex justify-content-end"
+            style={{
+              position: "relative",
+              top: "-30px",
+              right: "15px",
+            }}
+          >
+            <Button
+              className={styles.button}
+              style={{
+                height: "40px",
+                width: "98px",
+                backgroundColor: "#44B8CB",
+                borderWidth: "0px",
+                borderRadius: "30px",
+              }}
+              href="/home/transaction/borrow/add"
+            >
+              <p
+                className={montserrat.className}
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "18px",
+                  alignSelf: "center",
+                  position: "relative",
+                  top: "2px",
+                }}
+              >
+                Add
+              </p>
+            </Button>
+          </div>
+        </div>
+        <Card
+          style={{
+            width: "1055px",
+            height: "560px",
+            position: "relative",
+            top: "-45px",
+          }}
+        >
+          <div
+            className="d-flex justify-content-center"
+            style={{ display: "block", marginTop: "80px" }}
+          >
+            <div
+              style={{
+                height: "350px",
+                maxHeight: "350px",
+                overflowY: "auto",
+                marginLeft: "40px",
+                marginRight: "40px",
+                width: "100%",
+              }}
+            >
+              {borrowTable()}
+            </div>
+          </div>
+              <div>
                     <h2
                         className={montserrat.className}
                         style={{
@@ -195,14 +274,6 @@ export default function BorrowListCard() {
                         </Button>
                     </div>
                 </div>
-                <Card
-                    style={{
-                        width: "1055px",
-                        height: "560px",
-                        position: "relative",
-                        top: "-45px",
-                    }}
-                >
                     <div
                         className="d-flex justify-content-center"
                         style={{ display: "block", marginTop: "80px" }}

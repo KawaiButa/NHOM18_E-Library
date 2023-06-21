@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Montserrat, Roboto } from "next/font/google";
 import { Button, Card, Stack, Image, Container } from "react-bootstrap";
 import endpoint from "../../endpoint/Utils";
-import useProfile from "../../lib/useProfile";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 const roboto = Roboto({
     weight: "700",
     subsets: ["vietnamese"],
@@ -17,28 +15,32 @@ const montserrat = Montserrat({
 });
 
 export default function MemberCard({ user }) {
-    const [member, setMember] = useState(null);
-    const router = useRouter();
-    useEffect(() => {
-        async function onCreate() {
-            await axios
-                .get("/api/profile/" + user, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                .then((response) => {
-                    console.log(response);
-                    if (response.status == 200) setMember(response.data);
-                })
-                .catch((error) => {
-                    alert(error.message.data);
-                    router.back();
-                });
-        }
-        onCreate();
-    }, []);
+  const [member, setMember] = useState(null);
+  useEffect(() => {
+    async function onCreate() {
+      await axios
+        .get("/api/profile/" + user, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) setMember(response.data);
+          if (response.status == 204) setMember(null);
+        });
+    }
+    onCreate();
+  }, []);
+  if (member == null)
+    return (
+      <div>
+        <h2>{"You don't have a reader card connect to this account."}</h2>
+        <h2>{"Please contact to the library admin to create a reader card"}</h2>
+      </div>
+    );
+   
     if (member)
         return (
             <>

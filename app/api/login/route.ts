@@ -17,12 +17,14 @@ export async function POST(request: Request) {
     data: body
   };
 
-  const response = await axios.request(config)
-  if(response.status == 200)
-  {
-    return NextResponse.json( response.data, {
-      status: 200,
-      headers: { 'Set-Cookie': `token=${response.data.token}`},
-    });
-  }
+  const response = await axios.request(config).then((response) => {
+    if (response.status == 200) {
+      return NextResponse.json(response.data, {
+        status: 200,
+        headers: { 'Set-Cookie': `token=${response.data.token}` },
+      });
+    }
+
+  }).catch((error) =>{ console.log(error); return NextResponse.json(error.response.data.message, { status: error.response.status, statusText: error.response.statusText })})
+  return response;
 }

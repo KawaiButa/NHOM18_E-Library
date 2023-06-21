@@ -34,7 +34,7 @@ export class FetchError extends Error {
     input: RequestInfo,
     init?: RequestInit
   ): Promise<JSON> {
-    const response = await fetch(input, init)
+    const response = await fetch(input, init).catch((error) => (error.response.data))
     // if the server replies, there's always some data in json
     // if there's a network error, it will throw at the previous line
     const data = await response.json();
@@ -43,9 +43,8 @@ export class FetchError extends Error {
     if (response.status == 200) {
       return data
     }
-  
     throw new FetchError({
-      message: response.statusText,
+      message: data,
       response,
       data,
     })
