@@ -190,7 +190,7 @@ export default function BorrowCardDetail({ id }) {
                             position: "relative",
                         }}
                     >
-                        Card {}
+                        Detail
                     </h2>
                     <div
                         className="d-flex justify-content-end"

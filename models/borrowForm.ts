@@ -1,12 +1,12 @@
 
 export default class BorrowForm{
-    borrowId: String;
-    expectedReturnDate: String;
-    readerId: String;
-    readerName: String;
-    dateCreated: String;
+    borrowId: string;
+    expectedReturnDate: string;
+    readerId: string;
+    readerName: string;
+    dateCreated: string;
     
-    public constructor(borrowId: String, readerId: String, readerName:String, dateCreated: String,  expectedReturnDate: String,){
+    public constructor(borrowId: string, readerId: string, readerName:string, dateCreated: string,  expectedReturnDate: string,){
         this.borrowId = borrowId;
         this.expectedReturnDate = expectedReturnDate;
         this.readerId = readerId;

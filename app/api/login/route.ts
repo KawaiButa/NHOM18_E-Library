@@ -1,12 +1,9 @@
 import { cookies, headers } from 'next/headers';
 import UserAPI from '../../../endpoint/userEndPoint';
 import axios from 'axios';
-import { useSession } from "next-auth/react"
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const cookieStore = cookies();
-  const token = cookieStore.get('token');
   let body = await request.json()
 
   let config = {

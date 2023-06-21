@@ -2,16 +2,15 @@
 import { Montserrat } from "next/font/google";
 import React, { useState } from "react";
 import { Button, Card, Form, Stack } from "react-bootstrap";
-import useUser from "../../../lib/useUser";
-import fetchJson, { FetchError } from "../../../lib/fetchJson";
-import { mutate } from "swr";
+import fetchJson from "../../../lib/fetchJson";
+import useProfile from "../../../lib/useProfile";
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: "normal",
   subsets: ["vietnamese"],
 });
 export default function Login() {
-  const { mutateUser } = useUser({
+  const { mutateProfile } = useProfile({
     redirectTo: "/home",
     redirectIfFound: true,
   });
@@ -94,7 +93,7 @@ export default function Login() {
                           password: event.currentTarget.password.value,
                         };
                         try {
-                          mutateUser(
+                          mutateProfile(
                             await fetchJson("/api/login", {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },

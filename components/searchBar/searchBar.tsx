@@ -1,4 +1,5 @@
 import { Montserrat, Roboto } from "next/font/google";
+import { after } from "node:test";
 import React, { useEffect, useState } from "react";
 import {
     Button,
@@ -12,6 +13,7 @@ import {
     Stack,
     InputGroup,
     Table,
+    Dropdown,
 } from "react-bootstrap";
 
 const roboto = Roboto({
@@ -25,10 +27,28 @@ const montserrat = Montserrat({
 });
 
 export default function SearchBar() {
+    const [checkboxes, setCheckboxes] = useState([
+        { label: "User ID", checked: false },
+        { label: "Borrow Book ID", checked: false },
+        { label: "Admin ID", checked: false },
+    ]);
+
+    const handleCheckboxChange = (index) => {
+        const updatedCheckboxes = [...checkboxes];
+        updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+        setCheckboxes(updatedCheckboxes);
+    };
     return (
         <>
-            <Container>
-                <div className="d-flex">
+            <style>{`
+        .dropdown-toggle::after {
+          display: none !important;
+        }
+        
+       
+      `}</style>
+            <Container id="searchBar">
+                <div className="d-flex justify-content-start">
                     <div
                         className="mb-3 d-flex"
                         style={{
@@ -41,7 +61,7 @@ export default function SearchBar() {
                     >
                         <Image
                             src="/Search.png"
-                            alt="union"
+                            alt="search"
                             style={{
                                 width: "17px",
                                 height: "17px",
@@ -66,19 +86,53 @@ export default function SearchBar() {
                                 fontSize: "14px",
                             }}
                         />
-                        <Button
-                            variant="primary"
-                            style={{
-                                borderRadius: "16px",
-                                position: "relative",
-                            }}
-                        >
-                            <Image
-                                src="/Union.png"
-                                alt="union"
-                                style={{ width: "12px", height: "15px" }}
-                            />
-                        </Button>
+                        <Dropdown autoClose="outside" style={{zIndex: "10"}}>
+                            <Dropdown.Toggle
+                                variant="primary"
+                                id="dropdown-checkbox"
+                                style={{
+                                    borderRadius: "16px",
+                                    background: "#44B8CB",
+                                    borderColor: "#44B8CB",
+                                }}
+                            >
+                                <Image
+                                    src="/Union.png"
+                                    alt="union"
+                                    style={{
+                                        width: "12px",
+                                        height: "15px",
+                                        marginRight: "2px",
+                                        zIndex: "2",
+                                    }}
+                                />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu
+                                className={montserrat.className}
+                                style={{ width: "200px" }}
+                            >
+                                <Dropdown.ItemText>
+                                    Search with:
+                                </Dropdown.ItemText>
+                                {checkboxes.map((checkbox, index) => (
+                                    <Form.Check
+                                        style={{
+                                            marginBottom: "5px",
+                                            marginLeft: "15px",
+                                        }}
+                                        color="#44B8CB"
+                                        key={index}
+                                        type="switch"
+                                        id={`checkbox-${index}`}
+                                        label={checkbox.label}
+                                        checked={checkbox.checked}
+                                        onChange={() =>
+                                            handleCheckboxChange(index)
+                                        }
+                                    />
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
 
                     <Button
@@ -89,6 +143,8 @@ export default function SearchBar() {
                             width: "78px",
                             height: "38px",
                             left: "40px",
+                            background: "#44B8CB",
+                            borderColor: "#44B8CB",
                         }}
                     >
                         <p

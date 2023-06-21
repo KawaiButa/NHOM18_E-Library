@@ -14,10 +14,12 @@ import {
     Table,
 } from "react-bootstrap";
 import styles from "./borrowListCard.module.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import BorrowForm from "../../models/borrowForm";
 import useBorrow from "../../lib/useBorrow";
 import fetchJson from "../../lib/fetchJson";
+import axios from "axios";
+import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
     weight: "400",
     subsets: ["latin"],
@@ -115,7 +117,7 @@ export default function BorrowListCard() {
                                     if (ind) string = Number.parseInt(ind) - 1;
                                     setIndex(string);
                                     console.log(string);
-                                    openModal();
+                                    openModalDeleteOne();
                                 }}
                             >
                                 <Image src="/icon_delete.png" alt="delete" />

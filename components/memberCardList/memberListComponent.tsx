@@ -15,9 +15,9 @@ import {
 } from "react-bootstrap";
 import styles from "./memberListCard.module.css";
 import useReader from "../../lib/useReader";
-import { mutate } from "swr";
-import { fetchData } from "next-auth/client/_utils";
 import fetchJson from "../../lib/fetchJson";
+import { useSearchParams } from "next/navigation";
+import removeVietnameseTones from "../../lib/standelizeString";
 const roboto = Roboto({
     weight: "400",
     subsets: ["latin"],

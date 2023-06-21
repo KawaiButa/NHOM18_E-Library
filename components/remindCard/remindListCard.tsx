@@ -15,6 +15,7 @@ import {
     Table,
 } from "react-bootstrap";
 import styles from "../borrowCardList/borrowListCard.module.css";
+import useReturn from "../../lib/useReturn";
 const roboto = Roboto({
     weight: "400",
     subsets: ["latin"],
@@ -28,9 +29,78 @@ const montserrat = Montserrat({
 export default function RemindListCard() {
     const [returnList, setReturnList] = useState({});
     const [modal, setModal] = useState(false);
-
+    const { returns } = useReturn();
     const openModal = () => setModal(true);
     const closeModal = () => setModal(false);
+    const returnTable = () => {
+        if (returns) {
+            return (
+                <Table
+                    responsive
+                    hover
+                    style={{
+                        borderBottomColor: "#D9D9D9",
+                        width: "100%",
+                        alignSelf: "center",
+                    }}
+                >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Reader Name</th>
+                            <th>Borrow Date</th>
+                            <th>Return Date</th>
+                            <th>Late Fee</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {returns.map((element, index) => (
+                            <tr key={element.id}>
+                                <td>{index - 1}</td>
+                                <td>{element.borrowerId}</td>
+                                <td>{element.borrowId}</td>
+                                <td>{element.returnDate}</td>
+                                <td>
+                                    {element.lateFee === 0.0
+                                        ? "NO DELAY"
+                                        : element.lateFee.toString()}
+                                </td>
+                                <td>
+                                    <button
+                                        className={styles.button}
+                                        style={{
+                                            width: "27px",
+                                            height: "27px",
+                                            borderWidth: "0px",
+                                            position: "relative",
+                                            left: "10px",
+                                        }}
+                                        onClick={openModal}
+                                    >
+                                        <Image
+                                            src="/icon_delete.png"
+                                            alt="delete"
+                                        />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            );
+        } else
+            return (
+                <main
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ width: "100%", height: "40%" }}
+                >
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </main>
+            );
+    };
     return (
         <>
             <Row
@@ -118,177 +188,7 @@ export default function RemindListCard() {
                                 marginRight: "30px",
                             }}
                         >
-                            <Table
-                                responsive
-                                hover
-                                style={{
-                                    borderBottomColor: "#D9D9D9",
-                                    width: "100%",
-                                    alignSelf: "center",
-                                }}
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>Remind ID</th>
-                                        <th>Reader ID</th>
-                                        <th>Expect Return Date</th>
-                                        <th>Date left</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>remind001</td>
-                                        <td>reader001</td>
-
-                                        {Array.from({ length: 2 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>remind001</td>
-                                        <td>reader001</td>
-
-                                        {Array.from({ length: 2 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>remind001</td>
-                                        <td>reader001</td>
-
-                                        {Array.from({ length: 2 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>remind001</td>
-                                        <td>reader001</td>
-
-                                        {Array.from({ length: 2 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>remind001</td>
-                                        <td>reader001</td>
-
-                                        {Array.from({ length: 2 }).map(
-                                            (_, index) => (
-                                                <td key={index}>
-                                                    Table cell {index}
-                                                </td>
-                                            )
-                                        )}
-                                        <td>
-                                            <button
-                                                className={styles.button}
-                                                style={{
-                                                    width: "27px",
-                                                    height: "27px",
-                                                    borderWidth: "0px",
-                                                    position: "relative",
-                                                    left: "10px",
-                                                }}
-                                                onClick={openModal}
-                                            >
-                                                <Image
-                                                    src="/icon_delete.png"
-                                                    alt="delete"
-                                                />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
+                            {returnTable()}
                         </div>
                     </div>
                 </Card>

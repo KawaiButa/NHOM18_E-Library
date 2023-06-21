@@ -9,7 +9,7 @@ import BorrowForm from '../models/borrowForm'
 
 export default function useBorrow() {
   const router = useRouter()
-  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {});
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {alert(error.response.data)});
   const { data: borrows, mutate: mutateBorrow } = useSWR<BorrowForm[]>('/api/borrow', fetcher)
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)

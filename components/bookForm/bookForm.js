@@ -15,29 +15,36 @@ const montserrat = Montserrat({
 
 export default function BookForm({ id }) {
   const [img, setImg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    if (id) {
-      axios
-        .get("/api/book/" + id, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          const data = response.data;
-          document
-            .getElementById("bookTitle")
-            .setAttribute("defaultValue", data.name);
-          document.getElementById("bookTitle").setAttribute("disabled", true)
-          document.getElementById("author").setAttribute("defaultValue", data.author)
-        })
-        .catch((error) => {
-          alert(error.response.data);
-          router.back();
-        });
+    async function onCreate() {
+      if (id) {
+        await axios
+          .get("/api/book/" + id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            const data = response.data.data.doc;
+            document.getElementById("bookTitle").value = data.nameBook;
+            document.getElementById("bookTitle").setAttribute("disabled", true);
+            document.getElementById("author").value = data.author;
+            document.getElementById("description").value = data.description;
+            document.getElementById("publisher").value = data.publisher;
+            document.getElementById("amount").value = data.numberOfBooks;
+            document.getElementById("price").value = data.price;
+            document.getElementById("year").value = data.publicationYear;
+          })
+          .catch((error) => {
+            alert(error.response.data);
+            router.back();
+          });
+      }
     }
+    onCreate();
   }, []);
   return (
     <main>
@@ -47,167 +54,189 @@ export default function BookForm({ id }) {
           maxWidth: "1178px",
           paddingLeft: "80px",
           paddingRight: "100px ",
+          height: "100%",
         }}
       >
-        <Form
-          onSubmit={async function HandleSummitEvent(event) {
-            event.preventDefault();
-            const body = {
-              nameBook: event.currentTarget.bookTitle.value,
-              typeBook: "test",
-              author: event.currentTarget.author.value,
-              publicationYear: event.currentTarget.year.value,
-              publisher: event.currentTarget.publisher.value,
-              price: event.currentTarget.price.value,
-              description: event.currentTarget.description.value,
-              numberOfBooks: event.currentTarget.amount.value,
-            };
-            const res = await axios
-              .post("/api/book", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
-              })
-              .then((response) => {
-                if (response.status == 200) {
-                  return response;
-                } else {
-                  alert(response.data);
-                  return response;
-                }
-              })
-              .catch((error) => {
-                alert(error.response.data);
-              });
-            if (res.status == 200) {
-              const data = new FormData();
+        {!loading ? (
+          <Form
+            onSubmit={async function HandleSummitEvent(event) {
+              event.preventDefault();
+              const body = {
+                nameBook: event.currentTarget.bookTitle.value,
+                typeBook: "test",
+                author: event.currentTarget.author.value,
+                publicationYear: event.currentTarget.year.value,
+                publisher: event.currentTarget.publisher.value,
+                price: event.currentTarget.price.value,
+                description: event.currentTarget.description.value,
+                numberOfBooks: event.currentTarget.amount.value,
+              };
+              setLoading(true);
+              let config = {
+                method: id ? "patch" : "post",
+                maxBodyLength: Infinity,
+                url:
+                  id? ("/api/book/"+
+                  id):"/api/book/",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                data: JSON.stringify(body),
+              };
 
-              data.append("photos", img);
+              const res = await axios
+                .request(config)
+                .then((response) => {
+                  if (response.status == 200) {
+                    alert((id ? "Update" : "Create") + " book successfully");
+                    if (!img) router.refresh();
+                    return response;
+                  } else {
+                    return response;
+                  }
+                })
+                .catch((error) => {
+                  alert(error.response.data);
+                });
+              if (res.status == 200 && img) {
+                const data = new FormData();
 
-              await axios
-                .patch(
-                  BookAPI.oneBookEndpoint + "648db8ffbbde5df63be76d35",
-                  data,
-                  {
-                    maxBodyLength: Infinity,
-                    maxContentLength: Infinity,
+                data.append("photos", img);
+                const bookID = res.data.id;
+                await axios
+                  .patch("/api/book/" + bookID, data, {
+                    method: "PATCH",
                     headers: {
                       "Content-Type": "multipart/form-data",
-                      Authorization:
-                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NjkwNDI2MCwiZXhwIjoxNjg5NDk2MjYwfQ.N_i2H9X6z7Fo2ytlqFdwFEoT4ufQ5RhzWVMpSMAUQT4",
                     },
-                  }
-                )
-                .then((response) => {
-                  console.log(response.data.data.doc);
-                  alert("Add book successfully");
-                })
-                .catch((error) => alert(error.response.data));
-            }
-          }}
-        >
-          <div className="form-group">
-            <label className={montserrat.className}>Title:</label>
-            <FormControl
-              type="text"
-              id="bookTitle"
-              style={{ marginTop: "10px" }}
-            />
-          </div>
-          <div className="form-group" style={{ marginTop: "20px" }}>
-            <label className={montserrat.className}>Author:</label>
-            <FormControl
-              type="text"
-              id="author"
-              style={{ marginTop: "10px" }}
-            />
-          </div>
-          <div className="form-group" style={{ marginTop: "20px" }}>
-            <label className={montserrat.className}>Description:</label>
-            <textarea
-              className="form-control"
-              id="description"
-              rows={5}
-              style={{ marginTop: "10px" }}
-            ></textarea>
-          </div>
-          <div className="form-group" style={{ marginTop: "20px" }}>
-            <label className={montserrat.className}>Publisher:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="publisher"
-              style={{ marginTop: "10px" }}
-            />
-          </div>
-          <div className="form-group" style={{ marginTop: "20px" }}>
-            <div className="row" style={{ marginTop: "10px" }}>
-              <Col xs={10}>
-                <label className={montserrat.className}>Publish Date:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="year"
-                  placeholder="Year"
-                />
-              </Col>
-              <Col xs={2}>
+                  })
+                  .then((response) => {
+                    router.back();
+                    alert("Update book image successfully");
+                  })
+                  .catch((error) => alert(error.response.data));
+              }
+              setLoading(false);
+            }}
+          >
+            <div className="form-group">
+              <label className={montserrat.className}>Title:</label>
+              <FormControl
+                type="text"
+                id="bookTitle"
+                style={{ marginTop: "10px" }}
+              />
+            </div>
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <label className={montserrat.className}>Author:</label>
+              <FormControl
+                type="text"
+                id="author"
+                style={{ marginTop: "10px" }}
+              />
+            </div>
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <label className={montserrat.className}>Description:</label>
+              <textarea
+                className="form-control"
+                id="description"
+                rows={5}
+                style={{ marginTop: "10px" }}
+              ></textarea>
+            </div>
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <label className={montserrat.className}>Publisher:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="publisher"
+                style={{ marginTop: "10px" }}
+              />
+            </div>
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <div className="row" style={{ marginTop: "10px" }}>
+                <Col xs={10}>
+                  <label className={montserrat.className}>Publish Date:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="year"
+                    placeholder="Year"
+                  />
+                </Col>
+                <Col xs={2}>
+                  <div className="form-group">
+                    <label className={montserrat.className}>Amount:</label>
+                    <input type="number" className="form-control" id="amount" />
+                  </div>
+                </Col>
+              </div>
+            </div>
+            <div className="row" style={{ marginTop: "20px" }}>
+              <div className="col">
                 <div className="form-group">
-                  <label className={montserrat.className}>Amount:</label>
-                  <input type="number" className="form-control" id="amount" />
+                  <label className={montserrat.className}>
+                    Number of Pages:
+                  </label>
+                  <input type="text" className="form-control" id="pages" />
                 </div>
-              </Col>
-            </div>
-          </div>
-          <div className="row" style={{ marginTop: "20px" }}>
-            <div className="col">
-              <div className="form-group">
-                <label className={montserrat.className}>Number of Pages:</label>
-                <input type="text" className="form-control" id="pages" />
+              </div>
+              <div className="col">
+                <div className="form-group">
+                  <label className={montserrat.className}>Price:</label>
+                  <input type="text" className="form-control" id="price" />
+                </div>
+              </div>
+              <div className="col">
+                <div className="form-group">
+                  <label className={montserrat.className}>Cover Image:</label>
+                  <input
+                    type="file"
+                    className="form-control-file"
+                    id="coverImage"
+                    onChange={(event) => {
+                      if (event.currentTarget.files)
+                        setImg(event.currentTarget.files[0]);
+                    }}
+                  />
+                </div>
               </div>
             </div>
-            <div className="col">
-              <div className="form-group">
-                <label className={montserrat.className}>Price:</label>
-                <input type="text" className="form-control" id="price" />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label className={montserrat.className}>Cover Image:</label>
-                <input
-                  type="file"
-                  className="form-control-file"
-                  id="coverImage"
-                  onChange={(event) => {
-                    if (event.currentTarget.files)
-                      setImg(event.currentTarget.files[0]);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
 
-          <hr style={{ marginTop: "50px" }} />
-          <div className="d-flex justify-content-start">
-            <button
-              type="submit"
-              className="btn btn-info"
-              style={{
-                color: "white",
-                fontWeight: "600",
-                fontSize: "18px",
-                width: "200px",
-                borderRadius: "10px",
-                marginBottom: "50px",
-                marginTop: "20px",
-                marginRight: "50px",
-              }}
+            <hr style={{ marginTop: "50px" }} />
+            <div className="d-flex justify-content-start">
+              <button
+                type="submit"
+                className="btn btn-info"
+                style={{
+                  color: "white",
+                  fontWeight: "600",
+                  fontSize: "18px",
+                  width: "200px",
+                  borderRadius: "10px",
+                  marginBottom: "50px",
+                  marginTop: "20px",
+                  marginRight: "50px",
+                }}
+              >
+                Add Book
+              </button>
+            </div>
+          </Form>
+        ) : (
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <div
+              className="spinner-border"
+              role="status"
+              style={{ width: "100px", height: "100px", marginTop: "200px" }}
             >
-              Add Book
-            </button>
+              <span className="visually-hidden">Loading...</span>
+            </div>
           </div>
-        </Form>
+        )}
       </Container>
     </main>
   );

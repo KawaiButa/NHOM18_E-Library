@@ -8,7 +8,7 @@ import Book from '../models/Book'
 
 export default function useBook() {
   const router = useRouter()
-  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {});
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data).catch((error) => {alert(error.response.data)});
   const { data: books, mutate: mutateBook } = useSWR<Book[]>('/api/book', fetcher)
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)

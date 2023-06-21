@@ -1,7 +1,7 @@
 "use client";
 import { Montserrat } from "next/font/google";
 import React from "react";
-import useUser from "../../../lib/useUser";
+import useUser from "../../../lib/useProfile";
 import fetchJson from "../../../lib/fetchJson";
 import { useRouter } from "next/navigation";
 import axios from "axios";
