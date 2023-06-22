@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import MemberForm from "../../../../components/memberForm/memberForm";
-
-export default function Page({ params }: { params: { readerId: string } }){
+export default function Page(){
     return <div className="d-flex justify-content-center align-items-center">
-        <MemberForm readerID={params.readerId}/>
+        <MemberForm readerID={null}/>
     </div>
 }

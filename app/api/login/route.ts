@@ -12,7 +12,6 @@ export async function POST(request: Request) {
     url: UserAPI.login,
     headers: {
       'Content-Type': 'application/json',
-      'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlZmE1YjU1MmYxYjZhNTNjZmYwMiIsImlhdCI6MTY4NjMwMjYzMCwiZXhwIjoxNjg2OTA3NDMwfQ.8S4UCi9m6ZVgtotNOAemN4RvF2A-TZ0NGjqZAp3cuk4'
     },
     data: body
   };

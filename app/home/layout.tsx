@@ -24,13 +24,10 @@ import SidebarMenu, {
   SidebarMenuSub,
 } from "react-bootstrap-sidebar-menu";
 import styles from "../layout.module.css";
-import Image from "next/image";
 import ProfileButton from "../../components/profileButton/profileButton";
 import "next/navigation";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import useUser from "../../lib/useProfile";
-import path from "path";
 import useProfile from "../../lib/useProfile";
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700"],
@@ -74,7 +71,10 @@ export default function Layout({ children }) {
           }}
         >
           <SidebarMenu.Nav className="d-flex flex-column">
-            <SidebarMenu.Nav.Link
+
+            {profile && profile.role == "admin" ? (
+              <>
+                          <SidebarMenu.Nav.Link
               className={styles.sidebarNavLink}
               role="button"
               href="/home/library"
@@ -88,8 +88,6 @@ export default function Layout({ children }) {
                 </SidebarMenu.Nav.Title>
               </SideTabButton>
             </SidebarMenu.Nav.Link>
-            {profile && profile.role == "admin" ? (
-              <>
                 <SidebarMenu.Nav.Link
                   role="button"
                   className={styles.sidebarNavLink}

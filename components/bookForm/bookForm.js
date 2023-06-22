@@ -44,8 +44,8 @@ export default function BookForm({ id }) {
           });
       }
     }
-    //onCreate();
-  }, []);
+    onCreate();
+  }, [id]);
   return (
     <main>
       <Container

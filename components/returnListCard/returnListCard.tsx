@@ -16,11 +16,7 @@ import {
 } from "react-bootstrap";
 import styles from "../borrowCardList/borrowListCard.module.css";
 import useReturn from "../../lib/useReturn";
-import axios from "axios";
-import { headers } from "next/headers";
-import fetchJson from "../../lib/fetchJson";
-import { METHODS } from "http";
-import { useRouter } from "next/navigation";
+
 import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
     weight: "400",
@@ -35,25 +31,7 @@ const montserrat = Montserrat({
 export default function RemindListCard() {
   const { returns, mutateReturn } = useReturn();
   const { profile } = useProfile();
-  const [member, setMember] = useState(null);
-  useEffect(() => {
-    async function onCreate() {
-      if (profile)
-        await axios
-          .get("/api/profile/" + profile.id, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            if (response.status == 200) setMember(response.data);
-            if (response.status == 204) setMember(null);
-          });
-    }
-    onCreate();
-  }, [profile]);
+
   const returnTable = () => {
     if (returns) {
       return (
@@ -104,14 +82,7 @@ export default function RemindListCard() {
         </main>
       );
   };
-  if (member == null)
-    return (
-      <div>
-        <h2>{"You don't have a reader card connect to this account."}</h2>
-        <h2>{"Please contact to the library admin to create a reader card"}</h2>
-      </div>
-    );
-  if (member && profile)
+  if (profile)
     return (
       <>
         <Row
