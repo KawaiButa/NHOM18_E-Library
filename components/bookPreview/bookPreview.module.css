@@ -1,0 +1,14 @@
+.bookPreview {
+    border-width: 0px;
+    border-color: white;
+    padding: 5px;
+    width: 180px;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+}
+.bookPreview:hover {
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.35);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

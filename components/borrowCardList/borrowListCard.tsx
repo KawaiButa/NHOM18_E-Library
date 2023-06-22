@@ -31,16 +31,12 @@ const montserrat = Montserrat({
 });
 
 export default function BorrowListCard() {
-    const [borrowList, setBorrowList] = useState(
-        new Array<React.ReactElement>()
-    );
     const { borrows, mutateBorrow } = useBorrow();
     const [modalDeleteOne, setModalDeleteOne] = useState(false);
     const [modalDeleteMulti, setModalDeleteMulti] = useState(false);
     const [index, setIndex] = useState(0);
     const router = useRouter();
     const {profile} = useProfile()
-    const [member, setMember] = useState()
 
     const openModalDeleteOne = () => setModalDeleteOne(true);
     const closeModalDeleteOne = () => setModalDeleteOne(false);
@@ -125,7 +121,6 @@ export default function BorrowListCard() {
           })
           .then((response) => {
             console.log(response);
-            if (response.status == 200) setMember(response.data);
           })
           .catch((error) => {
             alert(error.message.data);
