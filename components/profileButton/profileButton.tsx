@@ -51,9 +51,12 @@ export default function ProfileButton() {
                                     fontSize: "24px",
                                     marginLeft: "15px",
                                     position: "relative",
-                                    maxWidth: "500px",
+                                    maxWidth: "211px",
                                     marginRight: "-25px",
                                     top: "7px",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
                                 }}
                             >
                                 {profile?.name}
