@@ -54,7 +54,6 @@ export default function Layout({ children }) {
         >
             <SidebarMenu variant={"dark"} style={{ backgroundColor: "black" }}>
                 <SidebarMenu.Header
-                    c
                     className={`${montserrat.className} d-flex justify-content-center align-items-center`}
                     style={{
                         width: "262px",
