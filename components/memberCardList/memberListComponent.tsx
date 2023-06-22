@@ -206,7 +206,7 @@ export default function MemberListCard() {
                     marginRight: "10px",
                     backgroundColor: "transparent",
                   }}
-                  href={"/home/member/" + element.readerId}
+                  href={"/home/member/modification" + element.readerId}
                 >
                   <Image src="/icon_edit.png" alt="delete" />
                 </Button>
@@ -347,98 +347,162 @@ export default function MemberListCard() {
               </p>
             </Button>
           </div>
-          <Stack gap={5} style={{ marginLeft: "20px", marginRight: "125px" }}>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control style={{ height: "100%" }} placeholder="Name" />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control style={{ height: "100%" }} placeholder="Email" />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Member date"
-                />
-              </Col>
-            </Stack>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Date of birth"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Address"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Reader type"
-                />
-              </Col>
-            </Stack>
-            <Stack direction="horizontal" gap={5}>
-              <Col sm={4} style={{ height: "50px" }}>
-                <Form.Control
-                  style={{ height: "100%" }}
-                  placeholder="Member ID"
-                />
-              </Col>
-              <Col sm={4} style={{ height: "50px" }} />
-              <Col sm={4} style={{ height: "50px", alignItems: "end" }}>
-                <Stack direction="horizontal" gap={3}>
-                  <Button
-                    className={styles.button}
-                    style={{
-                      height: "32px",
-                      width: "98px",
-                      backgroundColor: "#44B8CB",
-                      borderWidth: "0px",
-                      borderRadius: "30px",
-                    }}
-                  >
-                    <p
-                      className={montserrat.className}
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const searchQuery: Array<{ key: string; value: string }> = [];
+              if (event.currentTarget.readerName.value)
+                searchQuery.push({
+                  key: "name",
+                  value: event.currentTarget.readerName.value,
+                });
+              if (event.currentTarget.email.value)
+                searchQuery.push({
+                  key: "email",
+                  value: event.currentTarget.email.value,
+                });
+              if (event.currentTarget.memberDate.value)
+                searchQuery.push({
+                  key: "memberDate",
+                  value: event.currentTarget.memberDate.value,
+                });
+              if (event.currentTarget.dateOfBirth.value)
+                searchQuery.push({
+                  key: "dateOfBirth",
+                  value: event.currentTarget.dateOfBirth.value,
+                });
+              if (event.currentTarget.address.value)
+                searchQuery.push({
+                  key: "address",
+                  value: event.currentTarget.address.value,
+                });
+              if (event.currentTarget.readerType.value)
+                searchQuery.push({
+                  key: "readerType",
+                  value: event.currentTarget.readerType.value,
+                });
+              if (event.currentTarget.memberId.value)
+                searchQuery.push({
+                  key: "memberId",
+                  value: event.currentTarget.memberId.value,
+                });
+              const url = new URL(document.URL.split("?")[0]);
+              searchQuery.forEach((element) => {
+                url.searchParams.set(element.key, element.value);
+              });
+              window.location.replace(url.href)
+            }}
+          >
+            <Stack gap={5} style={{ marginLeft: "20px", marginRight: "125px" }}>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Name"
+                    id="readerName"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Email"
+                    id="email"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Member date: mm/dd/yyyy"
+                    type="text"
+                    id="memberDate"
+                  />
+                </Col>
+              </Stack>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Date of birth: mm/dd/yyyy"
+                    type="text"
+                    id="dateOfBirth"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Address"
+                    id="address"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Reader type"
+                    id="readerType"
+                  />
+                </Col>
+              </Stack>
+              <Stack direction="horizontal" gap={5}>
+                <Col sm={4} style={{ height: "50px" }}>
+                  <Form.Control
+                    style={{ height: "100%" }}
+                    placeholder="Member ID"
+                    id="memberId"
+                  />
+                </Col>
+                <Col sm={4} style={{ height: "50px" }} />
+                <Col sm={4} style={{ height: "50px", alignItems: "end" }}>
+                  <Stack direction="horizontal" gap={3}>
+                    <Button
+                      className={styles.button}
                       style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        alignSelf: "center",
+                        height: "32px",
+                        width: "98px",
+                        backgroundColor: "#44B8CB",
+                        borderWidth: "0px",
+                        borderRadius: "30px",
                       }}
+                      type="submit"
                     >
-                      Search
-                    </p>
-                  </Button>
-                  <Button
-                    className={styles.button}
-                    style={{
-                      height: "32px",
-                      width: "98px",
-                      backgroundColor: "#D9D9D9",
-                      borderWidth: "0px",
-                      borderRadius: "30px",
-                    }}
-                  >
-                    <p
-                      className={montserrat.className}
+                      <p
+                        className={montserrat.className}
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          alignSelf: "center",
+                        }}
+                      >
+                        Search
+                      </p>
+                    </Button>
+                    <Button
+                      className={styles.button}
                       style={{
-                        color: "black",
-                        fontSize: "16px",
-                        alignSelf: "center",
+                        height: "32px",
+                        width: "98px",
+                        backgroundColor: "#D9D9D9",
+                        borderWidth: "0px",
+                        borderRadius: "30px",
                       }}
+                      href="/home/member"
                     >
-                      Reset
-                    </p>
-                  </Button>
-                </Stack>
-              </Col>
+                      <p
+                        className={montserrat.className}
+                        style={{
+                          color: "black",
+                          fontSize: "16px",
+                          alignSelf: "center",
+                        }}
+                      >
+                        Reset
+                      </p>
+                    </Button>
+                  </Stack>
+                </Col>
+              </Stack>
             </Stack>
-          </Stack>
+          </Form>
           {memberTable()}
           <Container className="mt-4 d-flex justify-content-center">
             <Button

@@ -82,7 +82,7 @@ export default function MemberForm({ readerID }) {
             setIsLoading(true);
             console.log(readerID)
             let config = {
-              method: readerID && readerID != "undefined" ? "patch" : "post",
+              method: readerID ? "patch" : "post",
               maxBodyLength: Infinity,
               url:
                 readerID && readerID != "undefined"
@@ -99,8 +99,9 @@ export default function MemberForm({ readerID }) {
                 if (response.status == 200) {
                   alert("Add member successfully");
                   if (response.status == 200 && img) {
+                    console.log(response.data)
                     const data = new FormData();
-                    const userId = response.data.user;
+                    const userId = response.data.userId;
                     data.append("avatar", img);
                     axios
                       .patch("/api/profile/" + userId, data, {
@@ -112,14 +113,14 @@ export default function MemberForm({ readerID }) {
                       .then((response) => {
                         if (response.status == 200) {
                           alert("Update avatar successfully");
-                          if (readerID && readerID != "undefined")
+                          if (readerID)
                             router.back();
                           else router.refresh();
                         }
                       })
                       .catch((error) => {
                         alert(error.response.data);
-                        if (readerID && readerID != "undefined") router.back();
+                        if (readerID) router.back();
                         else router.refresh();
                       });
                   }
@@ -131,7 +132,7 @@ export default function MemberForm({ readerID }) {
                 return response;
               })
               .catch((error) => {
-                alert(error.response.data);
+                alert(error);
               });
           }}
         >

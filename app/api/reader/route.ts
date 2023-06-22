@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         };
         const res = await axios.request(config).then((response) => {
             if (response.status == 201) {
-                const element = response.data
+                const element = response.data.data.reader
                 const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.user, element.email, element.dateOfBirth)
                 return NextResponse.json(reader, { status: 200, statusText: "Success" })
             }
