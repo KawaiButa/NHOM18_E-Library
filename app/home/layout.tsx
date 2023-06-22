@@ -7,21 +7,21 @@ import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {
-  Button,
-  Col,
-  Container,
-  FormControl,
-  FormGroup,
-  InputGroup,
-  Nav,
-  Navbar,
-  Row,
-  Stack,
+    Button,
+    Col,
+    Container,
+    FormControl,
+    FormGroup,
+    InputGroup,
+    Nav,
+    Navbar,
+    Row,
+    Stack,
 } from "react-bootstrap";
 import SidebarMenu, {
-  SidebarMenuCollapse,
-  SidebarMenuNav,
-  SidebarMenuSub,
+    SidebarMenuCollapse,
+    SidebarMenuNav,
+    SidebarMenuSub,
 } from "react-bootstrap-sidebar-menu";
 import styles from "../layout.module.css";
 import ProfileButton from "../../components/profileButton/profileButton";
@@ -30,9 +30,9 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import useProfile from "../../lib/useProfile";
 const montserrat = Montserrat({
-  weight: ["300", "400", "600", "700"],
-  style: "normal",
-  subsets: ["latin", "vietnamese"],
+    weight: ["300", "400", "600", "700"],
+    style: "normal",
+    subsets: ["latin", "vietnamese"],
 });
 export default function Layout({ children }) {
   const pathName = usePathname();
@@ -125,177 +125,257 @@ export default function Layout({ children }) {
               <></>
             )}
 
-            <SidebarMenu.Nav.Link
-              role="button"
-              className={styles.sidebarNavLink}
-            >
-              <SidebarMenu.Sub>
-                <SidebarMenu.Sub.Toggle
-                  onClick={() => setTab("Transaction")}
-                  style={{
-                    backgroundColor:
-                      Tab == "Transaction" ? "white" : "transparent",
-                    color: Tab == "Transaction" ? "black" : "white",
-                  }}
-                >
-                  <SidebarMenu.Nav.Title
-                    className={montserrat.className}
-                    style={{ color: "inherit" }}
-                  >
-                    Transaction
-                  </SidebarMenu.Nav.Title>
-                  <SidebarMenuSub.Collapse style={{ paddingTop: "30px" }}>
-                    <SidebarMenuNav className={styles.sidebarMenuSub}>
-                      <Button
-                        className={styles.sidebarMenuSubButton}
-                        onClick={() => router.push("/home/transaction/borrow")}
-                      >
-                        <SidebarMenu.Nav.Title
-                          className={montserrat.className}
-                          style={{ color: "inherit" }}
+                        <SidebarMenu.Nav.Link
+                            role="button"
+                            className={styles.sidebarNavLink}
                         >
-                          Borrow card
-                        </SidebarMenu.Nav.Title>
-                      </Button>
-                      <Button
-                        className={styles.sidebarMenuSubButton}
-                        onClick={() => router.push("/home/transaction/return")}
-                      >
-                        <SidebarMenu.Nav.Title
-                          className={montserrat.className}
-                          style={{ color: "inherit" }}
-                        >
-                          Return card
-                        </SidebarMenu.Nav.Title>
-                      </Button>
-                      <Button
-                        className={styles.sidebarMenuSubButton}
-                        onClick={() => router.push("/home/transaction/fee")}
-                      >
-                        <SidebarMenu.Nav.Title
-                          className={montserrat.className}
-                          style={{ color: "inherit" }}
-                        >
-                          Fee card
-                        </SidebarMenu.Nav.Title>
-                      </Button>
-                      <Button
-                        className={styles.sidebarMenuSubButton}
-                        onClick={() => router.push("/home/transaction/wallet")}
-                      >
-                        <SidebarMenu.Nav.Title
-                          className={montserrat.className}
-                          style={{ color: "inherit" }}
-                        >
-                          Wallet
-                        </SidebarMenu.Nav.Title>
-                      </Button>
-                    </SidebarMenuNav>
-                  </SidebarMenuSub.Collapse>
-                </SidebarMenu.Sub.Toggle>
-              </SidebarMenu.Sub>
-              {profile && profile.role == "admin" ? (
-                <SidebarMenu.Nav.Link
-                  style={{
-                    textDecoration: "none",
-                    bottom: "0px",
-                    position: "relative",
-                    textAlign: "center",
+                            <SidebarMenu.Sub>
+                                <SidebarMenu.Sub.Toggle
+                                    onClick={() => setTab("Transaction")}
+                                    style={{
+                                        backgroundColor:
+                                            Tab == "Transaction"
+                                                ? "white"
+                                                : "transparent",
+                                        color:
+                                            Tab == "Transaction"
+                                                ? "black"
+                                                : "white",
+                                    }}
+                                >
+                                    <SidebarMenu.Nav.Title
+                                        className={montserrat.className}
+                                        style={{ color: "inherit" }}
+                                    >
+                                        Transaction
+                                    </SidebarMenu.Nav.Title>
+                                    <SidebarMenuSub.Collapse
+                                        style={{ paddingTop: "30px" }}
+                                    >
+                                        <SidebarMenuNav
+                                            className={styles.sidebarMenuSub}
+                                        >
+                                            <Button
+                                                className={
+                                                    styles.sidebarMenuSubButton
+                                                }
+                                                onClick={() =>
+                                                    router.push(
+                                                        "/home/transaction/borrow"
+                                                    )
+                                                }
+                                            >
+                                                <SidebarMenu.Nav.Title
+                                                    className={
+                                                        montserrat.className
+                                                    }
+                                                    style={{ color: "inherit" }}
+                                                >
+                                                    Borrow card
+                                                </SidebarMenu.Nav.Title>
+                                            </Button>
+                                            <Button
+                                                className={
+                                                    styles.sidebarMenuSubButton
+                                                }
+                                                onClick={() =>
+                                                    router.push(
+                                                        "/home/transaction/return"
+                                                    )
+                                                }
+                                            >
+                                                <SidebarMenu.Nav.Title
+                                                    className={
+                                                        montserrat.className
+                                                    }
+                                                    style={{ color: "inherit" }}
+                                                >
+                                                    Return card
+                                                </SidebarMenu.Nav.Title>
+                                            </Button>
+                                            <Button
+                                                className={
+                                                    styles.sidebarMenuSubButton
+                                                }
+                                                onClick={() =>
+                                                    router.push(
+                                                        "/home/transaction/fee"
+                                                    )
+                                                }
+                                            >
+                                                <SidebarMenu.Nav.Title
+                                                    className={
+                                                        montserrat.className
+                                                    }
+                                                    style={{ color: "inherit" }}
+                                                >
+                                                    Fee card
+                                                </SidebarMenu.Nav.Title>
+                                            </Button>
+                                            <Button
+                                                className={
+                                                    styles.sidebarMenuSubButton
+                                                }
+                                                onClick={() =>
+                                                    router.push(
+                                                        "/home/transaction/wallet"
+                                                    )
+                                                }
+                                            >
+                                                <SidebarMenu.Nav.Title
+                                                    className={
+                                                        montserrat.className
+                                                    }
+                                                    style={{ color: "inherit" }}
+                                                >
+                                                    Wallet
+                                                </SidebarMenu.Nav.Title>
+                                            </Button>
+                                        </SidebarMenuNav>
+                                    </SidebarMenuSub.Collapse>
+                                </SidebarMenu.Sub.Toggle>
+                            </SidebarMenu.Sub>
+                            {/* {profile && profile.role == "admin" ? (
+                                <SidebarMenu.Nav.Link
+                                    className={montserrat.className}
+                                    style={{
+                                        textDecoration: "none",
+                                        alignContent: "center",
+                                        width: "100%",
+                                    }}
+                                    onClick={() => {
+                                        router.push("/home/configuration");
+                                    }}
+                                >
+                                    Configuration
+                                </SidebarMenu.Nav.Link>
+                            ) : (
+                                <></>
+                            )} */}
+                        </SidebarMenu.Nav.Link>
+                        {profile && profile.role == "admin" ? (
+                            <SidebarMenu.Nav.Link
+                                className={styles.sidebarNavLink}
+                                style={{
+                                    textDecoration: "none",
+                                    alignContent: "center",
+                                    width: "100%",
+                                }}
+                                onClick={() => {
+                                    router.push("/home/configuration");
+                                }}
+                            >
+                                <SideTabButton tab="configuration">
+                                    <SidebarMenu.Nav.Title
+                                        className={montserrat.className}
+                                        style={{ color: "inherit" }}
+                                    >
+                                        Configuration
+                                    </SidebarMenu.Nav.Title>
+                                </SideTabButton>
+                            </SidebarMenu.Nav.Link>
+                        ) : (
+                            <></>
+                        )}
+                    </SidebarMenu.Nav>
+                </SidebarMenu.Body>
+            </SidebarMenu>
+            <div
+                className="d-flex"
+                style={{
+                    margin: "0px",
+                    padding: "0px",
+                    height: "100%",
                     width: "100%",
-                  }}
-                  onClick={() => {router.push("/home/configuration")}}
-                >
-                  Configuration
-                </SidebarMenu.Nav.Link>
-              ) : (
-                <></>
-              )}
-            </SidebarMenu.Nav.Link>
-          </SidebarMenu.Nav>
-        </SidebarMenu.Body>
-      </SidebarMenu>
-      <div
-        className="d-flex"
-        style={{
-          margin: "0px",
-          padding: "0px",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Stack direction="vertical" style={{}}>
-          <header
-            className="d-flex"
-            style={{
-              width: "100%",
-              height: "150px",
-              backgroundColor: "white",
-            }}
-          >
-            <Row style={{ width: "100%", height: "100%" }}>
-              <Col className="d-flex justify-content-center align-items-center">
-                <FormGroup
-                  className=" d-flex justify-content-center align-items-center"
-                  style={{ width: "721px" }}
-                  id="searchFormGroup"
-                >
-                  <InputGroup className="border rounded align-items-center">
-                    <div
-                      className="input-ground-addon fs-4"
-                      style={{ marginLeft: "13px", width: "50px" }}
+                }}
+            >
+                <Stack direction="vertical" style={{}}>
+                    <header
+                        className="d-flex"
+                        style={{
+                            width: "100%",
+                            height: "150px",
+                            backgroundColor: "white",
+                        }}
                     >
-                      <image className="icon bi-search fa-lg"></image>
-                    </div>
-                    <FormControl
-                      size="lg"
-                      className="border-0"
-                      onKeyDown={(event) => {
-                        if (event.key == "Enter") {
-                          event.preventDefault();
-                          var url = new URL(document.URL.split("?")[0]);
-                          url.searchParams.set(
-                            "search",
-                            event.currentTarget.value
-                          );
-                          window.location.replace(url);
-                        }
-                      }}
-                    ></FormControl>
-                  </InputGroup>
-                </FormGroup>
-              </Col>
-              <Col
-                xs
-                lg="3"
-                className="d-flex justify-content-center align-items-center"
-              >
-                <Suspense>
-                  <ProfileButton />
-                </Suspense>
-              </Col>
-            </Row>
-          </header>
-          <Container style={{ width: "100%", height: "100%" }} fluid>
-            {children}
-          </Container>
-        </Stack>
-      </div>
-    </Col>
-  );
-  function SideTabButton({ children, tab }) {
-    return (
-      <>
-        <Button
-          className="d-flex justify-content-center align-items-center"
-          onClick={() => setTab(tab)}
-          style={{
-            backgroundColor: tab == Tab ? "white" : "transparent",
-            color: tab == Tab ? "black" : "white",
-          }}
-        >
-          {children}
-        </Button>
-      </>
+                        <Row style={{ width: "100%", height: "100%" }}>
+                            <Col
+                                lg="8"
+                                className="d-flex justify-content-center align-items-center"
+                                style={{ paddingLeft: "75px" }}
+                            >
+                                <FormGroup
+                                    className=" d-flex justify-content-center align-items-center"
+                                    style={{ width: "721px" }}
+                                    id="searchFormGroup"
+                                >
+                                    <InputGroup className="border rounded align-items-center">
+                                        <div
+                                            className="input-ground-addon fs-4"
+                                            style={{
+                                                marginLeft: "13px",
+                                                width: "50px",
+                                            }}
+                                        >
+                                            <image className="icon bi-search fa-lg"></image>
+                                        </div>
+                                        <FormControl
+                                            size="lg"
+                                            className="border-0"
+                                            onKeyDown={(event) => {
+                                                if (event.key == "Enter") {
+                                                    event.preventDefault();
+                                                    var url = new URL(
+                                                        document.URL.split(
+                                                            "?"
+                                                        )[0]
+                                                    );
+                                                    url.searchParams.set(
+                                                        "search",
+                                                        event.currentTarget
+                                                            .value
+                                                    );
+                                                    window.location.replace(
+                                                        url
+                                                    );
+                                                }
+                                            }}
+                                        ></FormControl>
+                                    </InputGroup>
+                                </FormGroup>
+                            </Col>
+                            <Col
+                                xs
+                                lg="4"
+                                className="d-flex justify-content-center align-items-center"
+                            >
+                                <Suspense>
+                                    <ProfileButton />
+                                </Suspense>
+                            </Col>
+                        </Row>
+                    </header>
+                    <Container style={{ width: "100%", height: "100%" }} fluid>
+                        {children}
+                    </Container>
+                </Stack>
+            </div>
+        </Col>
     );
-  }
+    function SideTabButton({ children, tab }) {
+        return (
+            <>
+                <Button
+                    className="d-flex justify-content-center align-items-center"
+                    onClick={() => setTab(tab)}
+                    style={{
+                        backgroundColor: tab == Tab ? "white" : "transparent",
+                        color: tab == Tab ? "black" : "white",
+                    }}
+                >
+                    {children}
+                </Button>
+            </>
+        );
+    }
 }

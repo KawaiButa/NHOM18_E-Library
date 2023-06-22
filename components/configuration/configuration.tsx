@@ -66,19 +66,6 @@ const TabContainer = ({ activeTab, onTabChange }) => {
                                 Book
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link
-                                style={{
-                                    fontSize: "20px",
-                                    width: "150px",
-                                    borderRadius: "15px",
-                                    textAlign: "center",
-                                }}
-                                eventKey="transaction"
-                            >
-                                Transaction
-                            </Nav.Link>
-                        </Nav.Item>
                     </Stack>
                 </Nav>
                 <hr
@@ -127,8 +114,9 @@ const Reader = () => {
                                 <Stack direction="horizontal">
                                     <Form.Label
                                         style={{
-                                            width: "130px",
+                                            width: "200px",
                                             fontWeight: "600",
+                                            fontSize: "18px",
                                         }}
                                     >
                                         Minimum age:
@@ -139,7 +127,9 @@ const Reader = () => {
                                         placeholder=""
                                         style={{
                                             width: "100px",
-                                            marginLeft: "10px",
+                                            marginLeft: "20px",
+                                            marginBottom: "10px",
+                                            fontSize: "18px",
                                         }}
                                     />
                                 </Stack>
@@ -152,7 +142,8 @@ const Reader = () => {
                                 <Stack direction="horizontal">
                                     <Form.Label
                                         style={{
-                                            width: "130px",
+                                            width: "200px",
+                                            fontSize: "18px",
                                             fontWeight: "600",
                                         }}
                                     >
@@ -164,7 +155,9 @@ const Reader = () => {
                                         placeholder=""
                                         style={{
                                             width: "100px",
-                                            marginLeft: "10px",
+                                            marginLeft: "20px",
+                                            marginBottom: "10px",
+                                            fontSize: "18px",
                                         }}
                                     />
                                 </Stack>
@@ -176,8 +169,9 @@ const Reader = () => {
                                 <Stack direction="horizontal">
                                     <Form.Label
                                         style={{
-                                            width: "180px",
+                                            width: "200px",
                                             fontWeight: "600",
+                                            fontSize: "18px",
                                         }}
                                     >
                                         Card expiration time:
@@ -187,8 +181,10 @@ const Reader = () => {
                                         type="text"
                                         placeholder=""
                                         style={{
+                                            fontSize: "18px",
                                             width: "200px",
-                                            marginLeft: "10px",
+                                            marginLeft: "20px",
+                                            marginBottom: "10px",
                                         }}
                                     />
                                 </Stack>
@@ -249,7 +245,10 @@ const Book = () => {
             <Stack style={{ alignItems: "start", marginTop: "20px" }}>
                 <div className="top-up" style={{ width: "940px" }}>
                     <div className="section">
-                        <Stack direction="horizontal">
+                        <Stack
+                            direction="horizontal"
+                            style={{ marginTop: "0px" }}
+                        >
                             <h2>
                                 <p
                                     className={montserrat.className}
@@ -258,7 +257,7 @@ const Book = () => {
                                         fontWeight: "600",
                                     }}
                                 >
-                                    Genre
+                                    Publication year
                                 </p>
                             </h2>
                             <Image
@@ -271,42 +270,19 @@ const Book = () => {
                         </Stack>
                         <Form
                             className={montserrat.className}
-                            style={{ marginLeft: "50px", marginTop: "20px" }}
+                            style={{ marginLeft: "50px", marginTop: "10px" }}
                         >
                             <Stack direction="horizontal">
-                                <Form.Group controlId="genre1">
+                                <Form.Group controlId="maximumYear">
                                     <Stack direction="horizontal">
                                         <Form.Label
                                             style={{
-                                                width: "80px",
+                                                width: "260px",
                                                 fontWeight: "600",
+                                                fontSize: "18px",
                                             }}
                                         >
-                                            Genre 1:
-                                        </Form.Label>
-                                        <Form.Control
-                                            className="text-center"
-                                            type="text"
-                                            placeholder=""
-                                            style={{
-                                                width: "150px",
-                                                marginLeft: "10px",
-                                            }}
-                                        />
-                                    </Stack>
-                                </Form.Group>
-                                <Form.Group
-                                    controlId="maximumNumber"
-                                    style={{ marginLeft: "150px" }}
-                                >
-                                    <Stack direction="horizontal">
-                                        <Form.Label
-                                            style={{
-                                                width: "180px",
-                                                fontWeight: "600",
-                                            }}
-                                        >
-                                            Maximum number:
+                                            Maximum years:
                                         </Form.Label>
                                         <Form.Control
                                             className="text-center"
@@ -314,57 +290,8 @@ const Book = () => {
                                             placeholder=""
                                             style={{
                                                 width: "100px",
-                                                marginLeft: "10px",
-                                            }}
-                                        />
-                                    </Stack>
-                                </Form.Group>
-                            </Stack>
-                            <Stack
-                                direction="horizontal"
-                                style={{ marginTop: "35px" }}
-                            >
-                                <Form.Group controlId="genre2">
-                                    <Stack direction="horizontal">
-                                        <Form.Label
-                                            style={{
-                                                width: "80px",
-                                                fontWeight: "600",
-                                            }}
-                                        >
-                                            Genre 2:
-                                        </Form.Label>
-                                        <Form.Control
-                                            className="text-center"
-                                            type="text"
-                                            placeholder=""
-                                            style={{
-                                                width: "150px",
-                                                marginLeft: "10px",
-                                            }}
-                                        />
-                                    </Stack>
-                                </Form.Group>
-                                <Form.Group
-                                    controlId="maximumNumber"
-                                    style={{ marginLeft: "150px" }}
-                                >
-                                    <Stack direction="horizontal">
-                                        <Form.Label
-                                            style={{
-                                                width: "180px",
-                                                fontWeight: "600",
-                                            }}
-                                        >
-                                            Maximum number:
-                                        </Form.Label>
-                                        <Form.Control
-                                            className="text-center"
-                                            type="text"
-                                            placeholder=""
-                                            style={{
-                                                width: "100px",
-                                                marginLeft: "10px",
+                                                fontSize: "18px",
+                                                marginBottom: "10px",
                                             }}
                                         />
                                     </Stack>
@@ -383,7 +310,7 @@ const Book = () => {
                                         fontWeight: "600",
                                     }}
                                 >
-                                    Publication year gap
+                                    Book
                                 </p>
                             </h2>
                             <Image
@@ -396,18 +323,19 @@ const Book = () => {
                         </Stack>
                         <Form
                             className={montserrat.className}
-                            style={{ marginLeft: "50px", marginTop: "20px" }}
+                            style={{ marginLeft: "50px", marginTop: "10px" }}
                         >
                             <Stack direction="horizontal">
-                                <Form.Group controlId="maximumYear">
+                                <Form.Group controlId="maximum">
                                     <Stack direction="horizontal">
                                         <Form.Label
                                             style={{
-                                                width: "150px",
+                                                width: "260px",
                                                 fontWeight: "600",
+                                                fontSize: "18px",
                                             }}
                                         >
-                                            Maximum years:
+                                            Maximum amount:
                                         </Form.Label>
                                         <Form.Control
                                             className="text-center"
@@ -415,12 +343,39 @@ const Book = () => {
                                             placeholder=""
                                             style={{
                                                 width: "100px",
-                                                marginLeft: "10px",
+                                                marginBottom: "10px",
+                                                fontSize: "18px",
                                             }}
                                         />
                                     </Stack>
                                 </Form.Group>
                             </Stack>
+                            <Form.Group
+                                controlId="maximumOrderDay"
+                                style={{ marginTop: "30px" }}
+                            >
+                                <Stack direction="horizontal">
+                                    <Form.Label
+                                        style={{
+                                            width: "260px",
+                                            fontWeight: "600",
+                                            fontSize: "18px",
+                                        }}
+                                    >
+                                        Maximum ordering days:
+                                    </Form.Label>
+                                    <Form.Control
+                                        className="text-center"
+                                        type="text"
+                                        placeholder=""
+                                        style={{
+                                            width: "100px",
+                                            marginBottom: "10px",
+                                            fontSize: "18px",
+                                        }}
+                                    />
+                                </Stack>
+                            </Form.Group>
                         </Form>
                         <Stack
                             direction="horizontal"
@@ -471,131 +426,6 @@ const Book = () => {
     );
 };
 
-const Transaction = () => {
-    return (
-        <div style={{ width: "940px" }}>
-            <Stack style={{ alignItems: "start", marginTop: "20px" }}>
-                <div className="top-up" style={{ width: "940px" }}>
-                    <div className="section">
-                        <Stack direction="horizontal">
-                            <h2>
-                                <p
-                                    className={montserrat.className}
-                                    style={{
-                                        fontSize: "25px",
-                                        fontWeight: "600",
-                                    }}
-                                >
-                                    Borrow card
-                                </p>
-                            </h2>
-                            <Image
-                                src="/icon_edit.png"
-                                style={{
-                                    marginBottom: "25px",
-                                    marginLeft: "10px",
-                                }}
-                            />
-                        </Stack>
-                        <Form
-                            className={montserrat.className}
-                            style={{ marginLeft: "50px", marginTop: "20px" }}
-                        >
-                            <Form.Group controlId="minimumAge">
-                                <Stack direction="horizontal">
-                                    <Form.Label
-                                        style={{
-                                            width: "280px",
-                                            fontWeight: "600",
-                                        }}
-                                    >
-                                        Maximum book to order/day :
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="text-center"
-                                        type="text"
-                                        placeholder=""
-                                        style={{
-                                            width: "100px",
-                                            marginLeft: "10px",
-                                        }}
-                                    />
-                                </Stack>
-                            </Form.Group>
-
-                            <Form.Group
-                                controlId="maximumOrderDay"
-                                style={{ marginTop: "30px" }}
-                            >
-                                <Stack direction="horizontal">
-                                    <Form.Label
-                                        style={{
-                                            width: "240px",
-                                            fontWeight: "600",
-                                        }}
-                                    >
-                                        Maximum ordering days:
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="text-center"
-                                        type="text"
-                                        placeholder=""
-                                        style={{
-                                            width: "150px",
-                                            marginLeft: "10px",
-                                        }}
-                                    />
-                                </Stack>
-                            </Form.Group>
-                        </Form>
-                        <Stack
-                            direction="horizontal"
-                            style={{
-                                alignItems: "center",
-                                marginTop: "170px",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <Button
-                                variant="primary"
-                                className={montserrat.className}
-                                style={{
-                                    width: "130px",
-                                    height: "50px",
-                                    borderRadius: "15px",
-                                    fontWeight: "600",
-                                    fontSize: "20px",
-                                    background: "#44B8CB",
-                                    borderColor: "#44B8CB",
-                                    marginLeft: "300px",
-                                }}
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                variant="primary"
-                                className={montserrat.className}
-                                style={{
-                                    width: "130px",
-                                    height: "50px",
-                                    borderRadius: "15px",
-                                    fontWeight: "600",
-                                    fontSize: "20px",
-                                    color: "black",
-                                    background: "#D9D9D9",
-                                    borderColor: "#D9D9D9",
-                                    marginRight: "300px",
-                                }}
-                            >
-                                Undo
-                            </Button>
-                        </Stack>
-                    </div>
-                </div>
-            </Stack>
-        </div>
-    );
-};
 const Configuration = () => {
     const [activeTab, setActiveTab] = useState("reader");
 
@@ -622,7 +452,6 @@ const Configuration = () => {
                     <div>
                         {activeTab === "reader" && <Reader />}
                         {activeTab === "book" && <Book />}
-                        {activeTab === "transaction" && <Transaction />}
                     </div>
                 </Stack>
             </Container>

@@ -10,11 +10,6 @@ import {
     Stack,
 } from "react-bootstrap";
 
-const roboto = Roboto({
-    weight: "400",
-    subsets: ["latin"],
-});
-
 const montserrat = Montserrat({
     weight: ["400", "700"],
     subsets: ["latin"],
