@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
         url: 'https://book-library-management.onrender.com/api/v1/users/signup',
         headers: {
             'Content-Type': 'application/json'
+            
         },
         data: data.body
     };
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
         if (response.status == 201)
             return NextResponse.json(response, {
                 status: 200,
+                headers: { 'Set-Cookie': `token=${response.data.token}` },
             })
         else
             return NextResponse.json(undefined, { status: response.status, statusText: response.statusText });

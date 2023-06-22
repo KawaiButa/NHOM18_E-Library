@@ -5,7 +5,6 @@ import MemberListCard from "../../../components/memberCardList/memberListCompone
 import MemberFrom from "../../../components/memberForm/memberForm"
 
 export default function Member() {
-  const [tab, setTab] = useState("memberList")
   return (
     <div className="d-flex justify-content-center align-items-center">
       <MemberListCard/>

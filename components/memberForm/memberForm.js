@@ -75,11 +75,12 @@ export default function MemberForm({ readerID }) {
               dateOfBirth: event.currentTarget.dateOfBirth.value,
               email: event.currentTarget.email.value,
               user:
-                readerID && readerID != "undefined"
+                (readerID)
                   ? readerID
                   : selectedUser.id,
             };
             setIsLoading(true);
+            console.log(readerID)
             let config = {
               method: readerID && readerID != "undefined" ? "patch" : "post",
               maxBodyLength: Infinity,
@@ -99,10 +100,7 @@ export default function MemberForm({ readerID }) {
                   alert("Add member successfully");
                   if (response.status == 200 && img) {
                     const data = new FormData();
-                    const userId =
-                      readerID && readerID != "undefined"
-                        ? readerID
-                        : response.data.readerId;
+                    const userId = response.data.user;
                     data.append("avatar", img);
                     axios
                       .patch("/api/profile/" + userId, data, {

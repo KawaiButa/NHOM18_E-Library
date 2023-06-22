@@ -29,7 +29,7 @@ export default function Home() {
         const temp = [...bookAfterSearch];
         if (key == "search") {
           bookAfterSearch?.forEach((element) => {
-            if (!removeVietnameseTones(element.name[0]).includes(removeVietnameseTones(value))) temp.splice(temp.indexOf(element), 1);
+            if (!removeVietnameseTones(element.name).includes(removeVietnameseTones(value))) temp.splice(temp.indexOf(element), 1);
           });
         }
         if (key == "alphabet") {

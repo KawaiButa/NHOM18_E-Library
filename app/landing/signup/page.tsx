@@ -75,7 +75,7 @@ export default function SignUp() {
                     body: JSON.stringify(body),
                   })
                     .then((response) => router.push("/landing/login"))
-                    .catch((error) => {alert(error.response.data)});
+                    .catch((error) => {alert(error.response); window.location.reload()});
                 }}
               >
                 <div className="row mb-3">

@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import BorrowListCard from "../../../../components/borrowCardList/borrowListCard";
-import useProfile from "../../../../lib/useProfile";
+import React, { useState } from "react";
+import ReturnListCard from "../../../../components/returnListCard/returnListCard";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import useProfile from "../../../../lib/useProfile";
+import { useRouter } from "next/router";
 export default function Transaction() {
   const [member, setMember] = useState();
   const { profile } = useProfile();
@@ -31,10 +31,10 @@ export default function Transaction() {
     if (profile.role == "admin")
       return (
         <div>
-          <BorrowListCard></BorrowListCard>
+          <ReturnListCard />
         </div>
       );
-    else if (member)
+    else if (!member)
       return (
         <>
           <h2>{"You don't have a reader card connect to this account."}</h2>
@@ -44,7 +44,7 @@ export default function Transaction() {
         </>
       );
     else {
-      var endpoint = "/home/transaction/borrow?borrower=" + member.readerId;
+      var endpoint = "/home/transaction/return?borrower=" + member.readerId;
       return (
         <>
           <header>
@@ -54,4 +54,5 @@ export default function Transaction() {
         </>
       );
     }
+    else return <></>
 }

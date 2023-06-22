@@ -165,7 +165,7 @@ export default function BookTag({ id }) {
                                     {"Price: " +
                                         new Intl.NumberFormat("en-US", {
                                             style: "currency",
-                                            currency: "VND",
+                                            currency: "USD",
                                         }).format(Number.parseInt(book.price))}
                                 </p>
                             </Col>

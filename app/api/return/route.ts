@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
         const res = await axios.request(config)
             .then((response) => {
                 if (response.status == 200) {
+                    console.log(response.data.data.doc)
                     const result: ReturnForm[] = []
                     const data = response.data.data.doc;
                     data.forEach(element => {

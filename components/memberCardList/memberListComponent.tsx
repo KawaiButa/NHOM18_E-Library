@@ -272,7 +272,7 @@ export default function MemberListCard() {
                     marginRight: "10px",
                     backgroundColor: "transparent",
                   }}
-                  href={"/home/member/" + element.readerId}
+                  href={"/home/member/modification" + element.readerId}
                 >
                   <Image src="/icon_edit.png" alt="delete" />
                 </Button>
@@ -333,7 +333,7 @@ export default function MemberListCard() {
                 borderWidth: "0px",
                 borderRadius: "30px",
               }}
-              href="/home/member/undefined"
+              href="/home/member/modification"
             >
               <p
                 className={montserrat.className}
