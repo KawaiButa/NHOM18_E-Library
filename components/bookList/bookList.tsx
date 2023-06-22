@@ -14,12 +14,10 @@ import {
     Table,
 } from "react-bootstrap";
 import styles from "../borrowCardList/borrowListCard.module.css";
-import axios from "axios";
 import useBook from "../../lib/useBook";
 import { useRouter } from "next/navigation";
 import fetchJson from "../../lib/fetchJson";
 import Book from "../../models/Book";
-import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
     weight: "400",
     subsets: ["latin"],
