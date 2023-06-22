@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import ReturnListCard from "../../../../components/returnListCard/returnListCard";
 import axios from "axios";
 import useProfile from "../../../../lib/useProfile";
-import { useRouter } from "next/router";
 export default function Transaction() {
   const [member, setMember] = useState();
   const { profile } = useProfile();
-  const router = useRouter();
   useEffect(() => {
     async function onCreate() {
       if (profile) {

@@ -3,11 +3,9 @@ import React, { useEffect, useState } from "react";
 import BorrowListCard from "../../../../components/borrowCardList/borrowListCard";
 import useProfile from "../../../../lib/useProfile";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 export default function Transaction() {
   const [member, setMember] = useState();
   const { profile } = useProfile();
-  const router = useRouter();
   useEffect(() => {
     async function onCreate() {
       if (profile) {
