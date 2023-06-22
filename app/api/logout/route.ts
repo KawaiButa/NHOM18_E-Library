@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://book-library-management.onrender.com/api/v1/users/logout',
+        url: 'https://book-library-management.onrender.com/api/v1/users/login',
         headers: {
             'Authorization': 'Bearer ' + token
         },
