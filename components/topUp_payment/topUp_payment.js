@@ -21,10 +21,16 @@ const TopUp_payment = () => {
     const BalanceContainer = ({ balance }) => {
         return (
             <div className={montserrat.className}>
-                <h2>Current balance</h2>
-                <p className="text-center" style={{ fontSize: "30px" }}>
+                <h2 style={{ cursor: "default" }}>Current balance</h2>
+                <p
+                    className="text-center"
+                    style={{ fontSize: "30px", cursor: "default" }}
+                >
                     {" "}
-                    {balance}
+                    {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                    }).format(balance)}
                 </p>
             </div>
         );
@@ -100,6 +106,7 @@ const TopUp_payment = () => {
                                     style={{
                                         fontSize: "25px",
                                         fontWeight: "600",
+                                        cursor: "default",
                                     }}
                                 >
                                     Top up account
@@ -191,6 +198,7 @@ const TopUp_payment = () => {
                                             style={{
                                                 fontSize: "25px",
                                                 fontWeight: "600",
+                                                cursor: "default",
                                             }}
                                         >
                                             Top up
@@ -271,7 +279,11 @@ const TopUp_payment = () => {
                     <h2>
                         <p
                             className={montserrat.className}
-                            style={{ fontSize: "25px", fontWeight: "600" }}
+                            style={{
+                                fontSize: "25px",
+                                fontWeight: "600",
+                                cursor: "default",
+                            }}
                         >
                             Money receipt
                         </p>
@@ -310,7 +322,11 @@ const TopUp_payment = () => {
                         >
                             <h2
                                 className="mb-3 text-center"
-                                style={{ fontSize: "19px", fontWeight: "600" }}
+                                style={{
+                                    fontSize: "19px",
+                                    fontWeight: "600",
+                                    cursor: "default",
+                                }}
                             >
                                 Payment Detail
                             </h2>
@@ -320,6 +336,7 @@ const TopUp_payment = () => {
                                     style={{
                                         justifyContent: "space-between",
                                         alignItems: "center",
+                                        cursor: "default",
                                         marginTop: "40px",
                                     }}
                                 >
@@ -344,6 +361,7 @@ const TopUp_payment = () => {
                                     style={{
                                         justifyContent: "space-between",
                                         alignItems: "center",
+                                        cursor: "default",
                                     }}
                                 >
                                     <span
@@ -376,9 +394,9 @@ const TopUp_payment = () => {
                                             type="number"
                                             className="form-control"
                                             placeholder=""
-                                            min={0}
+                                            min={1000}
                                             max={financial.totalDebt}
-                                            step={1}
+                                            step={1000}
                                             style={{
                                                 boxShadow: "none",
                                                 textAlign: "center",
@@ -401,6 +419,7 @@ const TopUp_payment = () => {
                                     style={{
                                         justifyContent: "space-between",
                                         alignItems: "center",
+                                        cursor: "default",
                                     }}
                                 >
                                     <span
@@ -410,7 +429,7 @@ const TopUp_payment = () => {
                                         Total Fee
                                     </span>
                                     <span className="value">
-                                        {new Intl.NumberFormat("vn-VN", {
+                                        {new Intl.NumberFormat("en-US", {
                                             style: "currency",
                                             currency: "USD",
                                         }).format(financial.totalDebt)}
@@ -428,6 +447,7 @@ const TopUp_payment = () => {
                                         justifyContent: "space-between",
                                         alignItems: "center",
                                         marginTop: "50px",
+                                        cursor: "default",
                                     }}
                                 >
                                     <span
@@ -447,7 +467,7 @@ const TopUp_payment = () => {
                                             fontSize: "20px",
                                         }}
                                     >
-                                        {new Intl.NumberFormat("en-ED", {
+                                        {new Intl.NumberFormat("en-US", {
                                             style: "currency",
                                             currency: "USD",
                                         }).format(financial.balance - payMoney)}
@@ -527,6 +547,7 @@ const TopUp_payment = () => {
                         width: "1055px",
                         height: "700px",
                         background: "white",
+                        marginTop: "-50px",
                     }}
                 >
                     <Stack style={{ alignItems: "center" }}>

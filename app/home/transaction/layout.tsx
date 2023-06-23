@@ -5,27 +5,32 @@ import { useEffect } from "react";
 import SearchBar from "../../../components/searchBar/searchBar";
 
 const roboto = Roboto({
-  weight: "700",
-  subsets: ["vietnamese"],
+    weight: "700",
+    subsets: ["vietnamese"],
 });
 export default function Layout({ children }) {
-  useEffect(() => {
-    var search = document.getElementById("searchFormGroup");
-    search!.style.visibility = "hidden";
-  }, []);
-  return (
-    <div
-      className="justify-content-start align-items-center"
-      style={{ marginLeft: "90px", marginRight: "60px" }}
-    >
-      <h1
-        className={roboto.className}
-        style={{ position: "absolute", top: "40px", fontWeight: "40px" }}
-      >
-        Transaction
-      </h1>
-      <SearchBar></SearchBar>
-      {children}
-    </div>
-  );
+    useEffect(() => {
+        var search = document.getElementById("searchFormGroup");
+        search!.style.visibility = "hidden";
+    }, []);
+    return (
+        <div
+            className="justify-content-start align-items-center"
+            style={{ marginLeft: "90px", marginRight: "60px" }}
+        >
+            <h1
+                className={roboto.className}
+                style={{
+                    position: "absolute",
+                    top: "40px",
+                    fontWeight: "40px",
+                    cursor: "default",
+                }}
+            >
+                Transaction
+            </h1>
+            <SearchBar></SearchBar>
+            {children}
+        </div>
+    );
 }

@@ -27,7 +27,7 @@ const TabContainer = ({ activeTab, onTabChange }) => {
                 <hr
                     style={{
                         color: "black",
-                        width: "275px",
+                        width: "325px",
                         marginRight: "20px",
                     }}
                 />
@@ -71,7 +71,7 @@ const TabContainer = ({ activeTab, onTabChange }) => {
                 <hr
                     style={{
                         color: "black",
-                        width: "275px",
+                        width: "325px",
                         marginLeft: "20px",
                     }}
                 />
@@ -93,6 +93,7 @@ const Reader = () => {
                                     style={{
                                         fontSize: "25px",
                                         fontWeight: "600",
+                                        cursor: "default",
                                     }}
                                 >
                                     Reader card
@@ -255,6 +256,7 @@ const Book = () => {
                                     style={{
                                         fontSize: "25px",
                                         fontWeight: "600",
+                                        cursor: "default",
                                     }}
                                 >
                                     Publication year
@@ -308,6 +310,7 @@ const Book = () => {
                                     style={{
                                         fontSize: "25px",
                                         fontWeight: "600",
+                                        cursor: "default",
                                     }}
                                 >
                                     Book
@@ -362,7 +365,7 @@ const Book = () => {
                                             fontSize: "18px",
                                         }}
                                     >
-                                        Maximum ordering days:
+                                        Maximum borrowing days:
                                     </Form.Label>
                                     <Form.Control
                                         className="text-center"
