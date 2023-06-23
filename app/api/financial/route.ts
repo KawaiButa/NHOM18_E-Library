@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
             url: endpoint + '/api/v1/user-financials/me',
             headers: {
                 'Authorization': 'Bearer ' + token,
-                'Cookie': 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODJlY2ZmYjk4NzcxYThjZTIwZDI1MyIsImlhdCI6MTY4NjgyMjgxOSwiZXhwIjoxNjg3NDI3NjE5fQ.GRrdKcIPXbK7OVjdF-UA1l3c8zlcPBex10fpDBWaz8A'
             }
         };
 

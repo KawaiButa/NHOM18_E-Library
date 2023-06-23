@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 import ReturnListCard from "../../../../components/returnListCard/returnListCard";
 import axios from "axios";
 import useProfile from "../../../../lib/useProfile";
+import { useSearchParams } from "next/navigation";
+
 export default function Transaction() {
   const [member, setMember] = useState();
   const { profile } = useProfile();
+  const search = useSearchParams();
   useEffect(() => {
     async function onCreate() {
       if (profile) {
@@ -26,7 +29,7 @@ export default function Transaction() {
     onCreate();
   }, [profile]);
   if (profile)
-    if (profile.role == "admin")
+    if (profile.role == "admin" || search.get("borrower"))
       return (
         <div>
           <ReturnListCard />

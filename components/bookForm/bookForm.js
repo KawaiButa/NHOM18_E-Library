@@ -71,6 +71,7 @@ export default function BookForm({ id }) {
                 description: event.currentTarget.description.value,
                 numberOfBooks: event.currentTarget.amount.value,
               };
+              console.log(body)
               setLoading(true);
               let config = {
                 method: id ? "patch" : "post",

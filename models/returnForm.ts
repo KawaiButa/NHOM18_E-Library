@@ -13,7 +13,7 @@ export default class ReturnForm {
     public constructor(id: string, borrowId: string, borrowerId:string, borrowerName:string, lostBooks:Array<{id:string, quantity: Number}>, lateFee:Number,borrowDate:string, returnDate:string) {
         this.id = id;
         this.borrowId = borrowId;
-        this.borrowerId = id;
+        this.borrowerId = borrowerId;
         this.borrowerName = borrowerName;
         this.lostBooks = lostBooks;
         this.lateFee = lateFee;
