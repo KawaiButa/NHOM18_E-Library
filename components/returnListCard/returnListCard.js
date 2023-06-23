@@ -16,24 +16,26 @@ import {
 } from "react-bootstrap";
 import styles from "../borrowCardList/borrowListCard.module.css";
 import useReturn from "../../lib/useReturn";
-
+import { useSearchParams } from "next/navigation";
 import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
-    weight: "400",
-    subsets: ["latin"],
+  weight: "400",
+  subsets: ["latin"],
 });
 
 const montserrat = Montserrat({
-    weight: ["400", "700"],
-    subsets: ["latin"],
+  weight: ["400", "700"],
+  subsets: ["latin"],
 });
 
 export default function RemindListCard() {
   const { returns, mutateReturn } = useReturn();
+  const [returnList, setReturnList] = useState(null);
+  const search = useSearchParams();
   const { profile } = useProfile();
 
   const returnTable = () => {
-    if (returns) {
+    if (returnList) {
       return (
         <Table
           responsive
@@ -54,7 +56,7 @@ export default function RemindListCard() {
             </tr>
           </thead>
           <tbody>
-            {returns.map((element, index) => (
+            {returnList.map((element, index) => (
               <tr key={element.id} onDoubleClick={() => {}}>
                 <td>{index + 1}</td>
                 <td>{element.borrowerName}</td>
@@ -82,6 +84,21 @@ export default function RemindListCard() {
         </main>
       );
   };
+
+  useEffect(() => {
+    if (profile && returns) {
+      const returnAfterSearch = [...returns];
+      const borrowerId = search.get("borrower");
+      if (borrowerId) {
+        returnAfterSearch.forEach((element) => {
+          console.log(element.borrowerId)
+          if (element.borrowerId != borrowerId)
+            returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+        });
+        setReturnList(returnAfterSearch);
+      }
+    }
+  }, [profile, returns]);
   if (profile)
     return (
       <>
@@ -120,6 +137,8 @@ export default function RemindListCard() {
                 position: "relative",
                 top: "-32px",
                 right: "15px",
+                visibility:
+                  profile && profile.role == "admin" ? "visible" : "hidden",
               }}
             >
               <Button

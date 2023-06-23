@@ -206,7 +206,7 @@ export default function MemberListCard() {
                     marginRight: "10px",
                     backgroundColor: "transparent",
                   }}
-                  href={"/home/member/modification" + element.readerId}
+                  href={"/home/member/modification/" + element.readerId}
                 >
                   <Image src="/icon_edit.png" alt="delete" />
                 </Button>

@@ -376,9 +376,9 @@ const TopUp_payment = () => {
                                             type="number"
                                             className="form-control"
                                             placeholder=""
-                                            min={1000}
+                                            min={0}
                                             max={financial.totalDebt}
-                                            step={1000}
+                                            step={1}
                                             style={{
                                                 boxShadow: "none",
                                                 textAlign: "center",
@@ -412,7 +412,7 @@ const TopUp_payment = () => {
                                     <span className="value">
                                         {new Intl.NumberFormat("vn-VN", {
                                             style: "currency",
-                                            currency: "VND",
+                                            currency: "USD",
                                         }).format(financial.totalDebt)}
                                     </span>
                                 </div>
@@ -447,9 +447,9 @@ const TopUp_payment = () => {
                                             fontSize: "20px",
                                         }}
                                     >
-                                        {new Intl.NumberFormat("vn-VN", {
+                                        {new Intl.NumberFormat("en-ED", {
                                             style: "currency",
-                                            currency: "VND",
+                                            currency: "USD",
                                         }).format(financial.balance - payMoney)}
                                     </span>
                                 </div>
