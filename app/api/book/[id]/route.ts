@@ -11,13 +11,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         if (req.headers.get("Content-Type") == "application/json") {
             const data = await req.json()
             console.log(data)
-            res = await axios.patch(BookAPI.oneBookEndpoint + params.id, {
+            res = await axios.patch(BookAPI.oneBookEndpoint + params.id, data, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + token,
                 },
-                data: data
             }).then((response) => {
                 if (response.status == 200) {
                     const data = response.data.data.doc

@@ -74,7 +74,7 @@ export default function SignUp() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body),
                   })
-                    .then((response) => router.push("/landing/login"))
+                    .then((response) => router.push("/home"))
                     .catch((error) => {alert(error.response); window.location.reload()});
                 }}
               >

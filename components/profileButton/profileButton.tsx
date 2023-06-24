@@ -57,6 +57,7 @@ export default function ProfileButton() {
                                     overflow: "hidden",
                                     whiteSpace: "nowrap",
                                     textOverflow: "ellipsis",
+                                    cursor: "default",
                                 }}
                             >
                                 {profile?.name}

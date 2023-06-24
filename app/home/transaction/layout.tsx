@@ -5,14 +5,14 @@ import { useEffect } from "react";
 import SearchBar from "../../../components/searchBar/searchBar";
 
 const roboto = Roboto({
-  weight: "700",
-  subsets: ["vietnamese"],
+    weight: "700",
+    subsets: ["vietnamese"],
 });
 export default function Layout({ children }) {
   useEffect(() => {
     var search = document.getElementById("searchFormGroup");
-    search!.style.visibility = "hidden";
-  }, []);
+    search!.replaceChildren("")
+  }, );
   return (
     <div
       className="justify-content-start align-items-center"

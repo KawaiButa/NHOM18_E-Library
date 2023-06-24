@@ -35,7 +35,7 @@ export default function RemindListCard() {
   const { profile } = useProfile();
 
   const returnTable = () => {
-    if (returnList) {
+    if (returns && returnList) {
       return (
         <Table
           responsive
@@ -58,11 +58,11 @@ export default function RemindListCard() {
           <tbody>
             {returnList.map((element, index) => (
               <tr key={element.id} onDoubleClick={() => {}}>
-                <td>{index + 1}</td>
-                <td>{element.borrowerName}</td>
-                <td>{element.borrowDate}</td>
-                <td>{element.returnDate}</td>
-                <td>
+                <td style={{ cursor: "default" }}>{index + 1}</td>
+                <td style={{ cursor: "default" }}>{element.borrowerName}</td>
+                <td style={{ cursor: "default" }}>{element.borrowDate}</td>
+                <td style={{ cursor: "default" }}>{element.returnDate}</td>
+                <td style={{ cursor: "default" }}>
                   {element.lateFee === 0.0
                     ? "NO DELAY"
                     : element.lateFee.toString()}
@@ -91,12 +91,12 @@ export default function RemindListCard() {
       const borrowerId = search.get("borrower");
       if (borrowerId) {
         returnAfterSearch.forEach((element) => {
-          console.log(element.borrowerId)
+          console.log(element.borrowerId);
           if (element.borrowerId != borrowerId)
             returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
         });
-        setReturnList(returnAfterSearch);
       }
+      setReturnList(returnAfterSearch);
     }
   }, [profile, returns]);
   if (profile)
@@ -145,26 +145,37 @@ export default function RemindListCard() {
                 className={styles.button}
                 style={{
                   height: "40px",
-                  width: "98px",
+                  width: "105px",
                   backgroundColor: "#44B8CB",
                   borderWidth: "0px",
                   borderRadius: "30px",
                 }}
                 href="/home/transaction/return/add"
               >
-                <p
-                  className={montserrat.className}
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    alignSelf: "center",
-                    position: "relative",
-                    top: "2px",
-                  }}
-                >
-                  Add
-                </p>
+                <Stack direction="horizontal">
+                  <Image
+                    src="/cardIcon.png"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      marginBottom: "14px",
+                      marginLeft: "7px",
+                    }}
+                  />
+                  <p
+                    className={montserrat.className}
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      alignSelf: "center",
+                      marginLeft: "9px",
+                      marginTop: "2px",
+                    }}
+                  >
+                    Add
+                  </p>
+                </Stack>
               </Button>
             </div>
           </div>
