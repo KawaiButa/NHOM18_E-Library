@@ -294,6 +294,7 @@ const Book = () => {
                                                 width: "100px",
                                                 fontSize: "18px",
                                                 marginBottom: "10px",
+                                                marginLeft: "20px",
                                             }}
                                         />
                                     </Stack>
@@ -348,6 +349,7 @@ const Book = () => {
                                                 width: "100px",
                                                 marginBottom: "10px",
                                                 fontSize: "18px",
+                                                marginLeft: "20px",
                                             }}
                                         />
                                     </Stack>
@@ -375,6 +377,7 @@ const Book = () => {
                                             width: "100px",
                                             marginBottom: "10px",
                                             fontSize: "18px",
+                                            marginLeft: "20px",
                                         }}
                                     />
                                 </Stack>
