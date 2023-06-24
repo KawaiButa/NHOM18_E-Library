@@ -86,10 +86,10 @@ export default function BookList() {
                     event.currentTarget.style.borderWidth = "";
                     event.currentTarget.style.borderColor = "";
                     const temp = [...selectedBooks];
-                    temp.splice(temp.indexOf(element), 0);
+                    temp.splice(temp.indexOf(element), 1);
                     setSelectedBooks(temp);
+                    console.log(temp);
                   }
-                  console.log(selectedBooks);
                 }}
               >
                 <td>{index + 1}</td>
@@ -286,7 +286,7 @@ export default function BookList() {
             <CloseButton onClick={closeModalDeleteOne}></CloseButton>
           </Modal.Header>
           <Modal.Body
-            id="modalBody"
+            id="modalOneBody"
             style={{
               borderBottomWidth: "2px",
               paddingLeft: "15px",
@@ -320,7 +320,7 @@ export default function BookList() {
                 }}
                 onClick={async function HandleSummitEvent(event) {
                   event.preventDefault();
-                  const element = document.getElementById("modalBody");
+                  const element = document.getElementById("modalOneBody");
                   element?.replaceChildren();
                   var child1 = document.createElement("div");
                   child1.className = "spinner-border";
@@ -412,6 +412,7 @@ export default function BookList() {
               paddingLeft: "15px",
               paddingRight: "15px",
             }}
+            id="modalMultiBody"
           >
             <p
               className={roboto.className}
@@ -430,6 +431,33 @@ export default function BookList() {
                   backgroundColor: "#CE433F",
                   borderWidth: "0px",
                   borderRadius: "30px",
+                }}
+                onClick={async function HandleSummit(event) {
+                  event.preventDefault();
+                  try {
+                    const element = document.getElementById("modalMultiBody");
+                    element?.replaceChildren();
+                    var child1 = document.createElement("div");
+                    child1.className = "spinner-border";
+                    var child2 = document.createElement("div");
+                    child2.className =
+                      "justify-content-center align-items-center";
+                    child2.append(child1);
+                    element?.append(child2);
+                    for (let i = 0; i < selectedBooks.length; i++) {
+                      const element = selectedBooks.at(i);
+                      const response = await fetch("/api/book/" + element?.id, {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      });
+                    }
+                  } catch (error) {
+                    alert(error.message.data);
+                    window.location.reload();
+                  }
+                  window.location.reload();
                 }}
               >
                 <p

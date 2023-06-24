@@ -155,7 +155,7 @@ export default function Login() {
                             height: "45px",
                           }}
                         >
-                          Login in
+                          Login
                         </Button>
                       </Stack>
                     </Form>

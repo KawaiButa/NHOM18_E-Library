@@ -71,14 +71,12 @@ export default function BookForm({ id }) {
                 description: event.currentTarget.description.value,
                 numberOfBooks: event.currentTarget.amount.value,
               };
-              console.log(body)
+              console.log(body);
               setLoading(true);
               let config = {
                 method: id ? "patch" : "post",
                 maxBodyLength: Infinity,
-                url:
-                  id? ("/api/book/"+
-                  id):"/api/book/",
+                url: id ? "/api/book/" + id : "/api/book/",
                 headers: {
                   "Content-Type": "application/json",
                 },
@@ -88,16 +86,11 @@ export default function BookForm({ id }) {
               const res = await axios
                 .request(config)
                 .then((response) => {
-                  if (response.status == 200) {
-                    alert((id ? "Update" : "Create") + " book successfully");
-                    if (!img) router.refresh();
-                    return response;
-                  } else {
-                    return response;
-                  }
+                  return response;
                 })
                 .catch((error) => {
                   alert(error.response.data);
+                  window.location.reload();
                 });
               if (res.status == 200 && img) {
                 const data = new FormData();
@@ -112,10 +105,14 @@ export default function BookForm({ id }) {
                     },
                   })
                   .then((response) => {
-                    router.back();
-                    alert("Update book image successfully");
+                    alert((id ? "Update" : "Create") + " book successfully");
+                    if (id) router.back();
+                    else window.location.reload();
                   })
                   .catch((error) => alert(error.response.data));
+              } else {
+                alert((id ? "Update" : "Create") + " book successfully");
+                router.replace("/home/book/" + id)
               }
               setLoading(false);
             }}

@@ -6,6 +6,7 @@ import styles from "./bookTag.module.css";
 import axios from "axios";
 import BookAPI from "../../endpoint/bookAPI";
 import useProfile from "../../lib/useProfile";
+import { useRouter } from "next/navigation";
 const roboto = Roboto({
     weight: ["400", "700"],
     style: "normal",
@@ -33,6 +34,7 @@ type Book = {
 };
 export default function BookTag({ id }) {
     const { profile } = useProfile();
+    const router = useRouter()
     const [book, setBook] = useState({
         id: "",
         name: "",
@@ -114,7 +116,7 @@ export default function BookTag({ id }) {
                                             ? "visible"
                                             : "hidden",
                                 }}
-                                href={"/home/book/add/" + id}
+                                onClick={() => {router.push("/home/book/add/" + id)}}
                             >
                                 <Image
                                     src="/icon_pen_add.ico"

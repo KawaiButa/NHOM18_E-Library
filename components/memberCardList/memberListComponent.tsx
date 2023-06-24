@@ -181,13 +181,12 @@ export default function MemberListCard() {
                   temp.push(element);
                   setSelectedMembers(temp);
                 } else {
-                  event.currentTarget.style.borderWidth = "0px";
+                  event.currentTarget.style.borderWidth = "";
                   event.currentTarget.style.borderColor = "";
                   const temp = [...selectedMembers];
-                  temp.splice(temp.indexOf(element), 0);
+                  temp.splice(temp.indexOf(element), 1);
                   setSelectedMembers(temp);
                 }
-                console.log(selectedMembers);
               }}
             >
               <td>{index + 1}</td>
@@ -390,7 +389,7 @@ export default function MemberListCard() {
               searchQuery.forEach((element) => {
                 url.searchParams.set(element.key, element.value);
               });
-              window.location.replace(url.href)
+              window.location.replace(url.href);
             }}
           >
             <Stack gap={5} style={{ marginLeft: "20px", marginRight: "125px" }}>
@@ -678,7 +677,9 @@ export default function MemberListCard() {
             className={roboto.className}
             style={{ fontSize: "20px", fontWeight: "300" }}
           >
-            Do you want to delete selected members?
+            {"Do you want to delete " + (selectedMembers.length == 0)
+              ? ""
+              : selectedMembers.length + " selected members?"}
           </p>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-end">
@@ -691,6 +692,29 @@ export default function MemberListCard() {
                 backgroundColor: "#CE433F",
                 borderWidth: "0px",
                 borderRadius: "30px",
+              }}
+              onClick={async function HandleSummit(event) {
+                event.preventDefault();
+                try {
+                  for (let i = 0; i < selectedMembers.length; i++) {
+                    const element = selectedMembers.at(i)
+                    const response = await fetch(
+                      "/api/reader/" + element?.readerId,
+                      {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }
+                    );
+                  }
+                  alert("Delete readers successfully")
+                  window.location.reload();
+
+                } catch (error) {
+                  alert(error.message.data);
+                  window.location.reload();
+                }
               }}
             >
               <p

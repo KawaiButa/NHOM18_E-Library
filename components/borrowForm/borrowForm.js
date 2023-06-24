@@ -117,6 +117,7 @@ export default function BorrowForm({ id }) {
               data.borrower.firstName + " " + data.borrower.lastName;
             memberName.disabled = true;
           }
+          
         })
         .catch((error) => {
           alert(error.response.data);
@@ -188,8 +189,12 @@ export default function BorrowForm({ id }) {
                 if (event.currentTarget.expectedReturnDate.valueAsDate)
                   time =
                     event.currentTarget.expectedReturnDate.valueAsDate.toISOString();
-                else time = null
-                console.log(selectedReader)
+                else {
+                  alert("Expected return date cannot be null")
+                  return
+                }
+                if(!selectedReader)
+                  return
                 const body = {
                   books: temp,
                   expectedReturnDate: time,

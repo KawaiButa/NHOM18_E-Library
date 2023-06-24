@@ -34,6 +34,7 @@ export default function BorrowListCard() {
   const [borrowList, setBorrowList] = useState(null);
   const [modalDeleteOne, setModalDeleteOne] = useState(false);
   const [modalDeleteMulti, setModalDeleteMulti] = useState(false);
+  const [selectedBorrows, setSelectedBorrows] = useState([]);
   const [index, setIndex] = useState(0);
   const {profile} = useProfile();
   const search = useSearchParams();
@@ -65,7 +66,25 @@ export default function BorrowListCard() {
           </thead>
           <tbody>
             { borrowList.map((element, index) => (
-              <tr key={element.borrowId} id={index.toString()}>
+              <tr key={element.borrowId} id={index.toString()}
+              onDoubleClick={() =>
+                router.push("/home/transaction/borrow/" + element.borrowId)
+              }
+              onClick={(event) => {
+                if (event.currentTarget.style.borderWidth == "") {
+                  event.currentTarget.style.borderWidth = "2px";
+                  event.currentTarget.style.borderColor = "red";
+                  const temp = [...selectedBorrows];
+                  temp.push(element);
+                  setSelectedBorrows(temp);
+                } else {
+                  event.currentTarget.style.borderWidth = "";
+                  event.currentTarget.style.borderColor = "";
+                  const temp = [...selectedBorrows];
+                  temp.splice(temp.indexOf(element), 1);
+                  setSelectedBorrows(temp);
+                }
+              }}>
                 <td>{index + 1}</td>
                 <td>{element.readerName}</td>
                 <td>{element.dateCreated}</td>
@@ -162,7 +181,6 @@ export default function BorrowListCard() {
               position: "relative",
               top: "-30px",
               right: "15px",
-              visibility: (profile && profile.role == "admin") ? "visible":"hidden"
             }}
           >
             <Button
@@ -231,7 +249,7 @@ export default function BorrowListCard() {
             <CloseButton onClick={closeModalDeleteOne}></CloseButton>
           </Modal.Header>
           <Modal.Body
-            id="modalBody"
+            id="modalOneBody"
             style={{
               borderBottomWidth: "2px",
               paddingLeft: "15px",
@@ -349,6 +367,7 @@ export default function BorrowListCard() {
               paddingLeft: "15px",
               paddingRight: "15px",
             }}
+            id="modalMultiBody"
           >
             <p
               className={roboto.className}
@@ -367,6 +386,35 @@ export default function BorrowListCard() {
                   backgroundColor: "#CE433F",
                   borderWidth: "0px",
                   borderRadius: "30px",
+                }}
+                onClick={async function HandleSummitEvent(event){
+                  event.preventDefault()
+                  const element = document.getElementById("modalMultiBody");
+                  element?.replaceChildren();
+                  var child1 = document.createElement("div");
+                  child1.className = "spinner-border";
+                  var child2 = document.createElement("div");
+                  child2.append(child1);
+                  element?.append(child2);
+                  try{
+                    for(let i = 0; i < selectedBorrows.length; i++)
+                    {
+                      const element = selectedBorrows.at(i)
+                      await fetch("/api/borrow/" + element.borrowId, {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      });
+                    }
+                    alert("Delete books successfully")
+                    window.location.reload()
+
+                  }
+                  catch(error){
+                    alert(error.response.data)
+                    window.location.reload()
+                  }
                 }}
               >
                 <p
