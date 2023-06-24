@@ -53,7 +53,7 @@ export default function BookList() {
           }}
         >
           <thead>
-            <tr>
+            <tr style={{ cursor: "default" }}>
               <th>#</th>
               <th>Book Name</th>
               <th>Author</th>
@@ -86,17 +86,26 @@ export default function BookList() {
                     event.currentTarget.style.borderWidth = "";
                     event.currentTarget.style.borderColor = "";
                     const temp = [...selectedBooks];
-                    temp.splice(temp.indexOf(element), 1);
+                    temp.splice(temp.indexOf(element), 0);
                     setSelectedBooks(temp);
-                    console.log(temp);
                   }
+                  console.log(selectedBooks);
                 }}
               >
-                <td>{index + 1}</td>
-                <td>{element.name}</td>
-                <td>{element.author}</td>
-                <td>{element.publisher}</td>
-                <td>{element.numberOfBooks}</td>
+                <td style={{ cursor: "default" }}>{index + 1}</td>
+                <td style={{ cursor: "default" }}>{element.name}</td>
+                <td style={{ cursor: "default" }}>{element.author}</td>
+                <td style={{ cursor: "default" }}>{element.publisher}</td>
+                <td>
+                  <p
+                    style={{
+                      marginLeft: "20px",
+                      cursor: "default",
+                    }}
+                  >
+                    {element.numberOfBooks}
+                  </p>
+                </td>
                 <td>
                   <button
                     className={styles.button}
@@ -139,6 +148,7 @@ export default function BookList() {
         </main>
       );
   };
+
   return (
     <>
       <Row
@@ -165,6 +175,7 @@ export default function BookList() {
               textAlign: "center",
               top: "21px",
               position: "relative",
+              cursor: "default",
             }}
           >
             Book List

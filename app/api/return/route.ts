@@ -20,15 +20,15 @@ export async function GET(req: NextRequest) {
         const res = await axios.request(config)
             .then((response) => {
                 if (response.status == 200) {
-                    console.log(response.data.data.doc)
                     const result: ReturnForm[] = []
                     const data = response.data.data.doc;
                     data.forEach(element => {
+                        console.log(element)
                         const books: Array<{ id: string, quantity: Number }> = []
-                        element.lostBooks.forEach(element => {
-                            books.push({ id: element.bookId._id, quantity: element.quantity })
+                        element.lostBooks.forEach(element1 => {
+                            books.push({ id: element1.bookId._id, quantity: element1.quantity })
                         });
-                        result.push(new ReturnForm(element._id, element.borrowBookForm._id, element.borrower._id, element.borrower.fullName, books, element.lateFee, element.borrowBookForm.borrowDate, element.returnDate))
+                        result.push(new ReturnForm(element._id, element.borrowBookForm._id, element.borrower._id, element.borrower.fullName, books, element.fee, element.borrowBookForm.borrowDate, element.returnDate))
                     });
                     console.log(result)
                     return NextResponse.json(result, { status: 200, statusText: "Success" });

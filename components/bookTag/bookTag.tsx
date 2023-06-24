@@ -129,13 +129,22 @@ export default function BookTag({ id }) {
                         </Row>
                         <h1
                             className={roboto.className}
-                            style={{ color: "black", fontSize: "40px" }}
+                            style={{
+                                color: "black",
+                                fontSize: "40px",
+                                cursor: "default",
+                                fontWeight: "600",
+                            }}
                         >
                             {book.name}
                         </h1>
                         <h2
                             className={roboto.className}
-                            style={{ opacity: "0.5", fontSize: "24px" }}
+                            style={{
+                                opacity: "0.5",
+                                fontSize: "24px",
+                                cursor: "default",
+                            }}
                         >
                             {book.author}
                         </h2>
@@ -149,6 +158,7 @@ export default function BookTag({ id }) {
                                     className={roboto.className}
                                     style={{
                                         fontWeight: "700",
+                                        cursor: "default",
                                         fontSize: "25px",
                                     }}
                                 >
@@ -162,6 +172,7 @@ export default function BookTag({ id }) {
                                     style={{
                                         fontWeight: "600",
                                         fontSize: "24px",
+                                        cursor: "default",
                                     }}
                                 >
                                     {"Price: " +
@@ -187,6 +198,7 @@ export default function BookTag({ id }) {
                                 fontWeight: "700",
                                 fontSize: "35px",
                                 marginLeft: "10px",
+                                cursor: "default",
                             }}
                         >
                             Description
@@ -217,6 +229,7 @@ export default function BookTag({ id }) {
                                 fontSize: "20px",
                                 lineHeight: "34px",
                                 maxHeight: "280px",
+                                cursor: "default",
                                 overflowY: "auto",
                             }}
                         >

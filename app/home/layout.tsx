@@ -285,13 +285,10 @@ export default function Layout({ children }) {
                               event.currentTarget.value
                             );
                             window.location.replace(url);
+                          } else {
+                            var url = new URL(document.URL.split("?")[0]);
+                            window.location.replace(url);
                           }
-                          else
-                            {
-                              var url = new URL(document.URL.split("?")[0]);
-                              window.location.replace(url);
-                            }
-                          
                         }
                       }}
                     ></FormControl>
@@ -316,20 +313,21 @@ export default function Layout({ children }) {
       </div>
     </Col>
   );
-  function SideTabButton({ children, tab }) {
-    return (
-      <>
-        <Button
-          className="d-flex justify-content-center align-items-center"
-          onClick={() => setTab(tab)}
-          style={{
-            backgroundColor: tab == Tab ? "white" : "transparent",
-            color: tab == Tab ? "black" : "white",
-          }}
-        >
-          {children}
-        </Button>
-      </>
-    );
+  
+    function SideTabButton({ children, tab }) {
+      return (
+        <>
+          <Button
+            className="d-flex justify-content-center align-items-center"
+            onClick={() => setTab(tab)}
+            style={{
+              backgroundColor: tab == Tab ? "white" : "transparent",
+              color: tab == Tab ? "black" : "white",
+            }}
+          >
+            {children}
+          </Button>
+        </>
+      );
+    }
   }
-}

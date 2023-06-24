@@ -69,6 +69,7 @@ export default function MemberCard({ user }) {
                                 borderColor: "#D9D9D9",
                                 backgroundColor: "#D9D9D9",
                             }}
+                            href={"/home/member/modification/" + member.readerId}
                         >
                             <Image
                                 src="/icon_pen_add.ico"
@@ -168,11 +169,11 @@ export default function MemberCard({ user }) {
                 className="d-flex justify-content-center align-items-center"
                 style={{ width: "973px", height: "631px" }}
             >
-                <h2>
+                <h3>
                     {
-                        "You haven't create a member card. Please go to the library to create your card"
+                        "No information"
                     }
-                </h2>
+                </h3>
             </div>
         );
 }
