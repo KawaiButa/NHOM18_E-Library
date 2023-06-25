@@ -5,7 +5,8 @@ export default class Book{
     imgUrl: string;
     numberOfBooks:number;
     publisher: String;
-    constructor(id: string, name: string, author: string, url: string, publisher: String, numberOfBook:number)
+    publicationYear: number;
+    constructor(id: string, name: string, author: string, url: string, publisher: String, numberOfBook:number, publicationYear: number)
     {
         this.id = id;
         this.name = name;
@@ -13,6 +14,7 @@ export default class Book{
         this.imgUrl = url;
         this.publisher = publisher;
         this.numberOfBooks = numberOfBook;
+        this.publicationYear = publicationYear
     }
     
 }

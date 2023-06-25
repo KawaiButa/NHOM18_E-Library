@@ -467,7 +467,7 @@ export default function MemberListCard() {
                                     element.value
                                 );
                             });
-                            window.location.replace(url.href);;
+                            window.location.replace(url.href);
                         }}
                     >
                         <Stack

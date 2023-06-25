@@ -74,6 +74,7 @@ export default function BookForm({ id }) {
                         height: "30px",
                         width: "80px",
                     }}
+                    onClick = {() => router.replace("/home/book")}
                 >
                     <p style={{ marginTop: "-3px" }}>Back</p>
                 </Button>

@@ -35,9 +35,9 @@ export default function BorrowListCard() {
   const [modalDeleteMulti, setModalDeleteMulti] = useState(false);
   const [selectedBorrows, setSelectedBorrows] = useState([]);
   const [index, setIndex] = useState(0);
-  const {profile} = useProfile();
+  const { profile } = useProfile();
   const search = useSearchParams();
-  const router = useRouter()
+  const router = useRouter();
   const openModalDeleteOne = () => setModalDeleteOne(true);
   const closeModalDeleteOne = () => setModalDeleteOne(false);
   const openModalDeleteMulti = () => setModalDeleteMulti(true);
@@ -61,60 +61,67 @@ export default function BorrowListCard() {
               <th>Date Created</th>
               <th>Expected Return Date</th>
               <th>Returned</th>
-              {profile.role  == "admin"? <th>Action</th>:<></>}
+              {profile.role == "admin" ? <th>Action</th> : <></>}
             </tr>
           </thead>
           <tbody>
-            { borrowList.map((element, index) => (
-              <tr key={element.borrowId} id={index.toString()}
-              onDoubleClick={() =>
-                router.push("/home/transaction/borrow/" + element.borrowId)
-              }
-              onClick={(event) => {
-                if (event.currentTarget.style.borderWidth == "") {
-                  event.currentTarget.style.borderWidth = "2px";
-                  event.currentTarget.style.borderColor = "red";
-                  const temp = [...selectedBorrows];
-                  temp.push(element);
-                  setSelectedBorrows(temp);
-                } else {
-                  event.currentTarget.style.borderWidth = "";
-                  event.currentTarget.style.borderColor = "";
-                  const temp = [...selectedBorrows];
-                  temp.splice(temp.indexOf(element), 1);
-                  setSelectedBorrows(temp);
+            {borrowList.map((element, index) => (
+              <tr
+                key={element.borrowId}
+                id={index.toString()}
+                onDoubleClick={() =>
+                  router.push("/home/transaction/borrow/" + element.borrowId)
                 }
-              }}>
+                onClick={(event) => {
+                  if (event.currentTarget.style.borderWidth == "") {
+                    event.currentTarget.style.borderWidth = "2px";
+                    event.currentTarget.style.borderColor = "red";
+                    const temp = [...selectedBorrows];
+                    temp.push(element);
+                    setSelectedBorrows(temp);
+                  } else {
+                    event.currentTarget.style.borderWidth = "";
+                    event.currentTarget.style.borderColor = "";
+                    const temp = [...selectedBorrows];
+                    temp.splice(temp.indexOf(element), 1);
+                    setSelectedBorrows(temp);
+                  }
+                }}
+              >
                 <td>{index + 1}</td>
                 <td>{element.readerName}</td>
                 <td>{element.dateCreated.split("T")[0]}</td>
                 <td>{element.expectedReturnDate.split("T")[0]}</td>
-                <td>{element.isReturned? "YES":"NO"}</td>
-                {profile.role == "admin" ? <td>
-                  <button
-                    className={styles.button}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      borderWidth: "0px",
-                      position: "relative",
-                      left: "10px",
-                      backgroundColor: "transparent",
-                    }}
-                    onClick={(event) => {
-                      const ind =
-                        event.currentTarget.parentElement?.parentElement
-                          ?.firstChild?.textContent;
-                      var string;
-                      if (ind) string = Number.parseInt(ind) - 1;
-                      setIndex(string);
-                      console.log(string);
-                      openModalDeleteOne();
-                    }}
-                  >
-                    <Image src="/icon_delete.png" alt="delete" />
-                  </button>
-                </td>:<></>}
+                <td>{element.isReturned ? "YES" : "NO"}</td>
+                {profile.role == "admin" ? (
+                  <td>
+                    <button
+                      className={styles.button}
+                      style={{
+                        width: "27px",
+                        height: "27px",
+                        borderWidth: "0px",
+                        position: "relative",
+                        left: "10px",
+                        backgroundColor: "transparent",
+                      }}
+                      onClick={(event) => {
+                        const ind =
+                          event.currentTarget.parentElement?.parentElement
+                            ?.firstChild?.textContent;
+                        var string;
+                        if (ind) string = Number.parseInt(ind) - 1;
+                        setIndex(string);
+                        console.log(string);
+                        openModalDeleteOne();
+                      }}
+                    >
+                      <Image src="/icon_delete.png" alt="delete" />
+                    </button>
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>
@@ -134,15 +141,40 @@ export default function BorrowListCard() {
   };
   useEffect(() => {
     if (borrows && profile) {
-      const borrowerId = search.get("borrower")
-      const borrowAfterSearch = [...borrows]
-        if(borrowerId){
+      const borrowAfterSearch = [...borrows];
+      search.forEach((value, key) => {
+        switch (key) {
+          case "borrowerId": {
             borrowAfterSearch.forEach((element) => {
-                if(element.readerId != borrowerId)
-                    borrowAfterSearch.splice(borrowAfterSearch.indexOf(element) , 0)
-            })
+              if (element.readerId != value)
+                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+          case "isReturned": {
+            borrowAfterSearch.forEach((element) => {
+              if (element.isReturned != value)
+                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+          case "year":{
+            borrowAfterSearch.forEach((element) => {
+              if (element.dateCreated.slice(0,4) != value)
+                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+          case "search": {
+            borrowAfterSearch.forEach((element) => {
+              if (!element.borrowId.includes(value))
+                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
         }
-      setBorrowList(borrowAfterSearch)
+      });
+      setBorrowList(borrowAfterSearch);
     }
   }, [borrows, profile]);
   return (
@@ -418,8 +450,8 @@ export default function BorrowListCard() {
                   borderWidth: "0px",
                   borderRadius: "30px",
                 }}
-                onClick={async function HandleSummitEvent(event){
-                  event.preventDefault()
+                onClick={async function HandleSummitEvent(event) {
+                  event.preventDefault();
                   const element = document.getElementById("modalMultiBody");
                   element?.replaceChildren();
                   var child1 = document.createElement("div");
@@ -427,10 +459,9 @@ export default function BorrowListCard() {
                   var child2 = document.createElement("div");
                   child2.append(child1);
                   element?.append(child2);
-                  try{
-                    for(let i = 0; i < selectedBorrows.length; i++)
-                    {
-                      const element = selectedBorrows.at(i)
+                  try {
+                    for (let i = 0; i < selectedBorrows.length; i++) {
+                      const element = selectedBorrows.at(i);
                       await fetch("/api/borrow/" + element.borrowId, {
                         method: "DELETE",
                         headers: {
@@ -438,13 +469,11 @@ export default function BorrowListCard() {
                         },
                       });
                     }
-                    alert("Delete books successfully")
-                    window.location.reload()
-
-                  }
-                  catch(error){
-                    alert(error.response.data)
-                    window.location.reload()
+                    alert("Delete books successfully");
+                    window.location.reload();
+                  } catch (error) {
+                    alert(error.response.data);
+                    window.location.reload();
                   }
                 }}
               >
