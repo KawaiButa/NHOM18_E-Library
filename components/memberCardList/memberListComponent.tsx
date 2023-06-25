@@ -280,7 +280,7 @@ export default function MemberListCard() {
                                     setSelectedMembers(temp);
                                 } else {
                                     event.currentTarget.style.borderWidth =
-                                        "0px";
+                                        "";
                                     event.currentTarget.style.borderColor = "";
                                     const temp = [...selectedMembers];
                                     temp.splice(temp.indexOf(element), 0);
@@ -315,7 +315,7 @@ export default function MemberListCard() {
                                             backgroundColor: "transparent",
                                         }}
                                         href={
-                                            "/home/member/modification" +
+                                            "/home/member/modification/" +
                                             element.readerId
                                         }
                                     >

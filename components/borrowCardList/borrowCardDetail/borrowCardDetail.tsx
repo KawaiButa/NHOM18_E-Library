@@ -103,6 +103,7 @@ export default function BorrowCardDetail({ id }) {
                                             size="sm"
                                             style={{ width: "60px" }}
                                             defaultValue={element.quantity}
+                                            min={0}
                                             onChange={(event) => {
                                                 const temp = [...books];
                                                 var element = temp.at(index);
@@ -116,6 +117,7 @@ export default function BorrowCardDetail({ id }) {
                                                     element.quantity = amount;
                                                     setBooks(temp);
                                                 }
+                                                event.currentTarget.style.color = "red"
                                             }}
                                         />
                                     </td>

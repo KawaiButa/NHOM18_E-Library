@@ -136,7 +136,6 @@ export default function ReturnCard() {
                 const data = {
                   lostBooks: lostBooks,
                 }
-                console.log(data)
 
                 await axios.post("/api/borrow/" + borrowForm.borrowId + "/return",{method: "POST", headers: {
                   "Content-Type": "application/json"
@@ -144,7 +143,7 @@ export default function ReturnCard() {
                   if(response.status == 200)
                   {
                     alert("Create return form successfully")
-                    router.refresh()
+                    router.replace("/home/transaction/return")
                   }
                   else{
                     alert("There is something wrong with the server.\nPlease try again in a few moment")
