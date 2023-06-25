@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         };
         const res = await axios.request(config)
             .then((response) => {
-                if (response.status == 200) {
+                if (response.status == 201) {
                     var result: ReturnForm
                     const data = response.data.data.doc;
                     const books: Array<{ id: string, quantity: Number }> = []

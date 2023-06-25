@@ -31,6 +31,10 @@ export default function BorrowForm({ id }) {
   const [borrowBook, setBorrowBook] = useState([]);
   const [maxBook, setMaxBook] = useState([]);
   const [selectedReader, setSelectedReader] = useState(null);
+  const onMaxBookChange = (value) => {
+    if (value > -1)
+      setMaxBook(value);
+  };
   const router = useRouter();
   const bookTable = () => {
     if (borrowBook) {
@@ -53,7 +57,21 @@ export default function BorrowForm({ id }) {
           </thead>
           <tbody id="tableBody">
             {borrowBook.map((element, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                onClick={(event) => {
+                  event.preventDefault();
+                  const index = event.currentTarget.firstChild.value - 1;
+                  const book = borrowBook.at(index);
+                  document.getElementById("bookName").value = book.name;
+                  for (let index2 = 0; index2 < books.length; index2++)
+                    if (book.id == books[index2].id) {
+                      onMaxBookChange(books[index2].numberOfBooks);
+                      break;
+                    }
+                  setCount(element.quantity);
+                }}
+              >
                 <td>{index + 1}</td>
                 <td>{element.name}</td>
                 <td>{element.quantity}</td>
@@ -75,54 +93,68 @@ export default function BorrowForm({ id }) {
       );
   };
   useEffect(() => {
-    var list = document.getElementById("book");
-    list?.replaceChildren([]);
-    books?.forEach((element) => {
-      var option = document.createElement("option");
-      option.value = element.name;
-      option.id = element.id;
-      list?.appendChild(option);
-    });
-    var nameList = document.getElementById("name");
-    nameList?.replaceChildren();
-    readers?.forEach((element, index) => {
-      var option = document.createElement("option");
-      option.value = element.name;
-      option.id = index;
-      option.innerHTML = element.email;
-      nameList?.appendChild(option);
-    });
-    var memberName = document.getElementById("memberName");
-    if (memberName && !id) memberName.value = profile?.name;
-    var amount = document.getElementById("amount");
-    if (amount) {
-      amount.value = count + "/" + maxBook;
-      amount.disabled = false;
+    async function onCreate() {
+      if (profile) {
+        await axios
+          .get("/api/profile/" + profile?.id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            if (response.status == 200) {
+              setSelectedReader(response.data);
+              var memberName = document.getElementById("memberName");
+              if (memberName && profile.role != "admin") {
+                memberName.value = response.data.name;
+                memberName.disabled = true;
+              }
+            }
+            if (response.status == 204) setMember(null);
+          });
+      }
     }
-    if (id) {
-      axios
-        .get("/api/borrow/" + id, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          const data = response.data;
-          setBorrowBook(data.books);
-          console.log(response);
-          var memberName = document.getElementById("memberName");
-          if (memberName) {
-            memberName.value =
-              data.borrower.firstName + " " + data.borrower.lastName;
-            memberName.disabled = true;
-          }
-          
-        })
-        .catch((error) => {
-          alert(error.response.data);
-          router.back();
+    if (profile) {
+      if (profile.role == "admin") {
+        var nameList = document.getElementById("name");
+        nameList?.replaceChildren();
+        readers?.forEach((element, index) => {
+          var option = document.createElement("option");
+          option.value = element.name;
+          option.id = index;
+          option.innerHTML = element.email;
+          nameList?.appendChild(option);
         });
+        var memberName = document.getElementById("memberName");
+        if (memberName && !id) memberName.value = profile?.name;
+      }
+      var list = document.getElementById("book");
+      list?.replaceChildren([]);
+      books?.forEach((element) => {
+        var option = document.createElement("option");
+        option.value = element.name;
+        option.id = element.id;
+        list?.appendChild(option);
+      });
+      onCreate();
+      if (id) {
+        axios
+          .get("/api/borrow/" + id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            const data = response.data;
+            setBorrowBook(data.books);
+          })
+          .catch((error) => {
+            alert(error.response.data);
+            router.back();
+          });
+      }
     }
   }, [books, profile, count, maxBook, readers]);
   if (books && profile && readers)
@@ -190,17 +222,16 @@ export default function BorrowForm({ id }) {
                   time =
                     event.currentTarget.expectedReturnDate.valueAsDate.toISOString();
                 else {
-                  alert("Expected return date cannot be null")
-                  return
+                  alert("Expected return date cannot be null");
+                  return;
                 }
-                if(!selectedReader)
-                  return
+                if (!selectedReader) return;
                 const body = {
                   books: temp,
                   expectedReturnDate: time,
                   borrower: selectedReader.readerId,
                 };
-                console.log(body)
+                console.log(body);
                 axios
                   .post("/api/borrow", {
                     method: "POST",
@@ -237,7 +268,7 @@ export default function BorrowForm({ id }) {
                         onChange={() => {
                           var datalist = document.getElementById("name");
                           datalist.childNodes.forEach((element) => {
-                            console.log(element)
+                            console.log(element);
                             setSelectedReader(readers.at(element.id));
                             console.log(selectedReader);
                           });
@@ -280,15 +311,14 @@ export default function BorrowForm({ id }) {
                               const element = books[index];
                               console.log(event.currentTarget.value);
                               if (element.name == event.currentTarget.value) {
-                                setMaxBook(element.numberOfBooks);
-                                setCount(1);
+                                onMaxBookChange(element.numberOfBooks)
                                 flag = true;
                                 break;
                               }
                             }
                             if (!flag) {
                               setCount(0);
-                              setMaxBook("0");
+                              onMaxBookChange(-1);
                             }
                           }}
                         ></Form.Control>
@@ -303,48 +333,17 @@ export default function BorrowForm({ id }) {
                       >
                         <Form.Control
                           id="amount"
-                          type="text"
+                          type="number"
                           placeholder="1"
                           className="shadow-none"
+                          min={0}
+                          max={maxBook}
                           style={{
                             textAlign: "left",
                             width: "80px",
                           }}
                         />
-                        <Stack
-                          direction="vertical"
-                          style={{
-                            marginLeft: "-30px",
-                            marginTop: "5px",
-                          }}
-                        >
-                          <Image
-                            src="/up.png"
-                            alt="up"
-                            style={{
-                              width: "20px",
-                              top: "1px",
-                              position: "relative",
-                              height: "20px",
-                            }}
-                            onClick={() => {
-                              if (count != maxBook) setCount(count + 1);
-                            }}
-                          ></Image>
-                          <Image
-                            src="/down.png"
-                            alt="down"
-                            style={{
-                              width: "20px",
-                              bottom: "2px",
-                              position: "relative",
-                              height: "20px",
-                            }}
-                            onClick={() => {
-                              if (count != 0) setCount(count - 1);
-                            }}
-                          ></Image>
-                        </Stack>
+                        
                       </Stack>
                     </Stack>
                   </Col>
@@ -378,7 +377,8 @@ export default function BorrowForm({ id }) {
                         console.log(element);
                         if (option.id == element.id) {
                           const temp = [...borrowBook];
-                          temp.at(index).quantity = count;
+                          if (count != 0) temp.at(index).quantity = count;
+                          else temp.splice(index, 1);
                           setBorrowBook(temp);
                           option = null;
                           break;

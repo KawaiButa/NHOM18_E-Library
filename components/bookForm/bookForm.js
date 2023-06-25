@@ -165,7 +165,7 @@ export default function BookForm({ id }) {
                 <Col xs={2}>
                   <div className="form-group">
                     <label className={montserrat.className}>Amount:</label>
-                    <input type="number" className="form-control" id="amount" />
+                    <input type="number" className="form-control" id="amount" min={0} />
                   </div>
                 </Col>
               </div>
