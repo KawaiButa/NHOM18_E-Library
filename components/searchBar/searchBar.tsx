@@ -26,7 +26,7 @@ const montserrat = Montserrat({
     subsets: ["latin"],
 });
 
-export default function SearchBar() {
+export default function SearchBar({params}) {
     const [checkboxes, setCheckboxes] = useState([
         { label: "User ID", checked: false },
         { label: "Borrow Book ID", checked: false },

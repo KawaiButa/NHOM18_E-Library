@@ -10,6 +10,7 @@ import {
     FormControl,
     Row,
     Button,
+    Stack,
 } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import BookAPI from "../../endpoint/bookAPI";
@@ -62,19 +63,30 @@ export default function BookForm({ id }) {
     }, [id]);
     return (
         <main>
-            <Button
-                className={montserrat.className}
-                style={{
-                    marginBottom: "50px",
-                    background: "#4BC1D2",
-                    borderColor: "#4BC1D2",
-                    fontWeight: "600",
-                    height: "30px",
-                    width: "80px",
-                }}
-            >
-                <p style={{ marginTop: "-3px" }}>Back</p>
-            </Button>
+            <Stack direction="horizontal">
+                <Button
+                    className={montserrat.className}
+                    style={{
+                        marginBottom: "50px",
+                        background: "#4BC1D2",
+                        borderColor: "#4BC1D2",
+                        fontWeight: "600",
+                        height: "30px",
+                        width: "80px",
+                    }}
+                >
+                    <p style={{ marginTop: "-3px" }}>Back</p>
+                </Button>
+                <h1
+                    style={{
+                        marginBottom: "50px",
+                        marginLeft: "250px",
+                        fontWeight: "600",
+                    }}
+                >
+                    Add a new Book
+                </h1>
+            </Stack>
             <Container
                 style={{
                     width: "100%",

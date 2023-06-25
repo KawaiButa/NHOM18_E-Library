@@ -2,7 +2,7 @@
 import { Roboto } from "next/font/google";
 import React from "react";
 import { useEffect } from "react";
-import SearchBar from "../../../components/searchBar/searchBar";
+import SearchBar from "../../../../components/searchBar/searchBar";
 
 const roboto = Roboto({
     weight: "700",
@@ -24,7 +24,7 @@ export default function Layout({ children }) {
       >
         Transaction
       </h1>
-      <SearchBar></SearchBar>
+      <SearchBar params={[{key:"isReturned", value: true},{key:"this year", value: "2023"}]}></SearchBar>
       {children}
     </div>
   );

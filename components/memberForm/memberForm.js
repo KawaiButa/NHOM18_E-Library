@@ -74,13 +74,11 @@ export default function MemberForm({ readerID }) {
               address: event.currentTarget.address.value,
               dateOfBirth: event.currentTarget.dateOfBirth.value,
               email: event.currentTarget.email.value,
-              user:
-                (readerID)
-                  ? readerID
-                  : selectedUser.id,
             };
-            setIsLoading(true);
-            console.log(readerID)
+            if (selectedUser || readerID)
+              (body.user = readerID ? readerID : selectedUser.id),
+                setIsLoading(true);
+            console.log(readerID);
             let config = {
               method: readerID ? "patch" : "post",
               maxBodyLength: Infinity,
@@ -99,7 +97,7 @@ export default function MemberForm({ readerID }) {
                 if (response.status == 200) {
                   alert("Add member successfully");
                   if (response.status == 200 && img) {
-                    console.log(response.data)
+                    console.log(response.data);
                     const data = new FormData();
                     const userId = response.data.userId;
                     data.append("avatar", img);
@@ -113,16 +111,21 @@ export default function MemberForm({ readerID }) {
                       .then((response) => {
                         if (response.status == 200) {
                           alert("Update avatar successfully");
-                          if (readerID)
-                            router.back();
-                          else router.refresh();
+                          if (readerID) router.replace("/home/member");
+                          else window.location.reload();
                         }
                       })
                       .catch((error) => {
                         alert(error.response.data);
-                        if (readerID) router.back();
-                        else router.refresh();
+                        if (readerID) router.replace("/home/member");
+                        else window.location.reload();
                       });
+                  }
+                  else{
+                    if (response.status == 200) {
+                      if (readerID) router.replace("/home/member");
+                      else window.location.reload();
+                    }
                   }
                 } else {
                   alert(

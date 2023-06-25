@@ -15,7 +15,6 @@ import {
 } from "react-bootstrap";
 import styles from "./borrowListCard.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
-import BorrowForm from "../../models/borrowForm";
 import useBorrow from "../../lib/useBorrow";
 import fetchJson from "../../lib/fetchJson";
 import useProfile from "../../lib/useProfile";
@@ -38,7 +37,7 @@ export default function BorrowListCard() {
   const [index, setIndex] = useState(0);
   const {profile} = useProfile();
   const search = useSearchParams();
-
+  const router = useRouter()
   const openModalDeleteOne = () => setModalDeleteOne(true);
   const closeModalDeleteOne = () => setModalDeleteOne(false);
   const openModalDeleteMulti = () => setModalDeleteMulti(true);
@@ -61,6 +60,7 @@ export default function BorrowListCard() {
               <th>Reader Name</th>
               <th>Date Created</th>
               <th>Expected Return Date</th>
+              <th>Returned</th>
               {profile.role  == "admin"? <th>Action</th>:<></>}
             </tr>
           </thead>
@@ -87,8 +87,9 @@ export default function BorrowListCard() {
               }}>
                 <td>{index + 1}</td>
                 <td>{element.readerName}</td>
-                <td>{element.dateCreated}</td>
-                <td>{element.expectedReturnDate}</td>
+                <td>{element.dateCreated.split("T")[0]}</td>
+                <td>{element.expectedReturnDate.split("T")[0]}</td>
+                <td>{element.isReturned? "YES":"NO"}</td>
                 {profile.role == "admin" ? <td>
                   <button
                     className={styles.button}
@@ -236,6 +237,36 @@ export default function BorrowListCard() {
               {borrowTable()}
             </div>
           </div>
+          <Container
+            className="mt-4 d-flex justify-content-center"
+            style={{
+              visibility: selectedBorrows.length > 0 ? "visible" : "hidden",
+            }}
+          >
+            <Button
+              className={styles.button}
+              style={{
+                width: "144px",
+                height: "58px",
+                borderRadius: "20px",
+                color: "white",
+                borderColor: "#CE433F",
+                backgroundColor: "#CE433F",
+              }}
+              onClick={openModalDeleteMulti}
+            >
+              <p
+                className={montserrat.className}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "24px",
+                  marginTop: "5px",
+                }}
+              >
+                Delete
+              </p>
+            </Button>
+          </Container>
         </Card>
         <Modal show={modalDeleteOne} size="lg" style={{}}>
           <Modal.Header

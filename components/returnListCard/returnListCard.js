@@ -48,7 +48,7 @@ export default function RemindListCard() {
         >
           <thead>
             <tr>
-              <th>#</th>
+              <th>BorrowId</th>
               <th>Reader Name</th>
               <th>Borrow Date</th>
               <th>Return Date</th>
@@ -58,10 +58,10 @@ export default function RemindListCard() {
           <tbody>
             {returnList.map((element, index) => (
               <tr key={element.id} onDoubleClick={() => {}}>
-                <td style={{ cursor: "default" }}>{index + 1}</td>
+                <td style={{ cursor: "default" }}>{element.borrowId}</td>
                 <td style={{ cursor: "default" }}>{element.borrowerName}</td>
-                <td style={{ cursor: "default" }}>{element.borrowDate}</td>
-                <td style={{ cursor: "default" }}>{element.returnDate}</td>
+                <td style={{ cursor: "default" }}>{element.borrowDate.split("T")[0]}</td>
+                <td style={{ cursor: "default" }}>{element.returnDate.split("T")[0]}</td>
                 <td style={{ cursor: "default" }}>
                   {element.lateFee === 0.0
                     ? "NO DELAY"

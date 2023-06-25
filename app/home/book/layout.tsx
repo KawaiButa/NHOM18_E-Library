@@ -27,7 +27,7 @@ export default function Layout({ children }) {
                     cursor: "default",
                 }}
             >
-                Add book
+                Book
             </h1>
             {children}
         </div>
