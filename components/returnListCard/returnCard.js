@@ -25,7 +25,7 @@ export default function ReturnCard() {
   const [option, setOption] = useState(-1);
   const { borrows } = useBorrow();
   const [book, setBook] = useState(new Array());
-  const router = useRouter()
+  const router = useRouter();
   async function handleOptionChange(id) {
     setBook(null);
     await axios
@@ -125,30 +125,43 @@ export default function ReturnCard() {
                 position: "relative",
                 top: "70px",
               }}
-              onSubmit={async function(event) {
-                event.preventDefault()
-                const lostBooks = []
-                book.forEach((element) =>{
-                  if(element.lost.value)
-                    lostBooks.push({bookId: element.id, quantity: element.lost.quantity})
-                })
-                const borrowForm = borrows.at(option)
+              onSubmit={async function (event) {
+                event.preventDefault();
+                const lostBooks = [];
+                book.forEach((element) => {
+                  if (element.lost.value)
+                    lostBooks.push({
+                      bookId: element.id,
+                      quantity: element.lost.quantity,
+                    });
+                });
+                const borrowForm = borrows.at(option);
                 const data = {
                   lostBooks: lostBooks,
-                }
+                };
 
-                await axios.post("/api/borrow/" + borrowForm.borrowId + "/return",{method: "POST", headers: {
-                  "Content-Type": "application/json"
-                }, data: data}).then((response)=>{
-                  if(response.status == 200)
-                  {
-                    alert("Create return form successfully")
-                    router.replace("/home/transaction/return")
-                  }
-                  else{
-                    alert("There is something wrong with the server.\nPlease try again in a few moment")
-                  }
-                }).catch((error)=>{alert(error.response.data)})
+                await axios
+                  .post("/api/borrow/" + borrowForm.borrowId + "/return", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    data: data,
+                  })
+                  .then((response) => {
+                    if (response.status == 200) {
+                      alert("Create return form successfully");
+                      router.replace("/home/transaction/return");
+                    } else {
+                      alert(
+                        "There is something wrong with the server.\nPlease try again in a few moment"
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    alert(error.response.data);
+                    router.replace("/home/transaction/return");
+                  });
               }}
             >
               <Stack gap={5}>
@@ -185,7 +198,8 @@ export default function ReturnCard() {
                       size="lg"
                       type="id"
                       disabled={true}
-                      defaultValue={option >= 0? borrows?.at(option)?.readerName: ""
+                      defaultValue={
+                        option >= 0 ? borrows?.at(option)?.readerName : ""
                       }
                     />
                   </Form.Group>
@@ -238,7 +252,9 @@ export default function ReturnCard() {
                                 <option key={element.id} id={index}>
                                   {element.name +
                                     ":  " +
-                                    Number.parseInt(element.quantity - element.lost.quantity) +
+                                    Number.parseInt(
+                                      element.quantity - element.lost.quantity
+                                    ) +
                                     "/" +
                                     element.quantity}
                                 </option>
@@ -357,7 +373,9 @@ export default function ReturnCard() {
                               (element, index) => {
                                 if (element.selected) {
                                   document.getElementById("quantity").value =
-                                    Number.parseInt(book.at(element.id).lost.quantity);
+                                    Number.parseInt(
+                                      book.at(element.id).lost.quantity
+                                    );
                                 }
                               }
                             );
@@ -388,7 +406,7 @@ export default function ReturnCard() {
 
                 <Container className="d-flex justify-content-center">
                   <Button
-                  type="submit"
+                    type="submit"
                     className={montserrat.className}
                     style={{
                       width: "195px",

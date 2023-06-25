@@ -120,8 +120,7 @@ export default function MemberForm({ readerID }) {
                         if (readerID) router.replace("/home/member");
                         else window.location.reload();
                       });
-                  }
-                  else{
+                  } else {
                     if (response.status == 200) {
                       if (readerID) router.replace("/home/member");
                       else window.location.reload();
@@ -139,6 +138,21 @@ export default function MemberForm({ readerID }) {
               });
           }}
         >
+          <Button
+            className={montserrat.className}
+            style={{
+              marginBottom: "20px",
+              background: "#4BC1D2",
+              borderColor: "#4BC1D2",
+              fontWeight: "600",
+              height: "30px",
+              width: "80px",
+              marginLeft: "-50px",
+            }}
+            onClick={() => window.location.replace("/home/book")}
+          >
+            <p style={{ marginTop: "-3px" }}>Back</p>
+          </Button>
           <Stack gap={5}>
             <Form.Group>
               <Form.Label className={montserrat.className}>Email</Form.Label>

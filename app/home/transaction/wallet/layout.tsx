@@ -9,8 +9,9 @@ const roboto = Roboto({
 });
 export default function Layout({ children }) {
   useEffect(() => {
-    var search = document.getElementById("searchBar");
-    search!.style.visibility = "hidden";
+    var search = document.getElementById("searchFormGroup");
+    if(search)
+      search.replaceChildren("")
   }, []);
   return (
     <div
