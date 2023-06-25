@@ -23,7 +23,7 @@ export default function Layout({ children }) {
       >
         Transaction
       </h1>
-      <SearchBar></SearchBar>
+      <SearchBar params={[{key:"isReturned", value: true},{key:"this year", value: "2023"}]}></SearchBar>
       {children}
     </div>
   );
