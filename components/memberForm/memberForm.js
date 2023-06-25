@@ -75,10 +75,9 @@ export default function MemberForm({ readerID }) {
               dateOfBirth: event.currentTarget.dateOfBirth.value,
               email: event.currentTarget.email.value,
             };
-            if(selectedUser || readerID)
-              body.user =  readerID ? readerID : selectedUser.id,
-
-            setIsLoading(true);
+            if (selectedUser || readerID)
+              (body.user = readerID ? readerID : selectedUser.id),
+                setIsLoading(true);
             console.log(readerID);
             let config = {
               method: readerID ? "patch" : "post",
@@ -112,16 +111,21 @@ export default function MemberForm({ readerID }) {
                       .then((response) => {
                         if (response.status == 200) {
                           alert("Update avatar successfully");
-                          if (readerID)
-                            router.replace("home/transaction/member");
+                          if (readerID) router.replace("/home/member");
                           else window.location.reload();
                         }
                       })
                       .catch((error) => {
                         alert(error.response.data);
-                        if (readerID) router.replace("home/transaction/member");
+                        if (readerID) router.replace("/home/member");
                         else window.location.reload();
                       });
+                  }
+                  else{
+                    if (response.status == 200) {
+                      if (readerID) router.replace("/home/member");
+                      else window.location.reload();
+                    }
                   }
                 } else {
                   alert(
