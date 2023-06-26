@@ -394,12 +394,6 @@ export default function BorrowForm({ id }) {
                         });
                         setBorrowBook(temp);
                       }
-                      document.getElementById("bookName").value = "";
-                      var amount = document.getElementById("amount");
-                      if (amount) {
-                        amount.value = "";
-                        amount.disabled = true;
-                      }
                     }}
                   >
                     Add
