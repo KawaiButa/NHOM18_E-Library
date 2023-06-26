@@ -437,8 +437,8 @@ const TopUp_payment = () => {
                       style: "currency",
                       currency: "USD",
                     }).format(
-                      financial && financial.balance != 0
-                        ? financial.balance - payMoney
+                      (financial && financial.balance != 0)
+                        ? (financial.balance - payMoney)
                         : 0
                     )}
                   </span>
@@ -468,7 +468,7 @@ const TopUp_payment = () => {
   const [member, setMember] = useState(null);
   const { profile } = useProfile();
   var topUpMoney = 0;
-  const { payMoney, setPayMoney } = useState(0);
+  const [payMoney, setPayMoney ]= useState(0);
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -491,6 +491,8 @@ const TopUp_payment = () => {
     if (profile) {
       onCreate();
     }
+    if(financial)
+        console.log(payMoney)
   }, [profile, financial]);
   if (member == null)
     return (
