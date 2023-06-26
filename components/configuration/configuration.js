@@ -12,7 +12,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Monsieur_La_Doulaise, Montserrat } from "next/font/google";
 import axios from "axios";
 import useConfiguration from "../../lib/useConfiguration";
@@ -499,6 +499,8 @@ const Configuration = () => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+  useEffect(() => {},[]);
+  if(configuration)
 
   return (
     <>
@@ -521,6 +523,7 @@ const Configuration = () => {
       </Container>
     </>
   );
+  else return <></>
 };
 
 export default Configuration;
