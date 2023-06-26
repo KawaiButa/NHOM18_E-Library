@@ -237,7 +237,7 @@ const TopUp_payment = () => {
                                                 placeholder="Top up amount"
                                                 min={0}
                                                 max="any"
-                                                step={1000}
+                                                step={1}
                                                 style={{ boxShadow: "none" }}
                                                 onChange={(event) => {
                                                     topUpMoney =
@@ -394,16 +394,16 @@ const TopUp_payment = () => {
                                             type="number"
                                             className="form-control"
                                             placeholder=""
-                                            min={1000}
+                                            min={0}
                                             max={financial.totalDebt}
-                                            step={1000}
+                                            defaultValue={payMoney}
+                                            step={1}
                                             style={{
                                                 boxShadow: "none",
                                                 textAlign: "center",
                                             }}
                                             onChange={(event) => {
-                                                payMoney =
-                                                    event.currentTarget.value;
+                                                    setPayMoney(event.currentTarget.value);
                                             }}
                                         />
                                     </InputGroup>
@@ -501,7 +501,7 @@ const TopUp_payment = () => {
     const [member, setMember] = useState(null);
     const { profile } = useProfile();
     var topUpMoney = 0;
-    var payMoney = 0;
+    const {payMoney, setPayMoney} = useState(0);
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
