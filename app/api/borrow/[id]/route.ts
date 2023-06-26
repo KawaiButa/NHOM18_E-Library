@@ -49,7 +49,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
                     borrower: data.borrower,
                     books: result,
                     borrowDate: data.borrowDate,
-                    expectedReturnDate: data.expectedReturnDate
+                    expectedReturnDate: data.expectedReturnDate,
+                    isReturned: data.isReturned
                 }, { status: 200, statusText: "Success" })
             }
             else

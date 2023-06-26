@@ -93,7 +93,7 @@ export default function BorrowListCard() {
                 <td>{element.dateCreated.split("T")[0]}</td>
                 <td>{element.expectedReturnDate.split("T")[0]}</td>
                 <td>{element.isReturned ? "YES" : "NO"}</td>
-                {profile.role == "admin" ? (
+                {profile.role == "admin" && !element.isReturned ? (
                   <td>
                     <button
                       className={styles.button}
