@@ -52,7 +52,7 @@ export default function RemindListCard() {
               <th>Reader Name</th>
               <th>Borrow Date</th>
               <th>Return Date</th>
-              <th>Late Fee</th>
+              <th>Fee</th>
             </tr>
           </thead>
           <tbody>
