@@ -17,8 +17,9 @@ export async function POST(req: NextRequest) {
 
     const res = await axios.request(config).then((response) => {
         if (response.status == 201)
-            return NextResponse.json(response, {
+            return NextResponse.json("Success", {
                 status: 200,
+                statusText: "Success",
                 headers: { 'Set-Cookie': `token=${response.data.token}` },
             })
         else
