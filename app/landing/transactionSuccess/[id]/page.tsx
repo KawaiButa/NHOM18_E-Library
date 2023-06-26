@@ -71,7 +71,8 @@ export default function TransactionSuccess({ params }: { params: { id: string } 
                         background: "#44B8CB",
                         borderColor: "#44B8CB",
                     }}
-                >
+                    onClick={() => {window.close()}}
+>
                     Close
                 </Button>
             </Stack>
