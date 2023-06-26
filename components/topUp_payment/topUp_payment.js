@@ -213,12 +213,12 @@ const TopUp_payment = () => {
                         />
                       </div>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
-                        placeholder="Top up amount"
+                        placeholder="Top up money"
                         min={0}
                         max="any"
-                        step={1}
+                        step={0.01}
                         style={{ boxShadow: "none" }}
                         onChange={(event) => {
                           topUpMoney = event.currentTarget.value;
@@ -369,7 +369,7 @@ const TopUp_payment = () => {
                       min={0}
                       max={financial.totalDebt}
                       defaultValue={payMoney}
-                      step={1}
+                      step={0.01}
                       style={{
                         boxShadow: "none",
                         textAlign: "center",
@@ -472,7 +472,7 @@ const TopUp_payment = () => {
   const [member, setMember] = useState(null);
   const { profile } = useProfile();
   var topUpMoney = 0;
-  const [payMoney, setPayMoney] = useState(0);
+  const [payMoney, setPayMoney] = useState(Number.parseInt(0).toFixed(2));
   const [isLoading, setIsLoading] = useState(false);
   const handleTabChange = (tab) => {
     setActiveTab(tab);

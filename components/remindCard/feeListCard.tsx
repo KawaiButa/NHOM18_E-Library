@@ -1,21 +1,12 @@
 import { Montserrat, Roboto } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import {
-    Button,
     Card,
-    CloseButton,
-    Col,
-    Container,
-    Form,
-    Image,
-    Modal,
     Row,
-    Stack,
     Table,
 } from "react-bootstrap";
 import useFee from "../../lib/useFee";
 import useProfile from "../../lib/useProfile";
-import axios from "axios";
 const roboto = Roboto({
     weight: "400",
     subsets: ["latin"],
@@ -30,7 +21,7 @@ export default function FeeListCard() {
     const { feeReceipts } = useFee();
     const { profile } = useProfile();
     useEffect(() => {
-    }, [profile]);
+    }, [profile, feeReceipts]);
     const feeTable = () => {
         if (feeReceipts)
             return (
@@ -46,6 +37,7 @@ export default function FeeListCard() {
                         <tr style={{ cursor: "default" }}>
                             <th>#</th>
                             <th>Fee Receipt ID</th>
+                            <th>UserId</th>
                             <th>Balance</th>
                             <th>Total Debt</th>
                             <th>Amount Paid</th>
@@ -61,13 +53,16 @@ export default function FeeListCard() {
                                     {element.id}
                                 </td>
                                 <td style={{ cursor: "default" }}>
-                                    {element.balance}
+                                    {element.user}
                                 </td>
                                 <td style={{ cursor: "default" }}>
-                                    {element.totalDebt}
+                                    {element.balance.toFixed(2)}
                                 </td>
                                 <td style={{ cursor: "default" }}>
-                                    {element.amountPaid}
+                                    {element.totalDebt.toFixed(2)}
+                                </td>
+                                <td style={{ cursor: "default" }}>
+                                    {element.amountPaid.toFixed(2)}
                                 </td>
                             </tr>
                         ))}

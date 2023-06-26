@@ -19,7 +19,6 @@ export async function GET(req: NextRequest) {
 
         const response = await axios.request(config)
         if (response.status == 200) {
-            console.log(response.data)
             const data = response.data.data.doc
             if (data) {
                 const result: FeeReceipt[] = []

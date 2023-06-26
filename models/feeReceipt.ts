@@ -9,5 +9,6 @@ export default class FeeReceipt{
         this.user = user;
         this.balance = balance;
         this.totalDebt = totalDebt;
+        this.amountPaid = amountPaid;
     }
 }
