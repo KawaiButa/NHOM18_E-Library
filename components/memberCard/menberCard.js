@@ -48,7 +48,11 @@ export default function MemberCard({ user }) {
             <>
                 <Card
                     className="border-bottom border-5"
-                    style={{ width: "973px", height: "631px" }}
+                    style={{
+                        width: "973px",
+                        height: "631px",
+                        borderRadius: "20px",
+                    }}
                 >
                     <Card.Header
                         className="d-flex justify-content-end"
@@ -72,7 +76,9 @@ export default function MemberCard({ user }) {
                                 backgroundColor: "#D9D9D9",
                                 visibility: profile && profile.role == "admin"? "visible": "hidden"
                             }}
-                            href={"/home/member/modification/" + member.readerId}
+                            href={
+                                "/home/member/modification/" + member.readerId
+                            }
                         >
                             <Image
                                 src="/icon_pen_add.ico"
@@ -102,6 +108,11 @@ export default function MemberCard({ user }) {
                                     alt="bookPic"
                                     fluid
                                     crossOrigin="anonymous"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                    }}
                                 />
                             </div>
                             <Container style={{}}>
@@ -172,11 +183,7 @@ export default function MemberCard({ user }) {
                 className="d-flex justify-content-center align-items-center"
                 style={{ width: "973px", height: "631px" }}
             >
-                <h3>
-                    {
-                        "No information"
-                    }
-                </h3>
+                <h3>{"No information"}</h3>
             </div>
         );
 }

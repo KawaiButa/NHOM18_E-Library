@@ -34,7 +34,7 @@ type Book = {
 };
 export default function BookTag({ id }) {
     const { profile } = useProfile();
-    const router = useRouter()
+    const router = useRouter();
     const [book, setBook] = useState({
         id: "",
         name: "",
@@ -75,7 +75,7 @@ export default function BookTag({ id }) {
         <>
             <Container
                 as="div"
-                className={`${styles.bookTag} border-bottom border-top border-4`}
+                className={`${styles.bookTag} border border-bottom border-top border-right border-left border-2`}
             >
                 <Row style={{ height: "100%", borderRadius: "10px" }}>
                     <Col
@@ -116,7 +116,9 @@ export default function BookTag({ id }) {
                                             ? "visible"
                                             : "hidden",
                                 }}
-                                onClick={() => {router.push("/home/book/add/" + id)}}
+                                onClick={() => {
+                                    router.push("/home/book/add/" + id);
+                                }}
                             >
                                 <Image
                                     src="/icon_pen_add.ico"
@@ -207,7 +209,7 @@ export default function BookTag({ id }) {
                             <Container
                                 className="rounded-pill"
                                 style={{
-                                    width: "100%",
+                                    width: "618px",
                                     height: "3px",
                                     backgroundColor: "#D9D9D9",
                                 }}
@@ -228,7 +230,8 @@ export default function BookTag({ id }) {
                                 marginRight: "6px",
                                 fontSize: "20px",
                                 lineHeight: "34px",
-                                maxHeight: "280px",
+                                maxHeight: "230px",
+                                width: "650px",
                                 cursor: "default",
                                 overflowY: "auto",
                             }}
