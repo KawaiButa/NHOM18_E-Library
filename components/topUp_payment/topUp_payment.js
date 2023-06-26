@@ -472,7 +472,7 @@ const TopUp_payment = () => {
   const [member, setMember] = useState(null);
   const { profile } = useProfile();
   var topUpMoney = 0;
-  const [payMoney, setPayMoney] = useState(Number.parseInt(0).toFixed(2));
+  const [payMoney, setPayMoney] = useState(Number.parseInt(0).toFixed(2)) ;
   const [isLoading, setIsLoading] = useState(false);
   const handleTabChange = (tab) => {
     setActiveTab(tab);

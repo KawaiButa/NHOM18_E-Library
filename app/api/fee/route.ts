@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
             if (data) {
                 const result: FeeReceipt[] = []
                 data.forEach(element => {
-                    const fee = new FeeReceipt(element._id, element.user, element.balance, element.totalDebt, element.amountPaid)
+                    const fee = new FeeReceipt(element._id, element.userFinancials, element.balance, element.totalDebt, element.amountPaid)
                     result.push(fee)
                 });
                 return NextResponse.json(result, { status: 200, statusText: "Success" });
