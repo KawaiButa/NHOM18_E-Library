@@ -271,10 +271,11 @@ const TopUp_payment = () => {
         <Form
           onSubmit={async function HandleSummitEvent(event) {
             event.preventDefault();
+            setIsLoading(true)
             const data = {
               balance: financial.balance,
               totalDebt: financial.totalDebt,
-              amountPaid: payMoney
+              amountPaid: payMoney,
             };
             const config = {
               method: "post",
@@ -287,13 +288,13 @@ const TopUp_payment = () => {
             await axios
               .request(config)
               .then((response) => {
-                alert("Transaction done")
-                setPayMoney(0)
-                mutateFinancial(response.data)
-            })
+                alert("Transaction done");
+                setPayMoney(0);
+                mutateFinancial(response.data);
+                setIsLoading(false);
+              })
               .catch((error) => {
                 alert(error);
-                
               });
           }}
         >
@@ -440,8 +441,8 @@ const TopUp_payment = () => {
                       style: "currency",
                       currency: "USD",
                     }).format(
-                      (financial && financial.balance != 0)
-                        ? (financial.balance - payMoney)
+                      financial && financial.balance != 0
+                        ? financial.balance - payMoney
                         : 0
                     )}
                   </span>
@@ -471,7 +472,8 @@ const TopUp_payment = () => {
   const [member, setMember] = useState(null);
   const { profile } = useProfile();
   var topUpMoney = 0;
-  const [payMoney, setPayMoney ]= useState(0);
+  const [payMoney, setPayMoney] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -494,8 +496,7 @@ const TopUp_payment = () => {
     if (profile) {
       onCreate();
     }
-    if(financial)
-        console.log(payMoney)
+    if (financial) console.log(payMoney);
   }, [profile, financial]);
   if (member == null)
     return (
@@ -520,8 +521,14 @@ const TopUp_payment = () => {
             <BalanceContainer balance={financial.balance} />
             <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
             <div>
-              {activeTab === "topup" && <TopUp />}
-              {activeTab === "payment" && <Payment />}
+              {isLoading ? (
+                <></>
+              ) : (
+                <>
+                  {activeTab === "topup" && <TopUp />}
+                  {activeTab === "payment" && <Payment />}
+                </>
+              )}
             </div>
           </Stack>
         </Container>
