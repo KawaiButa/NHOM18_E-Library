@@ -274,23 +274,26 @@ const TopUp_payment = () => {
             const data = {
               balance: financial.balance,
               totalDebt: financial.totalDebt,
-              amountPaid: payMoney,
+              amountPaid: payMoney
             };
             const config = {
-              method: "patch",
+              method: "post",
               url: "/api/fee",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(data),
+              data: JSON.stringify(data),
             };
-            axios
+            await axios
               .request(config)
               .then((response) => {
-                alert(response.data);
-              })
+                alert("Transaction done")
+                setPayMoney(0)
+                mutateFinancial(response.data)
+            })
               .catch((error) => {
-                alert(error.response.data);
+                alert(error);
+                
               });
           }}
         >
@@ -463,7 +466,7 @@ const TopUp_payment = () => {
       </div>
     );
   };
-  const { financial } = userFinancial();
+  const { financial, mutateFinancial } = userFinancial();
   const [activeTab, setActiveTab] = useState("topup");
   const [member, setMember] = useState(null);
   const { profile } = useProfile();

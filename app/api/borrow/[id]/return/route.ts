@@ -6,6 +6,7 @@ import ReturnForm from "../../../../../models/returnForm";
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
     const token = req.cookies.get("token")?.value;
     if (token) {
+        const data = await req.json()
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -14,6 +15,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
+            data: data
         };
         const res = await axios.request(config)
             .then((response) => {

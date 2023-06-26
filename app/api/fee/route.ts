@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
             console.log(response.data)
             const data = response.data.data.doc
             if (data) {
-                const result:FeeReceipt[] = []
+                const result: FeeReceipt[] = []
                 data.forEach(element => {
                     const fee = new FeeReceipt(element._id, element.user, element.balance, element.totalDebt, element.amountPaid)
                     result.push(fee)
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
                 return NextResponse.json(result, { status: 200, statusText: "Success" });
             }
             else
-            return NextResponse.json(null, { status: 204, statusText: "No Content" })
+                return NextResponse.json(null, { status: 204, statusText: "No Content" })
 
         }
         else
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const token = req.cookies.get("token")?.value
     if (token) {
-        const data = req.json()
+        const data = await req.json()
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -57,19 +57,16 @@ export async function POST(req: NextRequest) {
         };
 
         const response = await axios.request(config)
-        if (response.status == 201) {
+        if (response.status == 201 || response.status == 200) {
             console.log(response.data)
             const data = response.data.data.doc
             if (data) {
-                const result:FeeReceipt[] = []
-                data.forEach(element => {
-                    const fee = new FeeReceipt(element._id, element.user, element.balance, element.totalDebt, element.amountPaid)
-                    result.push(fee)
-                });
-                return NextResponse.json(result, { status: 200, statusText: "Success" });
+
+                const fee = new FeeReceipt(data._id, data.user, data.balance, data.totalDebt, data.amountPaid)
+                return NextResponse.json(fee, { status: 200, statusText: "Success" });
             }
             else
-            return NextResponse.json(null, { status: 204, statusText: "No Content" })
+                return NextResponse.json(null, { status: 204, statusText: "No Content" })
 
         }
         else

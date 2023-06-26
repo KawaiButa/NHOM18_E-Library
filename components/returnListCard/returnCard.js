@@ -129,27 +129,25 @@ export default function ReturnCard() {
               }}
               onSubmit={async function (event) {
                 event.preventDefault();
-                const lostBooks = [];
+                var lostBooks = [];
                 book.forEach((element) => {
+                  console.log(element)
                   if (element.lost.value)
                     lostBooks.push({
                       bookId: element.id,
-                      quantity: element.lost.quantity,
+                      quantity: Number.parseInt(element.lost.quantity),
                     });
                 });
                 const borrowForm = borrows.at(option);
+                console.log(lostBooks)
                 const data = {
                   lostBooks: lostBooks,
                 };
 
                 await axios
-                  .post("/api/borrow/" + borrowForm.borrowId + "/return", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    data: data,
-                  })
+                  .post("/api/borrow/" + borrowForm.borrowId + "/return",
+                    data
+                  )
                   .then((response) => {
                     if (response.status == 200) {
                       alert("Create return form successfully");
