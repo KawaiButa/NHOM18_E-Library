@@ -449,7 +449,7 @@ export default function BorrowForm({ id }) {
                       bottom: "-250px",
                     }}
                   >
-                    Summit
+                    Submit
                   </Button>
                 </Container>
               </Stack>

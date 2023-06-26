@@ -16,20 +16,25 @@ export async function GET(req: NextRequest) {
             }
         };
 
-        const response = await axios.request(config)
-        if (response.status == 200) {
-            const data = response.data.userFinancials;
-            if (data) {
-
-                const financial = new Financial(data._id, data.user, data.balance, data.totalDebt)
-                return NextResponse.json(financial, { status: 200, statusText: "Success" });
+        const response = await axios.request(config).then((response) => {
+            if (response.status == 200) {
+                const data = response.data.userFinancials;
+                if (data) {
+    
+                    const financial = new Financial(data._id, data.user, data.balance, data.totalDebt)
+                    return NextResponse.json(financial, { status: 200, statusText: "Success" });
+                }
+                else
+                return NextResponse.json(null, { status: 204, statusText: "No Content" })
+    
             }
             else
-            return NextResponse.json(null, { status: 204, statusText: "No Content" })
+                return NextResponse.json(null, { status: response.status, statusText: response.statusText })
 
-        }
-        else
-            return NextResponse.json(null, { status: response.status, statusText: response.statusText })
+        })
+        .catch((error) => {
+            return NextResponse.json(error.response.data, {status: 409, statusText: "Conflict"})
+        })
     }
     else
         return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
