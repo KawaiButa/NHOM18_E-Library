@@ -214,7 +214,7 @@ export default function BorrowForm({ id }) {
                 event.preventDefault();
                 const temp = [];
                 borrowBook.map((value, index) =>
-                  temp.push({ bookId: value.id, quantity: value.amount })
+                  temp.push({ bookId: value.id, quantity: value.quantity })
                 );
                 var time;
                 if (event.currentTarget.expectedReturnDate.valueAsDate)

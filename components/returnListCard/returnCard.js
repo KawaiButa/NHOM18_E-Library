@@ -231,8 +231,6 @@ export default function ReturnCard() {
                           style={{ height: "345px" }}
                           onChange={(event) => {
                             event.preventDefault();
-                            var selectedCount = 0;
-                            var ind = -1;
                             event.currentTarget.childNodes.forEach(
                               (element, index) => {
                                 if (element.selected) {
