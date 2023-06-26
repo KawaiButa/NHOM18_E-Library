@@ -376,7 +376,7 @@ const TopUp_payment = () => {
                       }}
                       disabled = {(Number.parseInt(financial.balance) === Number.parseInt(0))}
                       onChange={(event) => {
-                        if (financial && payMoney <= financial.balance)
+                        if (financial && Number.parseInt(payMoney) <= financial.balance)
                           setPayMoney(event.currentTarget.value);
                       }}
                     />
