@@ -79,7 +79,7 @@ export default function MemberForm({ readerID }) {
               body.dateOfBirth = event.currentTarget.dateOfBirth.value;
             if (event.currentTarget.email.value)
               body.email = event.currentTarget.email.value;
-            if (selectedUser || readerID)
+            if (!readerID && selectedUser)
               (body.user = readerID ? readerID : selectedUser.id),
                 setIsLoading(true);
             let config = {
@@ -98,7 +98,7 @@ export default function MemberForm({ readerID }) {
               .request(config)
               .then((response) => {
                 if (response.status == 200) {
-                  alert((readerID? "Add":"Update") +  "member successfully");
+                  alert((!readerID? "Add ":"Update ") +  "member successfully");
                   if (response.status == 200 && img) {
                     console.log(response.data);
                     const data = new FormData();
