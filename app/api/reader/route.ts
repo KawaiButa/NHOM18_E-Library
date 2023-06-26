@@ -48,19 +48,25 @@ export async function GET(req: NextRequest) {
             }
         };
 
-        const response = await axios.request(config)
-        if (response.status == 200) {
-            const data = response.data.data.doc;
-            const result: Reader[] = [];
-            console.log(data)
-            data.forEach(element => {
-                const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.user, element.email, element.dateOfBirth)
-                result.push(reader);
-            });
-            return NextResponse.json(result, {status: 200, statusText: "Success"});
-        }
-        else
-            return NextResponse.json(null, { status: response.status, statusText: response.statusText })
+        const res = await axios.request(config).then((response) => {
+            if (response.status == 200) {
+                const data = response.data.data.doc;
+                const result: Reader[] = [];
+                console.log(data)
+                data.forEach(element => {
+                    const reader = new Reader(element._id, element.fullName, element.readerType, element.address, element.cardCreatedAt, element.user, element.email, element.dateOfBirth)
+                    result.push(reader);
+                });
+                return NextResponse.json(result, { status: 200, statusText: "Success" });
+            }
+            else
+                return NextResponse.json(null, { status: response.status, statusText: response.statusText })
+
+        }).catch((error) => {
+            return NextResponse.json(error.response.data.message, { status: 409, statusText: "Conflict" })
+
+        })
+        return res
     }
     else
         return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
