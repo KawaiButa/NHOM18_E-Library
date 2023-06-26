@@ -240,7 +240,7 @@ export default function BorrowForm({ id }) {
                   .then((response) => {
                     if (response.status == 200) {
                       alert("Created borrow-book card successfully");
-                      router.refresh();
+                      window.location.reload();
                     } else
                       alert(
                         "There is a error on the server. Please try again in a few second"

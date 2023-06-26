@@ -24,7 +24,7 @@ const montserrat = Montserrat({
 
 const Configuration = () => {
   const [activeTab, setActiveTab] = useState("reader");
-  const { configuration } = useConfiguration();
+  const { configuration, mutateConfiguration } = useConfiguration();
   const TabContainer = ({ activeTab, onTabChange }) => {
     return (
       <div>
@@ -110,6 +110,7 @@ const Configuration = () => {
                 style={{ marginLeft: "50px", marginTop: "20px" }}
                 onSubmit={async function HandleSummit(event) {
                   event.preventDefault();
+                  setIsLoading(true)
                   const body = {};
                   if (event.currentTarget.maxAge.value)
                     body.ageMax = event.currentTarget.maxAge.value;
@@ -131,10 +132,12 @@ const Configuration = () => {
                     .request(config)
                     .then((response) => {
                       alert("Change validation successfully");
-                      window.location.reload();
+                      mutateConfiguration(response.data);
+                      setIsLoading(false)
                     })
                     .catch((error) => {
                       alert(error);
+                      setIsLoading(false)
                       //window.location.reload();
                     });
                 }}
@@ -310,6 +313,7 @@ const Configuration = () => {
                 style={{ marginLeft: "50px", marginTop: "10px" }}
                 onSubmit={async function HandleSummit(event) {
                   event.preventDefault();
+                  setIsLoading(true)
                   const body = {};
                   if (event.currentTarget.maxYear.value)
                     body.publicationYear = event.currentTarget.maxYear.value;
@@ -326,15 +330,16 @@ const Configuration = () => {
                     },
                     data: JSON.stringify(body),
                   };
-                  axios
+                  await axios
                     .request(config)
                     .then((response) => {
                       alert("Change validation successfully");
-                      window.location.reload();
+                      mutateConfiguration(response.data)
+                      setIsLoading(false)
                     })
                     .catch((error) => {
                       alert(error.response.data);
-                      window.location.reload();
+                      setIsLoading(false)
                     });
                 }}
               >
@@ -499,6 +504,7 @@ const Configuration = () => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {}, []);
   if (configuration)
     return (
@@ -514,10 +520,14 @@ const Configuration = () => {
         >
           <Stack style={{ alignItems: "center" }}>
             <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
-            <div>
-              {activeTab === "reader" && <Reader />}
-              {activeTab === "book" && <Book />}
-            </div>
+            {isLoading ? (
+              <></>
+            ) : (
+              <div>
+                {activeTab === "reader" && <Reader />}
+                {activeTab === "book" && <Book />}
+              </div>
+            )}
           </Stack>
         </Container>
       </>
