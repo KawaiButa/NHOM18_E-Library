@@ -138,7 +138,8 @@ export default function MemberForm({ readerID }) {
                 return response;
               })
               .catch((error) => {
-                alert(error);
+                alert(error.message.data);
+                window.location.reload()
               });
           }}
         >
