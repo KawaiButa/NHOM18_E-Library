@@ -20,7 +20,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
             }).then((response) => {
                 if (response.status == 200) {
                     const data = response.data.data.doc
-                    const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
+                    const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks, data.publicationYear)
                     return NextResponse.json(book, { status: 200, statusText: "Success" })
                 }
                 else
@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
             }).then((response) => {
                 if (response.status == 200) {
                     const data = response.data.data.doc
-                    const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
+                    const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks, data.publicationYear)
                     return NextResponse.json(book, { status: 200, statusText: "Success" })
                 }
                 else
@@ -94,7 +94,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         }).then((response) => {
             if (response.status == 201) {
                 const data = response.data.data.doc
-                const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks)
+                const book = new Book(data._id, data.nameBook, data.author, data.photoUrls[0], data.publisher, data.numberOfBooks, data.publicationYear)
                 return NextResponse.json(book, { status: 200, statusText: "Success" })
             }
             else
