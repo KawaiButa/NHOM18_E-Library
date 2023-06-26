@@ -374,6 +374,7 @@ const TopUp_payment = () => {
                         boxShadow: "none",
                         textAlign: "center",
                       }}
+                      disabled = {financial.balance == 0}
                       onChange={(event) => {
                         if (financial && payMoney <= financial.balance)
                           setPayMoney(event.currentTarget.value);
