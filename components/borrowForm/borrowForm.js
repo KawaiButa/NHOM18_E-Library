@@ -264,12 +264,11 @@ export default function BorrowForm({ id }) {
                         list="name"
                         className="form-control"
                         disabled={profile?.role == "admin" ? false : true}
-                        onChange={() => {
+                        onChange={(event) => {
                           var datalist = document.getElementById("name");
                           datalist.childNodes.forEach((element) => {
-                            console.log(element);
-                            setSelectedReader(readers.at(element.id));
-                            console.log(selectedReader);
+                            if(element.value == event.currentTarget.value)
+                              setSelectedReader(readers.at(element.id));
                           });
                         }}
                       />
