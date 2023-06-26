@@ -373,11 +373,9 @@ export default function BorrowForm({ id }) {
                       }
                       for (let index = 0; index < borrowBook.length; index++) {
                         const element = borrowBook[index];
-                        console.log(option);
-                        console.log(element);
                         if (option.id == element.id) {
                           const temp = [...borrowBook];
-                          if (count != 0) temp.at(index).quantity = count;
+                          if (count != 0) temp.at(index).quantity = document.getElementById("amount").value;
                           else temp.splice(index, 1);
                           setBorrowBook(temp);
                           option = null;
@@ -390,7 +388,7 @@ export default function BorrowForm({ id }) {
                         temp.push({
                           id: option.id,
                           name: option.name,
-                          quantity: count,
+                          quantity: document.getElementById("amount").value,
                         });
                         setBorrowBook(temp);
                       }
