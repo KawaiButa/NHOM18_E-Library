@@ -45,6 +45,12 @@ export default function Transaction() {
         </>
       );
     else {
+      if (document.URL.includes("borrower"))
+        return (
+          <div>
+            <ReturnListCard />
+          </div>
+        );
       var endpoint = "/home/transaction/return?borrower=" + member.readerId;
       return (
         <>

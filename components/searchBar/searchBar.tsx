@@ -35,8 +35,8 @@ export default function SearchBar({ params }) {
         searchQuery.push({ key: element.key, value: element.value });
     });
     const url = new URL(document.URL.split("?")[0]);
-    const borrowId = search.get("borrowId");
-    if (borrowId) url.searchParams.set("borrowId", borrowId);
+    const borrowId = search.get("borrower");
+    if (borrowId) url.searchParams.set("borrower", borrowId);
     searchQuery.forEach((element) => {
       url.searchParams.set(element.key, element.value);
     });
@@ -168,7 +168,7 @@ export default function SearchBar({ params }) {
             onClick={() => {
               const url = new URL(document.URL.split("?")[0]);
               const borrowId = search.get("borrowId");
-              if (borrowId) url.searchParams.set("borrowId", borrowId);
+              if (borrowId) url.searchParams.set("borrower", borrowId);
               window.location.replace(url.href);
             }}
           >

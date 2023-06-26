@@ -60,8 +60,12 @@ export default function RemindListCard() {
               <tr key={element.id} onDoubleClick={() => {}}>
                 <td style={{ cursor: "default" }}>{element.borrowId}</td>
                 <td style={{ cursor: "default" }}>{element.borrowerName}</td>
-                <td style={{ cursor: "default" }}>{element.borrowDate.split("T")[0]}</td>
-                <td style={{ cursor: "default" }}>{element.returnDate.split("T")[0]}</td>
+                <td style={{ cursor: "default" }}>
+                  {element.borrowDate.split("T")[0]}
+                </td>
+                <td style={{ cursor: "default" }}>
+                  {element.returnDate.split("T")[0]}
+                </td>
                 <td style={{ cursor: "default" }}>
                   {element.lateFee === 0.0
                     ? "NO DELAY"
@@ -87,33 +91,35 @@ export default function RemindListCard() {
 
   useEffect(() => {
     if (profile && returns) {
-      const returnAfterSearch = [...returns];
+      var returnAfterSearch = [...returns];
       search.forEach((value, key) => {
-        switch(key){
+        const temp = [...returnAfterSearch];
+        switch (key) {
           case "borrower": {
             returnAfterSearch.forEach((element) => {
               if (element.borrowerId != value)
-                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
           case "fee": {
             returnAfterSearch.forEach((element) => {
               if (element.lateFee != value)
-                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
           case "year": {
             returnAfterSearch.forEach((element) => {
               console.log(element.borrowerId);
-              if (element.returnDate.slice(0,4) != value)
-                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+              if (element.returnDate.slice(0, 4) != value)
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
         }
-      })
+        returnAfterSearch = temp;
+      });
       setReturnList(returnAfterSearch);
     }
   }, [profile, returns]);

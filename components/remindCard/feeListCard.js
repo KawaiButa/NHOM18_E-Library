@@ -14,14 +14,19 @@ export default function FeeListCard() {
   const [feeList, setFeeList] = useState(null);
   const { profile } = useProfile();
   useEffect(() => {
-    const feeAfterSearch = [...feeReceipts];
-    if (profile && feeReceipts && profile.role != "admin") {
-      feeAfterSearch.forEach((element) => {
-        if (element.user != profile.id)
-          feeAfterSearch.splice(feeAfterSearch.indexOf(element), 1);
-      });
+    if (feeReceipts) {
+      var feeAfterSearch = [...feeReceipts];
+      if (profile && profile.role != "admin") {
+        const temp = [...feeAfterSearch]
+        feeAfterSearch.forEach((element) => {
+          if (element.user != profile.id) {
+            temp.splice(temp.indexOf(element), 1);
+          }
+        });
+        feeAfterSearch = temp
+      }
+      setFeeList(feeAfterSearch);
     }
-    setFeeList(feeAfterSearch);
   }, [profile, feeReceipts]);
   const feeTable = () => {
     if (feeList)

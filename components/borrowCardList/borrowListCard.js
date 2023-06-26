@@ -141,38 +141,40 @@ export default function BorrowListCard() {
   };
   useEffect(() => {
     if (borrows && profile) {
-      const borrowAfterSearch = [...borrows];
+      var borrowAfterSearch = [...borrows];
       search.forEach((value, key) => {
+        const temp = [...borrowAfterSearch];
         switch (key) {
-          case "borrowerId": {
+          case "borrower": {
             borrowAfterSearch.forEach((element) => {
               if (element.readerId != value)
-                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
           case "isReturned": {
             borrowAfterSearch.forEach((element) => {
               if (element.isReturned != value)
-                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
-          case "year":{
+          case "year": {
             borrowAfterSearch.forEach((element) => {
-              if (element.dateCreated.slice(0,4) != value)
-                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+              if (element.dateCreated.slice(0, 4) != value)
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
           case "search": {
             borrowAfterSearch.forEach((element) => {
               if (!element.borrowId.includes(value))
-                borrowAfterSearch.splice(borrowAfterSearch.indexOf(element), 1);
+                temp.splice(temp.indexOf(element), 1);
             });
             break;
           }
         }
+        borrowAfterSearch = temp;
       });
       setBorrowList(borrowAfterSearch);
     }
