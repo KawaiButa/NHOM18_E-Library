@@ -95,12 +95,15 @@ export default function BookForm({ id }) {
             onSubmit={async function HandleSummitEvent(event) {
               event.preventDefault();
               const body = {};
+              body.typeBook = "book";
               if (event.currentTarget.bookTitle.value)
                 body.nameBook = event.currentTarget.bookTitle.value;
               if (event.currentTarget.author.value)
                 body.author = event.currentTarget.author.value;
               if (event.currentTarget.year.value)
                 body.publicationYear = event.currentTarget.year.value;
+              if (event.currentTarget.publisher.value)
+                body.publisher = event.currentTarget.publisher.value;
               if (event.currentTarget.year.value)
                 body.year = event.currentTarget.year.value;
               if (event.currentTarget.price.value)
