@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
         const response = await axios.request(config)
         if (response.status == 200 || response.status == 201) {
-            return NextResponse.json(response.data.validation, { status: 200, statusText: "Success" });
+            return NextResponse.json(response.data.data, { status: 200, statusText: "Success" });
         }
     else
         return NextResponse.json(null, { status: response.status, statusText: response.statusText })
