@@ -27,7 +27,6 @@ export default function BorrowForm({ id }) {
   const { profile } = useProfile();
   const { books } = useBook();
   const { readers } = useReader();
-  const [count, setCount] = useState(1);
   const [borrowBook, setBorrowBook] = useState([]);
   const [maxBook, setMaxBook] = useState([]);
   const [selectedReader, setSelectedReader] = useState(null);
@@ -68,7 +67,7 @@ export default function BorrowForm({ id }) {
                       onMaxBookChange(books[index2].numberOfBooks);
                       break;
                     }
-                  setCount(element.quantity);
+                  document.getElementById("amount").value = element.quantity;
                 }}
               >
                 <td>{index + 1}</td>
@@ -103,14 +102,15 @@ export default function BorrowForm({ id }) {
           })
           .then((response) => {
             if (response.status == 200) {
-              setSelectedReader(response.data);
-              var memberName = document.getElementById("memberName");
-              if (memberName && profile.role != "admin") {
-                memberName.value = response.data.name;
-                memberName.disabled = true;
+              if (profile.role != "admin") {
+                setSelectedReader(response.data);
+                var memberName = document.getElementById("memberName");
+                if (memberName) {
+                  memberName.value = response.data.name;
+                  memberName.disabled = true;
+                }
               }
             }
-            if (response.status == 204) setMember(null);
           });
       }
     }
@@ -125,8 +125,6 @@ export default function BorrowForm({ id }) {
           option.innerHTML = element.email;
           nameList?.appendChild(option);
         });
-        var memberName = document.getElementById("memberName");
-        if (memberName && !id) memberName.value = profile?.name;
       }
       var list = document.getElementById("book");
       list?.replaceChildren([]);
@@ -155,7 +153,7 @@ export default function BorrowForm({ id }) {
           });
       }
     }
-  }, [books, profile, count, maxBook, readers]);
+  }, [books, profile, maxBook, readers]);
   if (books && profile && readers)
     return (
       <>
@@ -225,13 +223,13 @@ export default function BorrowForm({ id }) {
                   return;
                 }
                 if (!selectedReader) return;
+                console.log(selectedReader);
                 const body = {
                   books: temp,
                   expectedReturnDate: time,
+                  borrower: selectedReader.readerId,
                 };
-                if (selectedReader)
-                  (body.borrower = selectedReader.readerId)
-                axios
+                await axios
                   .post("/api/borrow", {
                     method: "POST",
                     headers: { "Content-type": "application/json" },
@@ -266,10 +264,14 @@ export default function BorrowForm({ id }) {
                         disabled={profile?.role == "admin" ? false : true}
                         onChange={(event) => {
                           var datalist = document.getElementById("name");
-                          datalist.childNodes.forEach((element) => {
-                            if(element.value == event.currentTarget.value)
+                          for (let i = 0; i < datalist.children.length; i++) {
+                            const element = datalist.children[i];
+                            if (element.value == event.currentTarget.value) {
                               setSelectedReader(readers.at(element.id));
-                          });
+                              console.log(readers.at(element.id));
+                              break;
+                            }
+                          }
                         }}
                       />
                       <datalist id="name"></datalist>
@@ -315,7 +317,7 @@ export default function BorrowForm({ id }) {
                               }
                             }
                             if (!flag) {
-                              setCount(0);
+                              document.getElementById("amount").value = 0;
                               onMaxBookChange(-1);
                             }
                           }}
@@ -332,7 +334,7 @@ export default function BorrowForm({ id }) {
                         <Form.Control
                           id="amount"
                           type="number"
-                          placeholder="1"
+                          defaultValue={1}
                           className="shadow-none"
                           min={0}
                           max={maxBook}
@@ -372,7 +374,7 @@ export default function BorrowForm({ id }) {
                         const element = borrowBook[index];
                         if (option.id == element.id) {
                           const temp = [...borrowBook];
-                          if (count != 0)
+                          if (document.getElementById("amount").value != 0)
                             temp.at(index).quantity =
                               document.getElementById("amount").value;
                           else temp.splice(index, 1);

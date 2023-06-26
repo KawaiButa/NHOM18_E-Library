@@ -360,15 +360,8 @@ export default function BorrowListCard() {
                   console.log(response);
                   if (response.status == 200) {
                     closeModalDeleteOne();
-                    await mutateBorrow(
-                      await fetchJson("/api/reader", {
-                        method: "GET",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                      })
-                    );
                     alert("Delete borrow form with id " + id + " successfully");
+                    window.location.reload()
                   } else {
                     alert(
                       "There is a problem with server.\nPlease try again in a few seconds"
