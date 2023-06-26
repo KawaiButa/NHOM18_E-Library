@@ -499,31 +499,30 @@ const Configuration = () => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
-  useEffect(() => {},[]);
-  if(configuration)
-
-  return (
-    <>
-      <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{
-          marginTop: "50px",
-          width: "1055px",
-          height: "600px",
-          background: "white",
-        }}
-      >
-        <Stack style={{ alignItems: "center" }}>
-          <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
-          <div>
-            {activeTab === "reader" && <Reader />}
-            {activeTab === "book" && <Book />}
-          </div>
-        </Stack>
-      </Container>
-    </>
-  );
-  else return <></>
+  useEffect(() => {}, []);
+  if (configuration)
+    return (
+      <>
+        <Container
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            marginTop: "50px",
+            width: "1055px",
+            height: "600px",
+            background: "white",
+          }}
+        >
+          <Stack style={{ alignItems: "center" }}>
+            <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
+            <div>
+              {activeTab === "reader" && <Reader />}
+              {activeTab === "book" && <Book />}
+            </div>
+          </Stack>
+        </Container>
+      </>
+    );
+  else return <></>;
 };
 
 export default Configuration;
