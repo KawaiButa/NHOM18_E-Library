@@ -521,7 +521,14 @@ const Configuration = () => {
           <Stack style={{ alignItems: "center" }}>
             <TabContainer activeTab={activeTab} onTabChange={handleTabChange} />
             {isLoading ? (
-              <></>
+               <div
+               className="d-flex justify-content-center align-items-center"
+               style={{ width: "100%", height: "40%" }}
+             >
+               <div className="spinner-border" role="status">
+                 <span className="visually-hidden">Loading...</span>
+               </div>
+             </div>
             ) : (
               <div>
                 {activeTab === "reader" && <Reader />}
