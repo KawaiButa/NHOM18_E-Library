@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
                 expiredMonth: data.expiredMonth,
                 numberOfBooks: data.numberOfBooks,
                 publicationYear: data.publicationYear,
-                borrowingDate: data.borrowDate
+                borrowingDate: data.borrowingDate
             }, { status: 200, statusText: "Success" });
         }
         else
