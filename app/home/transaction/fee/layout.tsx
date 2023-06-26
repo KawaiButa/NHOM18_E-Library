@@ -23,7 +23,6 @@ export default function Layout({ children }) {
       >
         Transaction
       </h1>
-      <SearchBar params={[{name: "Returned only",key:"isReturned", value: true, checked: false},{name: "this year", key:"year", value: "2023", checked: false}]}></SearchBar>
       {children}
     </div>
   );

@@ -88,14 +88,32 @@ export default function RemindListCard() {
   useEffect(() => {
     if (profile && returns) {
       const returnAfterSearch = [...returns];
-      const borrowerId = search.get("borrower");
-      if (borrowerId) {
-        returnAfterSearch.forEach((element) => {
-          console.log(element.borrowerId);
-          if (element.borrowerId != borrowerId)
-            returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
-        });
-      }
+      search.forEach((value, key) => {
+        switch(key){
+          case "borrower": {
+            returnAfterSearch.forEach((element) => {
+              if (element.borrowerId != value)
+                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+          case "fee": {
+            returnAfterSearch.forEach((element) => {
+              if (element.lateFee != value)
+                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+          case "year": {
+            returnAfterSearch.forEach((element) => {
+              console.log(element.borrowerId);
+              if (element.returnDate.slice(0,4) != value)
+                returnAfterSearch.splice(returnAfterSearch.indexOf(element), 1);
+            });
+            break;
+          }
+        }
+      })
       setReturnList(returnAfterSearch);
     }
   }, [profile, returns]);

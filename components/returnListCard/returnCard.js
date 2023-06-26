@@ -64,11 +64,13 @@ export default function ReturnCard() {
       input?.replaceChildren();
       input?.appendChild(document.createElement("option"));
       borrows.forEach((element, index) => {
-        var option = document.createElement("option");
-        option.id = index.toString();
-        option.value = element.borrowId;
-        option.innerHTML = element.borrowId;
-        input?.appendChild(option);
+        if (!element.isReturned) {
+          var option = document.createElement("option");
+          option.id = index.toString();
+          option.value = element.borrowId;
+          option.innerHTML = element.borrowId;
+          input?.appendChild(option);
+        }
       });
     }
   }, [borrows]);
