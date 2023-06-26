@@ -68,18 +68,17 @@ export default function MemberForm({ readerID }) {
           onSubmit={async function HandleSubmit(event) {
             event.preventDefault();
             console.log(img);
-            const body = {
-            };
-            if(event.currentTarget.fullName.value)
+            const body = {};
+            if (event.currentTarget.fullName.value)
               body.fullName = event.currentTarget.fullName.value;
-            if(event.currentTarget.readerType.value)
-            body.readerType =  event.currentTarget.readerType.value
-            if(event.currentTarget.address.value)
-            body.address = event.currentTarget.address.value
-            if(event.currentTarget.dateOfBirth.value)
-            body.dateOfBirth = event.currentTarget.dateOfBirth.value
-            if(event.currentTarget.email.value)
-            body.email = event.currentTarget.email.value;
+            if (event.currentTarget.readerType.value)
+              body.readerType = event.currentTarget.readerType.value;
+            if (event.currentTarget.address.value)
+              body.address = event.currentTarget.address.value;
+            if (event.currentTarget.dateOfBirth.value)
+              body.dateOfBirth = event.currentTarget.dateOfBirth.value;
+            if (event.currentTarget.email.value)
+              body.email = event.currentTarget.email.value;
             if (selectedUser || readerID)
               (body.user = readerID ? readerID : selectedUser.id),
                 setIsLoading(true);
@@ -99,7 +98,7 @@ export default function MemberForm({ readerID }) {
               .request(config)
               .then((response) => {
                 if (response.status == 200) {
-                  alert("Add member successfully");
+                  alert((readerID? "Add":"Update") +  "member successfully");
                   if (response.status == 200 && img) {
                     console.log(response.data);
                     const data = new FormData();
@@ -139,7 +138,7 @@ export default function MemberForm({ readerID }) {
               })
               .catch((error) => {
                 alert(error.message.data);
-                window.location.reload()
+                window.location.reload();
               });
           }}
         >
@@ -173,7 +172,6 @@ export default function MemberForm({ readerID }) {
                     const element = users.at(i);
                     if (element.email == email) setSelectedUser(element);
                   }
-                  console.log(users);
                 }}
               />
             </Form.Group>

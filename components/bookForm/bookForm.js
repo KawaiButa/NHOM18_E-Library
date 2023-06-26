@@ -102,7 +102,7 @@ export default function BookForm({ id }) {
               if (event.currentTarget.year.value)
                 body.publicationYear = event.currentTarget.year.value;
               if (event.currentTarget.publicationYear.value)
-                body.publisher = event.currentTarget.publisher.value;
+                body.publicationYear = event.currentTarget.publicationYear.value;
               if (event.currentTarget.price.value)
                 body.price = event.currentTarget.price.value;
               if (event.currentTarget.description.value)
