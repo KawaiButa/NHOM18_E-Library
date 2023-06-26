@@ -101,7 +101,7 @@ export default function BorrowCardDetail({ id }) {
                     <FormControl
                       type="number"
                       size="sm"
-                      disabled={!response.data.isReturned}
+                      disabled={response.data.isReturned}
                       style={{ width: "60px" }}
                       defaultValue={element.quantity}
                       min={0}
