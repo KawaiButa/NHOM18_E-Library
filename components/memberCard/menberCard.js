@@ -15,38 +15,48 @@ const montserrat = Montserrat({
 });
 
 export default function MemberCard({ user }) {
-  const [member, setMember] = useState(null);
-  useEffect(() => {
-    async function onCreate() {
-      await axios
-        .get("/api/profile/" + user, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) setMember(response.data);
-          if (response.status == 204) setMember(null);
-        });
-    }
-    onCreate();
-  }, []);
-  if (member == null)
-    return (
-      <div>
-        <h2>{"You don't have a reader card connect to this account."}</h2>
-        <h2>{"Please contact to the library admin to create a reader card"}</h2>
-      </div>
-    );
-   
+    const [member, setMember] = useState(null);
+    useEffect(() => {
+        async function onCreate() {
+            await axios
+                .get("/api/profile/" + user, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status == 200) setMember(response.data);
+                    if (response.status == 204) setMember(null);
+                });
+        }
+        onCreate();
+    }, []);
+    if (member == null)
+        return (
+            <div>
+                <h2>
+                    {"You don't have a reader card connect to this account."}
+                </h2>
+                <h2>
+                    {
+                        "Please contact to the library admin to create a reader card"
+                    }
+                </h2>
+            </div>
+        );
+
     if (member)
         return (
             <>
                 <Card
                     className="border-bottom border-5"
-                    style={{ width: "973px", height: "631px" }}
+                    style={{
+                        width: "973px",
+                        height: "631px",
+                        borderRadius: "20px",
+                    }}
                 >
                     <Card.Header
                         className="d-flex justify-content-end"
@@ -69,7 +79,9 @@ export default function MemberCard({ user }) {
                                 borderColor: "#D9D9D9",
                                 backgroundColor: "#D9D9D9",
                             }}
-                            href={"/home/member/modification/" + member.readerId}
+                            href={
+                                "/home/member/modification/" + member.readerId
+                            }
                         >
                             <Image
                                 src="/icon_pen_add.ico"
@@ -99,6 +111,11 @@ export default function MemberCard({ user }) {
                                     alt="bookPic"
                                     fluid
                                     crossOrigin="anonymous"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                    }}
                                 />
                             </div>
                             <Container style={{}}>
@@ -169,11 +186,7 @@ export default function MemberCard({ user }) {
                 className="d-flex justify-content-center align-items-center"
                 style={{ width: "973px", height: "631px" }}
             >
-                <h3>
-                    {
-                        "No information"
-                    }
-                </h3>
+                <h3>{"No information"}</h3>
             </div>
         );
 }
