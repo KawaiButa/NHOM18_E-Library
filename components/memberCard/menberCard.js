@@ -4,6 +4,7 @@ import { Montserrat, Roboto } from "next/font/google";
 import { Button, Card, Stack, Image, Container } from "react-bootstrap";
 import endpoint from "../../endpoint/Utils";
 import axios from "axios";
+import useProfile from "../../lib/useProfile";
 const roboto = Roboto({
     weight: "700",
     subsets: ["vietnamese"],
@@ -16,6 +17,7 @@ const montserrat = Montserrat({
 
 export default function MemberCard({ user }) {
   const [member, setMember] = useState(null);
+  const {profile} = useProfile()
   useEffect(() => {
     async function onCreate() {
       await axios
@@ -32,7 +34,7 @@ export default function MemberCard({ user }) {
         });
     }
     onCreate();
-  }, []);
+  }, [profile]);
   if (member == null)
     return (
       <div>
@@ -68,6 +70,7 @@ export default function MemberCard({ user }) {
                                 borderWidth: "5px",
                                 borderColor: "#D9D9D9",
                                 backgroundColor: "#D9D9D9",
+                                visibility: profile && profile.role == "admin"? "visible": "hidden"
                             }}
                             href={"/home/member/modification/" + member.readerId}
                         >
