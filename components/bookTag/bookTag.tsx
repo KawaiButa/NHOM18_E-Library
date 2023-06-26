@@ -136,6 +136,7 @@ export default function BookTag({ id }) {
                                 fontSize: "40px",
                                 cursor: "default",
                                 fontWeight: "600",
+                                width: "670px",
                             }}
                         >
                             {book.name}
