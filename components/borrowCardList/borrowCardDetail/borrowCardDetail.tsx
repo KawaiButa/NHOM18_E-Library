@@ -91,6 +91,8 @@ export default function BorrowCardDetail({ id }) {
             const data = response.data.books;
             setBooks(data);
             const result: React.ReactElement[] = [];
+            if(response.data.isReturned)
+                document.getElementById("changeButton")?.replaceChildren("")
             data.forEach((element, index) => {
               books.push(element);
               result.push(
@@ -192,6 +194,7 @@ export default function BorrowCardDetail({ id }) {
               top: "-25px",
               right: "15px",
             }}
+            id="changeButton"
           >
             <Button
               className={styles.button}
@@ -202,6 +205,7 @@ export default function BorrowCardDetail({ id }) {
                 borderWidth: "0px",
                 borderRadius: "30px",
               }}
+              
               href={"/home/transaction/borrow/add/" + id}
             >
               <p
