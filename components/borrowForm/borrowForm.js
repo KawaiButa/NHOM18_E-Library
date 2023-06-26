@@ -32,8 +32,7 @@ export default function BorrowForm({ id }) {
   const [maxBook, setMaxBook] = useState([]);
   const [selectedReader, setSelectedReader] = useState(null);
   const onMaxBookChange = (value) => {
-    if (value > -1)
-      setMaxBook(value);
+    if (value > -1) setMaxBook(value);
   };
   const router = useRouter();
   const bookTable = () => {
@@ -229,9 +228,9 @@ export default function BorrowForm({ id }) {
                 const body = {
                   books: temp,
                   expectedReturnDate: time,
-                  borrower: selectedReader.readerId,
                 };
-                console.log(body);
+                if (selectedReader)
+                  (body.borrower = selectedReader.readerId)
                 axios
                   .post("/api/borrow", {
                     method: "POST",
@@ -311,7 +310,7 @@ export default function BorrowForm({ id }) {
                               const element = books[index];
                               console.log(event.currentTarget.value);
                               if (element.name == event.currentTarget.value) {
-                                onMaxBookChange(element.numberOfBooks)
+                                onMaxBookChange(element.numberOfBooks);
                                 flag = true;
                                 break;
                               }
@@ -343,7 +342,6 @@ export default function BorrowForm({ id }) {
                             width: "80px",
                           }}
                         />
-                        
                       </Stack>
                     </Stack>
                   </Col>
@@ -375,7 +373,9 @@ export default function BorrowForm({ id }) {
                         const element = borrowBook[index];
                         if (option.id == element.id) {
                           const temp = [...borrowBook];
-                          if (count != 0) temp.at(index).quantity = document.getElementById("amount").value;
+                          if (count != 0)
+                            temp.at(index).quantity =
+                              document.getElementById("amount").value;
                           else temp.splice(index, 1);
                           setBorrowBook(temp);
                           option = null;

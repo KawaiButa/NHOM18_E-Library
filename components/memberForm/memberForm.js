@@ -69,16 +69,20 @@ export default function MemberForm({ readerID }) {
             event.preventDefault();
             console.log(img);
             const body = {
-              fullName: event.currentTarget.fullName.value,
-              readerType: event.currentTarget.readerType.value,
-              address: event.currentTarget.address.value,
-              dateOfBirth: event.currentTarget.dateOfBirth.value,
-              email: event.currentTarget.email.value,
             };
+            if(event.currentTarget.fullName.value)
+              body.fullName = event.currentTarget.fullName.value;
+            if(event.currentTarget.readerType.value)
+            body.readerType =  event.currentTarget.readerType.value
+            if(event.currentTarget.address.value)
+            body.address = event.currentTarget.address.value
+            if(event.currentTarget.dateOfBirth.value)
+            body.dateOfBirth = event.currentTarget.dateOfBirth.value
+            if(event.currentTarget.email.value)
+            body.email = event.currentTarget.email.value;
             if (selectedUser || readerID)
               (body.user = readerID ? readerID : selectedUser.id),
                 setIsLoading(true);
-            console.log(readerID);
             let config = {
               method: readerID ? "patch" : "post",
               maxBodyLength: Infinity,
