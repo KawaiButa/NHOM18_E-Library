@@ -242,14 +242,7 @@ export default function MemberListCard() {
                                         backgroundColor: "transparent",
                                     }}
                                     onClick={(event) => {
-                                        const index =
-                                            event.currentTarget.parentElement
-                                                ?.parentElement?.firstChild
-                                                ?.textContent;
-                                        var string;
-                                        if (index)
-                                            string = Number.parseInt(index) - 1;
-                                        setIndex(string);
+                                        setIndex(index);
                                         openModalDeleteOne();
                                     }}
                                 >
@@ -333,16 +326,7 @@ export default function MemberListCard() {
                                             backgroundColor: "transparent",
                                         }}
                                         onClick={(event) => {
-                                            const index =
-                                                event.currentTarget
-                                                    .parentElement
-                                                    ?.parentElement?.firstChild
-                                                    ?.textContent;
-                                            var string;
-                                            if (index)
-                                                string =
-                                                    Number.parseInt(index) - 1;
-                                            setIndex(string);
+                                            setIndex(index);
                                             openModalDeleteOne();
                                         }}
                                     >
