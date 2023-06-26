@@ -6,11 +6,10 @@ export async function POST(req: NextRequest) {
     const token = req.cookies.get("token")?.value
     if (token) {
         const data = req.json()
-        console.log(data)
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: endpoint + '/api/v1/users/change-library-regulations',
+            url: endpoint + '/api/v1/validation',
             headers: {
                 'Authorization': 'Bearer ' + token,
                 "Content-Type": "application/json",
@@ -20,11 +19,34 @@ export async function POST(req: NextRequest) {
 
         const response = await axios.request(config)
         if (response.status == 200 || response.status == 201) {
-            console.log(response.data)
-            return NextResponse.json("Success", { status: 200, statusText: "Success" });
+            return NextResponse.json(response.data.validation, { status: 200, statusText: "Success" });
         }
     else
         return NextResponse.json(null, { status: response.status, statusText: response.statusText })
+}
+    else
+return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
+
+}
+export async function GET(req: NextRequest) {
+    const token = req.cookies.get("token")?.value
+    if (token) {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: endpoint + '/api/v1/validation',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const response = await axios.request(config)
+        if (response.status == 200 || response.status == 201) {
+            return NextResponse.json(response.data.validation, { status: 200, statusText: "Success" });
+        }
+    else
+        return NextResponse.json(response.data, { status: response.status, statusText: response.statusText })
 }
     else
 return NextResponse.json(null, { status: 401, statusText: "Unauthorized" })
