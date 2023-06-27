@@ -379,8 +379,6 @@ const TopUp_payment = () => {
                         event.preventDefault()
                         if (financial && (financial.balance - payMoney) <= 0)
                           setPayMoney(event.currentTarget.value);
-                        else
-                          setPayMoney(financial.balance)
                       }}
                     />
                   </InputGroup>
