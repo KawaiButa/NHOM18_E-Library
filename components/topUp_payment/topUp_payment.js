@@ -285,6 +285,7 @@ const TopUp_payment = () => {
               },
               data: JSON.stringify(data),
             };
+            console.log(data)
             await axios
               .request(config)
               .then((response) => {
