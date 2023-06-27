@@ -69,7 +69,7 @@ export default function RemindListCard() {
                 <td style={{ cursor: "default" }}>
                   {element.lateFee === 0.0
                     ? "NO DELAY"
-                    : element.lateFee.toString()}
+                    : element.lateFee.toFix(2).toString()}
                 </td>
               </tr>
             ))}
