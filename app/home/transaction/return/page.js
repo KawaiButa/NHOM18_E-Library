@@ -38,10 +38,7 @@ export default function Transaction() {
     else if (!member)
       return (
         <>
-          <h2>{"You don't have a reader card connect to this account."}</h2>
-          <h2>
-            {"Please contact to the library admin to create a reader card"}
-          </h2>
+          <h2>{"NO INFORMATION"}</h2>
         </>
       );
     else {
