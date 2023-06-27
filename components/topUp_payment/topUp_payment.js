@@ -526,7 +526,7 @@ const TopUp_payment = () => {
               {isLoading ? (
                  <div
                  className="d-flex justify-content-center align-items-center"
-                 style={{ width: "100%", height: "40%" }}
+                 style={{ marginTop: "50px", width: "100%", height: "40%" }}
                >
                  <div className="spinner-border" role="status">
                    <span className="visually-hidden">Loading...</span>
